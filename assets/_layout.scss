@@ -1,0 +1,41 @@
+body {
+    background: $bg-light;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+}
+
+.dashboard-header {
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    z-index: 1000;
+    background: $white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transform: translateY(calc(-100% + #{$header-height-closed}));
+    transition: transform $transition;
+
+    &.is-open { transform: translateY(0); }
+
+    .dashboard-content {
+        padding: 40px 20px;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    .trigger-bar {
+        height: $header-height-closed;
+        background: $bg-dark;
+        color: $white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        position: absolute;
+        bottom: 0; width: 100%;
+    }
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}

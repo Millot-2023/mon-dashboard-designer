@@ -1,0 +1,96 @@
+body {
+  background: #f4f7f6;
+  font-family: "Inter", sans-serif;
+  margin: 0;
+}
+
+.dashboard-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: #ffffff;
+  -webkit-box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  -webkit-transform: translateY(calc(-100% + 50px));
+          transform: translateY(calc(-100% + 50px));
+  -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: -webkit-transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), -webkit-transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.dashboard-header.is-open {
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+}
+.dashboard-header .dashboard-content {
+  padding: 40px 20px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.dashboard-header .trigger-bar {
+  height: 50px;
+  background: #2c3e50;
+  color: #ffffff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+}
+.card.is-hidden {
+  opacity: 0.4;
+  -webkit-filter: grayscale(1);
+          filter: grayscale(1);
+}
+.card.dragging {
+  opacity: 0.2;
+  border: 2px dashed #3498db;
+}
+.card .card-header {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+.card .card-header h3 {
+  margin: 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+.card .card-body {
+  padding: 15px;
+  min-height: 80px;
+}/*# sourceMappingURL=main.css.map */

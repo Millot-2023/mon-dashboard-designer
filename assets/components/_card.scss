@@ -1,0 +1,21 @@
+.card {
+    background: $white;
+    border-radius: $border-radius;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: opacity 0.3s;
+
+    &.is-hidden { opacity: 0.4; filter: grayscale(1); }
+    &.dragging { opacity: 0.2; border: 2px dashed $primary-color; }
+
+    .card-header {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: grab;
+        h3 { margin: 0; font-size: 0.85rem; text-transform: uppercase; }
+    }
+
+    .card-body { padding: 15px; min-height: 80px; }
+}
