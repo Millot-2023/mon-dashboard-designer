@@ -13,10 +13,27 @@
         </div>
 
         <div class="card small">
-            <h3 style="display: flex; align-items: center; gap: 8px;">
-                <span style="color: #f1c40f;">☀️</span> 18°C
+            <h3 style="display: flex; align-items: center; gap: 8px; justify-content: center;">
+                <span id="weather-icon">☀️</span> <span id="weather-temp">--</span>°C
             </h3>
-            <p>Paris, FR</p>
+            <p id="weather-city">Paris, FR</p>
+        </div>
+
+        <div class="card small">
+            <h3 style="display: flex; align-items: center; gap: 10px; justify-content: center;">
+                <div id="status-lamp" style="width: 10px; height: 10px; border-radius: 50%; background: #2ecc71; box-shadow: 0 0 8px #2ecc71;"></div>
+                <span>Online</span>
+            </h3>
+            <p>Localhost (PHP)</p>
+        </div>
+
+        <div class="card small" onclick="generatePalette()">
+            <div id="palette-display" style="display: flex; gap: 5px; margin-bottom: 8px; justify-content: center;">
+                <div style="width:18px; height:18px; border-radius:4px; background:#3498db"></div>
+                <div style="width:18px; height:18px; border-radius:4px; background:#e74c3c"></div>
+                <div style="width:18px; height:18px; border-radius:4px; background:#f1c40f"></div>
+            </div>
+            <p id="palette-hex">#Palette</p>
         </div>
 
         <div class="card medium" onclick="location.href='editor.php'">
@@ -37,10 +54,23 @@
             <p>Arborescence & Flux</p>
         </div>
 
+        <div class="card small" id="timer-card" onclick="toggleTimer()">
+            <h3 id="timer-display">00:00</h3>
+            <p id="timer-status">Start Session</p>
+        </div>
+
         <div class="card small" onclick="addQuickNote()" style="border-style: dashed; opacity: 0.7;">
             <div class="icon-placeholder" style="background: #7f8c8d;">+</div>
             <h3>Note</h3>
-            <p>Saisie rapide</p>
+        </div>
+
+        <div class="card large" style="text-align: left; align-items: flex-start; min-height: 150px;">
+            <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 15px;">
+                <h3 style="margin: 0;">🗒️ Notes Rapides</h3>
+                <button onclick="clearNotes()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; cursor: pointer; border-radius: 5px; font-size: 0.7rem; padding: 5px 10px;">Effacer tout</button>
+            </div>
+            <div id="notes-container" style="width: 100%; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;">
+                </div>
         </div>
     </div>
 </div>
