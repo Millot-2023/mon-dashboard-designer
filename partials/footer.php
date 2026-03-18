@@ -1,137 +1,124 @@
 <script>
-    // --- HORLOGE ET DATE ---
+
+
+
+function displayProjects() {
+    const container = document.getElementById('projects-wrapper');
+    if (!container) return;
+
+    const projects = JSON.parse(localStorage.getItem('dashboard_projects') || '[]');
+    
+    // 1. Rendu des projets (1 colonne chacun)
+    let html = projects.map(p => `
+        <div class="card small" onclick="window.open('${p.url}', '_blank')" style="position: relative; cursor: pointer;">
+            <button onclick="event.stopPropagation(); deleteProject(${p.id})" 
+                    style="position:absolute; top:10px; right:10px; background:none; border:none; color:#ff4757; cursor:pointer; font-size:1.5rem; opacity:0.5;">&times;</button>
+            <div class="icon-placeholder">${p.initial}</div>
+            <h3>${p.name}</h3>
+        </div>
+    `).join('');
+
+    // 2. CALCUL DU COMBLEMENT DYNAMIQUE (Logique implacable)
+    const totalStaticWidgets = 4; 
+    const totalElementsBeforeNew = totalStaticWidgets + projects.length;
+    
+    // Déterminer le nombre de colonnes selon l'écran
+    let columns = 4;
+    if (window.innerWidth <= 480) columns = 1;
+    else if (window.innerWidth <= 1024) columns = 2;
+
+    // Calcul de l'occupation sur la ligne actuelle
+    const rest = totalElementsBeforeNew % columns;
+    
+    // Si rest == 0, la ligne est pleine, Nouveau va sur une nouvelle ligne (span columns)
+    // Sinon, Nouveau prend la place qu'il reste (columns - rest)
+    const dynamicSpan = (rest === 0) ? columns : (columns - rest);
+
+    // 3. Ajout de la carte "Nouveau" avec le span calculé
+    html += `
+        <div class="card" onclick="addProject()" 
+             style="grid-column: span ${dynamicSpan}; border-style: dashed; border-color: var(--accent); opacity: 0.8; cursor: pointer;">
+            <div class="icon-placeholder">+</div>
+            <h3>Nouveau</h3>
+        </div>
+    `;
+
+    container.innerHTML = html;
+}
+
+// Les fonctions addProject, deleteProject et updateClock restent identiques à ton code
+function addProject() {
+    const name = prompt("Nom du projet :");
+    if (!name) return;
+    const url = prompt("URL :", name.toLowerCase() + ".php");
+    const projects = JSON.parse(localStorage.getItem('dashboard_projects') || '[]');
+    projects.push({ id: Date.now(), name, url, initial: name.charAt(0).toUpperCase() });
+    localStorage.setItem('dashboard_projects', JSON.stringify(projects));
+    displayProjects();
+}
+
+function deleteProject(id) {
+    let projects = JSON.parse(localStorage.getItem('dashboard_projects') || '[]');
+    projects = projects.filter(p => p.id !== id);
+    localStorage.setItem('dashboard_projects', JSON.stringify(projects));
+    displayProjects();
+}
+
+function updateClock() {
+    const now = new Date();
+    const clock = document.getElementById('clock');
+    const dateDisp = document.getElementById('date-display');
+    if(clock) clock.textContent = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    if(dateDisp) dateDisp.textContent = now.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+window.addEventListener('resize', displayProjects);
+updateClock();
+displayProjects();
+setInterval(updateClock, 1000);
+
+
+
+
+
+    
+    function addProject() {
+        const name = prompt("Nom du projet :");
+        if (!name) return;
+        const url = prompt("URL :", name.toLowerCase() + ".php");
+        const projects = JSON.parse(localStorage.getItem('dashboard_projects') || '[]');
+        
+        projects.push({ 
+            id: Date.now(), 
+            name: name, 
+            url: url, 
+            initial: name.charAt(0).toUpperCase() 
+        });
+
+        localStorage.setItem('dashboard_projects', JSON.stringify(projects));
+        displayProjects();
+    }
+
+    function deleteProject(id) {
+        let projects = JSON.parse(localStorage.getItem('dashboard_projects') || '[]');
+        projects = projects.filter(p => p.id !== id);
+        localStorage.setItem('dashboard_projects', JSON.stringify(projects));
+        displayProjects();
+    }
+
     function updateClock() {
         const now = new Date();
-        
-        // Heure
-        const time = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-        const clockEl = document.getElementById('clock');
-        if(clockEl) clockEl.textContent = time;
-
-        // Date complète
-        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-        const dateStr = now.toLocaleDateString('fr-FR', options);
-        const dateEl = document.getElementById('date-display');
-        if(dateEl) {
-            dateEl.textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
-        }
+        const clock = document.getElementById('clock');
+        const dateDisp = document.getElementById('date-display');
+        if(clock) clock.textContent = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+        if(dateDisp) dateDisp.textContent = now.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
     }
 
-    // --- MÉTÉO (Open-Meteo API) ---
-    async function updateWeather() {
-        const lat = 48.8566; // Paris
-        const lon = 2.3522;
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+    // Recalculer le span si on redimensionne la fenêtre
+    window.addEventListener('resize', displayProjects);
 
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-            const temp = Math.round(data.current_weather.temperature);
-            const code = data.current_weather.weathercode;
-
-            const tempEl = document.getElementById('weather-temp');
-            const iconEl = document.getElementById('weather-icon');
-
-            if(tempEl) tempEl.textContent = temp;
-            
-            const icons = {
-                0: "☀️", 1: "🌤️", 2: "⛅", 3: "☁️",
-                45: "🌫️", 48: "🌫️",
-                51: "🌦️", 61: "🌧️", 71: "❄️", 95: "⛈️"
-            };
-            if(iconEl) iconEl.textContent = icons[code] || "🌤️";
-            
-        } catch (error) {
-            console.error("Erreur météo:", error);
-        }
-    }
-
-    // --- GESTION DES NOTES (LocalStorage) ---
-    function addQuickNote() {
-        const text = prompt("Saisir une note :");
-        if (!text) return;
-
-        const notes = JSON.parse(localStorage.getItem('dashboard_notes') || '[]');
-        notes.push({
-            id: Date.now(),
-            content: text,
-            date: new Date().toLocaleDateString('fr-FR', {hour: '2-digit', minute:'2-digit'})
-        });
-        
-        localStorage.setItem('dashboard_notes', JSON.stringify(notes));
-        displayNotes();
-    }
-
-    function displayNotes() {
-        const container = document.getElementById('notes-container');
-        if(!container) return;
-
-        const notes = JSON.parse(localStorage.getItem('dashboard_notes') || '[]');
-        
-        if (notes.length === 0) {
-            container.innerHTML = '<p style="opacity: 0.5; font-style: italic;">Aucune note enregistrée.</p>';
-            return;
-        }
-
-        container.innerHTML = notes.map(note => `
-            <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 10px; border-left: 3px solid var(--accent);">
-                <p style="margin: 0 0 5px 0; font-size: 0.85rem; line-height: 1.4;">${note.content}</p>
-                <span style="font-size: 0.7rem; opacity: 0.4;">${note.date}</span>
-            </div>
-        `).join('');
-    }
-
-    function clearNotes() {
-        if (confirm("Supprimer toutes les notes ?")) {
-            localStorage.removeItem('dashboard_notes');
-            displayNotes();
-        }
-    }
-
-    // --- PALETTE ET TIMER ---
-    function generatePalette() {
-        const colors = Array.from({length: 3}, () => '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0'));
-        const display = document.getElementById('palette-display');
-        const hex = document.getElementById('palette-hex');
-        if(display) display.innerHTML = colors.map(c => `<div style="width:18px; height:18px; border-radius:4px; background:${c}"></div>`).join('');
-        if(hex) hex.textContent = colors[0].toUpperCase();
-    }
-
-    let timerInterval;
-    let seconds = 0;
-    let isRunning = false;
-
-    function toggleTimer() {
-        const display = document.getElementById('timer-display');
-        const status = document.getElementById('timer-status');
-        const card = document.getElementById('timer-card');
-
-        if (!isRunning) {
-            isRunning = true;
-            status.textContent = "Working...";
-            card.style.borderColor = "var(--accent)";
-            timerInterval = setInterval(() => {
-                seconds++;
-                const m = Math.floor(seconds / 60).toString().padStart(2, '0');
-                const s = (seconds % 60).toString().padStart(2, '0');
-                display.textContent = `${m}:${s}`;
-            }, 1000);
-        } else {
-            isRunning = false;
-            clearInterval(timerInterval);
-            status.textContent = "Paused";
-            card.style.borderColor = "rgba(255,255,255,0.1)";
-        }
-    }
-
-    // --- INITIALISATION ---
+    // Lancement
     updateClock();
-    updateWeather();
-    displayNotes();
-    generatePalette();
-
+    displayProjects();
     setInterval(updateClock, 1000);
-    setInterval(updateWeather, 600000); // 10 min
 </script>
-</body>
-</html>
