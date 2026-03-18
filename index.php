@@ -3,7 +3,7 @@
 <div class="launchpad">
     <div class="welcome-msg">
         <h1>Workstation</h1>
-        <p><?php echo date('l d F Y'); ?></p>
+        <p id="date-display">Chargement...</p>
     </div>
 
     <div class="grid-container">
@@ -13,7 +13,9 @@
         </div>
 
         <div class="card small">
-            <h3>18°C</h3>
+            <h3 style="display: flex; align-items: center; gap: 8px;">
+                <span style="color: #f1c40f;">☀️</span> 18°C
+            </h3>
             <p>Paris, FR</p>
         </div>
 
@@ -35,9 +37,10 @@
             <p>Arborescence & Flux</p>
         </div>
 
-        <div class="card small" style="border-style: dashed; opacity: 0.5;">
+        <div class="card small" onclick="addQuickNote()" style="border-style: dashed; opacity: 0.7;">
             <div class="icon-placeholder" style="background: #7f8c8d;">+</div>
-            <h3>Ajouter</h3>
+            <h3>Note</h3>
+            <p>Saisie rapide</p>
         </div>
     </div>
 </div>

@@ -12,7 +12,7 @@
         }
 
         body, html { 
-            margin: 0; padding: 0; height: 100%; 
+            margin: 0; padding: 0; min-height: 100%; 
             font-family: 'Inter', 'Segoe UI', sans-serif;
             background: var(--bg-gradient);
             color: white;
@@ -31,6 +31,8 @@
         }
 
         .welcome-msg { text-align: center; margin-bottom: 40px; }
+        .welcome-msg h1 { font-size: 2.5rem; margin-bottom: 5px; }
+        .welcome-msg p { opacity: 0.7; font-size: 1.1rem; }
 
         .grid-container {
             display: grid;
@@ -40,6 +42,7 @@
             max-width: 1200px;
         }
 
+        /* Tailles des cartes */
         .card.small  { grid-column: span 1; }
         .card.medium { grid-column: span 2; }
         .card.large  { grid-column: span 4; }
@@ -80,30 +83,24 @@
             font-weight: bold;
         }
 
-/* RESPONSIVE : Gestion optimisée des tailles */
+        /* Responsive */
         @media (max-width: 900px) {
             .grid-container { grid-template-columns: repeat(2, 1fr); }
-            /* Medium et Small occupent 1 colonne sur 2 */
             .card.small, .card.medium { grid-column: span 1; }
             .card.large { grid-column: span 2; }
         }
 
         @media (max-width: 600px) {
-            /* On force la grille à rester sur 2 colonnes pour les petits éléments */
             .grid-container { 
                 grid-template-columns: repeat(2, 1fr); 
                 gap: 15px; 
             }
+            .card.small { grid-column: span 1; } /* Côte à côte sur mobile */
+            .card.medium, .card.large { grid-column: span 2; } /* Full width sur mobile */
             
-            /* Les petits éléments (Horloge, Météo) restent côte à côte */
-            .card.small { grid-column: span 1; }
-
-            /* Les éléments Medium et Large s'empilent (prennent toute la largeur) */
-            .card.medium, .card.large { grid-column: span 2; }
-
-            /* Ajustement mineur du padding pour les petits écrans */
             .card { padding: 15px; }
             .card h3 { font-size: 1.1rem; }
+            .welcome-msg h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
