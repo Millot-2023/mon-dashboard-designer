@@ -1,0 +1,26 @@
+@use 'variables' as *;
+
+.welcome-msg {
+    width: 100%;
+    max-width: $container-max-width;
+    margin: 0 auto 40px auto; // Ajoute 40px de marge SOUS le bloc titre
+    padding: 0 20px;
+    text-align: left;
+
+    .welcome-text {
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 8px; // Espace entre WORKSTATION et la date
+            display: block;
+        }
+
+        #date-display {
+            margin: 0;
+            opacity: 0.5;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+    }
+}

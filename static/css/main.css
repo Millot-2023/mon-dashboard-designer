@@ -1,38 +1,195 @@
-body {
-  background: #f4f7f6;
-  font-family: "Inter", sans-serif;
+@charset "UTF-8";
+.welcome-msg {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 40px auto;
+  padding: 0 20px;
+  text-align: left;
+}
+.welcome-msg .welcome-text .logo {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  display: block;
+}
+.welcome-msg .welcome-text #date-display {
   margin: 0;
+  opacity: 0.5;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
+/* --- STRUCTURE GLOBALE --- */
+body, html {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%);
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+.launchpad {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  min-height: 100vh;
+  padding: 40px 20px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+/* --- LOGO & STATUS (XAMPP) --- */
+/* --- LOGO & STATUS (XAMPP) --- */
+/* --- LOGO & STATUS (XAMPP) --- */
+.logo {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin: 0;
+  color: #ffffff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 5px;
+  margin-bottom: 30px;
+}
+.logo #status-dot {
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  display: inline-block;
+}
+.logo #status-dot.dot-online {
+  color: #2ecc71 !important;
+  text-shadow: 0 0 15px rgba(46, 204, 113, 0.6) !important;
+  -webkit-animation: none !important;
+          animation: none !important;
+  -webkit-transform: scale(1) !important;
+          transform: scale(1) !important;
+}
+.logo #status-dot.dot-offline {
+  color: #ff4757 !important;
+  text-shadow: 0 0 20px rgba(255, 71, 87, 0.8) !important;
+  -webkit-animation: pulse-red 1.5s infinite;
+          animation: pulse-red 1.5s infinite;
+}
+
+@-webkit-keyframes pulse-red {
+  0% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+@keyframes pulse-red {
+  0% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+/* --- LOGO & STATUS (XAMPP) --- */
+/* --- LOGO & STATUS (XAMPP) --- */
+/* --- GRILLE PRINCIPALE --- */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
+}
+@media (max-width: 1024px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+#projects-wrapper {
+  display: contents;
+}
+
+/* --- HEADER (DÉROULANT) --- */
 .dashboard-header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  background: #ffffff;
-  -webkit-box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   -webkit-transform: translateY(calc(-100% + 50px));
           transform: translateY(calc(-100% + 50px));
-  -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  transition: -webkit-transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), -webkit-transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-transition: -webkit-transform 0.3s ease;
+  transition: -webkit-transform 0.3s ease;
+  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, -webkit-transform 0.3s ease;
 }
 .dashboard-header.is-open {
   -webkit-transform: translateY(0);
           transform: translateY(0);
+  -webkit-box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
 .dashboard-header .dashboard-content {
   padding: 40px 20px;
   max-height: 80vh;
   overflow-y: auto;
+  /* Scrollbar personnalisée pour le menu */
+}
+.dashboard-header .dashboard-content::-webkit-scrollbar {
+  width: 6px;
+}
+.dashboard-header .dashboard-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
 }
 .dashboard-header .trigger-bar {
   height: 50px;
-  background: #2c3e50;
-  color: #ffffff;
+  background: rgba(0, 0, 0, 0.2);
+  color: rgba(255, 255, 255, 0.5);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -46,33 +203,251 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
+  -webkit-transition: 0.3s ease;
+  transition: 0.3s ease;
+}
+.dashboard-header .trigger-bar:hover {
+  background: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
 }
 
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-}
-
+/* --- STYLE GÉNÉRAL DES CARTES --- */
 .card {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  min-height: 180px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.card:hover {
+  /* transform: translateY(-10px); */
+  border-color: #3498db;
+}
+.card.small {
+  grid-column: span 1;
+}
+.card.large {
+  grid-column: span 4;
+}
+
+/* --- MONTRE (FULL CARD DESIGN) --- */
+.clock-card {
+  position: relative;
+  padding: 0 !important;
+  overflow: hidden;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.03) 0%, transparent 70%) !important;
+}
+.clock-card .clock-index {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  z-index: 1;
+}
+.clock-card .clock-index.i-12, .clock-card .clock-index.i-6 {
+  width: 2px;
+  height: 12px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+.clock-card .clock-index.i-3, .clock-card .clock-index.i-9 {
+  width: 12px;
+  height: 2px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+.clock-card .clock-index.i-12 {
+  top: 10px;
+}
+.clock-card .clock-index.i-6 {
+  bottom: 10px;
+}
+.clock-card .clock-index.i-3 {
+  right: 10px;
+}
+.clock-card .clock-index.i-9 {
+  left: 10px;
+}
+.clock-card .aiguille {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  -webkit-transform-origin: bottom;
+          transform-origin: bottom;
+  border-radius: 4px;
+  z-index: 5;
+  display: block !important;
+  -webkit-transform: translateX(-50%) rotate(0deg);
+          transform: translateX(-50%) rotate(0deg);
+}
+.clock-card .aiguille.heure {
+  width: 4px;
+  height: 45px;
+  background: #ffffff !important;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.clock-card .aiguille.minute {
+  width: 3px;
+  height: 65px;
+  background: rgba(255, 255, 255, 0.6) !important;
+}
+.clock-card .aiguille.seconde {
+  width: 1.5px;
+  height: 75px;
+  background: #ff4757 !important;
+  z-index: 6;
+  -webkit-transition: -webkit-transform 0.2s cubic-bezier(0.4, 2.08, 0.55, 0.44);
+  transition: -webkit-transform 0.2s cubic-bezier(0.4, 2.08, 0.55, 0.44);
+  transition: transform 0.2s cubic-bezier(0.4, 2.08, 0.55, 0.44);
+  transition: transform 0.2s cubic-bezier(0.4, 2.08, 0.55, 0.44), -webkit-transform 0.2s cubic-bezier(0.4, 2.08, 0.55, 0.44);
+}
+.clock-card .point-central {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: #ff4757;
+  border-radius: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  z-index: 10;
+  -webkit-box-shadow: 0 0 8px rgba(255, 71, 87, 0.6);
+          box-shadow: 0 0 8px rgba(255, 71, 87, 0.6);
+}
+.clock-card #clock {
+  position: absolute;
+  bottom: 15px;
+  right: 18px;
+  font-size: 0.8rem;
+  opacity: 0.3;
+  font-family: monospace;
+  letter-spacing: 1px;
+  pointer-events: none;
+}
+@media (max-width: 480px) {
+  .clock-card #clock {
+    display: none;
+  }
+}
+
+/* --- AUTRES COMPOSANTS --- */
+.icon-placeholder {
+  width: 50px;
+  height: 50px;
+  background: #3498db;
   border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  -webkit-transition: opacity 0.3s;
-  transition: opacity 0.3s;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
-.card.is-hidden {
-  opacity: 0.4;
-  -webkit-filter: grayscale(1);
-          filter: grayscale(1);
+
+.weather-card {
+  padding: 0 !important;
+  position: relative;
+  overflow: hidden;
+  height: 180px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background: #2c3e50;
+  -webkit-transition: background 0.8s ease;
+  transition: background 0.8s ease;
 }
-.card.dragging {
-  opacity: 0.2;
-  border: 2px dashed #3498db;
+.weather-card .weather-overlay {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  color: white;
+  text-align: center;
+  width: 100%;
 }
-.card .card-header {
-  padding: 15px;
-  border-bottom: 1px solid #eee;
+.weather-card .weather-overlay #weather-icon {
+  margin-bottom: -5px;
+}
+.weather-card .weather-overlay #weather-icon img {
+  width: 70px;
+  height: auto;
+  -webkit-filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+          filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+.weather-card .weather-overlay #temp-display {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+.weather-card .weather-overlay #last-update {
+  position: absolute;
+  bottom: 10px;
+  font-size: 0.7rem;
+  opacity: 0.7;
+  font-family: monospace;
+  width: 100%;
+  left: 0;
+}
+
+.notes-card {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-box-direction: normal !important;
+      -ms-flex-direction: column !important;
+          flex-direction: column !important;
+  -webkit-box-align: stretch !important;
+      -ms-flex-align: stretch !important;
+          align-items: stretch !important;
+  padding: 20px !important;
+  min-height: 250px;
+}
+.notes-card .notes-header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -82,15 +457,35 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  cursor: -webkit-grab;
-  cursor: grab;
+  width: 100%;
+  margin-bottom: 15px;
 }
-.card .card-header h3 {
+.notes-card .notes-header .btn-purge {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ff4d4d;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+.notes-card .notes-header .btn-purge:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.notes-card #notes-area {
+  width: 100% !important;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  background: transparent;
+  border: none;
+  color: #eee;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: left !important;
+  resize: none;
+  outline: none;
+  padding: 0;
   margin: 0;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-}
-.card .card-body {
-  padding: 15px;
-  min-height: 80px;
 }/*# sourceMappingURL=main.css.map */

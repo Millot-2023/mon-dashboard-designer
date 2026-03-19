@@ -1,0 +1,121 @@
+// --- VARIABLES LOCALES ---
+$palette-bg-input: rgba(255, 255, 255, 0.05);
+$palette-border: rgba(255, 255, 255, 0.1);
+$palette-radius: 4px;
+$transition-speed: 0.2s;
+
+#palette-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 15px;
+    cursor: default; // Changé de pointer à default pour ne pas simuler un lien
+
+    .palette-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+
+        h3 {
+            margin: 0;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0.8;
+            color: $white;
+        }
+    }
+
+    .palette-controls {
+        display: flex;
+        gap: 5px;
+        flex-grow: 1;
+        justify-content: flex-end;
+
+        select, input {
+            background: $palette-bg-input;
+            border: 1px solid $palette-border;
+            color: #ffffff !important; 
+            border-radius: $palette-radius;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all $transition-speed;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.1);
+                border-color: rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        #palette-mood {
+            appearance: none;
+            padding: 2px 8px;
+            background-color: transparent; 
+            
+            option {
+                background-color: #1a1a1a; 
+                color: #ffffff;
+            }
+        }
+
+        #palette-count {
+            width: 32px;
+            padding: 2px;
+            font-size: 0.75rem;
+            text-align: center;
+            
+            &::-webkit-inner-spin-button, 
+            &::-webkit-outer-spin-button { 
+                -webkit-appearance: none; 
+                margin: 0; 
+            }
+        }
+    }
+
+    #palette-colors {
+        display: flex;
+        gap: 6px;
+        min-height: 38px;
+        width: 100%;
+        margin-top: 5px;
+
+        .color-rect {
+            flex: 1;
+            height: 35px;
+            border-radius: $palette-radius;
+            cursor: copy;
+            transition: all $transition-speed ease;
+            position: relative;
+
+            &:hover {
+                // Effet de soulèvement uniquement sur le rectangle de couleur
+                transform: translateY(-3px); 
+                filter: brightness(1.2);
+
+                &::after {
+                    opacity: 1;
+                }
+            }
+
+            &::after {
+                content: attr(data-hex);
+                position: absolute;
+                bottom: -28px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #333;
+                color: white;
+                padding: 2px 8px;
+                border-radius: $palette-radius;
+                font-size: 0.65rem;
+                font-weight: bold;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity $transition-speed;
+                z-index: 100;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            }
+        }
+    }
+}

@@ -1,3 +1,12 @@
-@import 'variables';
-@import 'layout';
-@import 'components/card';
+// 1. Imports des partials
+@use 'variables' as *;
+@use 'typography';
+@use 'layout';
+@use 'components/card';
+@use 'components/weather';
+@use 'components/notes';   // <--- AJOUTE CETTE LIGNE ICI
+
+// 2. Suppression du code inutile
+// TOUT le code que tu avais en bas (analog-clock, aiguille, heure, etc.) 
+// doit être SUPPRIMÉ d'ici car il doit se trouver à l'intérieur de 
+// 'components/card' pour profiter de l'encapsulation Sass.

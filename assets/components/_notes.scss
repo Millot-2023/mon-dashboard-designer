@@ -1,0 +1,44 @@
+@use '../variables' as *;
+
+.notes-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important; // "stretch" oblige le contenu à prendre toute la largeur
+    padding: 20px !important;
+    min-height: 250px;
+
+    .notes-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 15px;
+
+        .btn-purge {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ff4d4d;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            &:hover { background: rgba(255, 255, 255, 0.1); }
+        }
+    }
+
+    #notes-area {
+        width: 100% !important;
+        flex-grow: 1;
+        background: transparent;
+        border: none;
+        color: #eee;
+        font-family: inherit;
+        font-size: 1rem;
+        line-height: 1.6;
+        text-align: left !important; // Plus de centrage !
+        resize: none;
+        outline: none;
+        padding: 0;
+        margin: 0;
+    }
+}

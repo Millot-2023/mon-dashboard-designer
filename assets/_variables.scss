@@ -1,7 +1,22 @@
-$primary-color: #3498db;
-$bg-dark: #2c3e50;
-$bg-light: #f4f7f6;
-$white: #ffffff;
-$border-radius: 12px;
+// --- COULEURS THÈME ---
+$primary-color: #3498db; // Ancien --accent
+$accent-red:    #ff4757; // Pour la trotteuse et le point central
+$white:         #ffffff;
+
+// --- EFFETS GLASSMORPHISM (Issus de ton ancien style) ---
+$bg-gradient: linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%);
+$card-bg:     rgba(255, 255, 255, 0.05); // Ton --card-bg
+$card-border: rgba(255, 255, 255, 0.1);
+$card-blur:   blur(12px); // Important pour l'effet "vitre"
+
+// --- STRUCTURE & RESPONSIVE ---
+$border-radius: 20px; 
+$container-max-width: 1200px;
+$grid-gap: 25px;
+
+// --- ANIMATIONS ---
+$transition: 0.3s ease; // Aligné sur ton ancien .card { transition: 0.3s; }
+$transition-smooth: 0.5s cubic-bezier(0.16, 1, 0.3, 1); // Pour des effets plus "luxe"
+
+// --- DIVERS ---
 $header-height-closed: 50px;
-$transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
