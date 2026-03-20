@@ -24,61 +24,55 @@ function hslToHex(h, s, l) {
 
 function initPalette() {
     const container = document.getElementById('palette-colors');
-    const trigger = document.getElementById('select-trigger');
-    const optionsMenu = document.getElementById('select-options');
-    const options = document.querySelectorAll('.opt');
     const countInput = document.getElementById('palette-count');
-    if (!container || !trigger) return;
+    const moodInput = document.getElementById('palette-mood');
+    const moodContainer = document.getElementById('palette-mood-container');
 
-    let currentMood = "juicy";
-
-    trigger.onclick = (e) => {
-        e.stopPropagation();
-        optionsMenu.style.display = optionsMenu.style.display === "block" ? "none" : "block";
-    };
-
-    options.forEach(opt => {
-        opt.onclick = (e) => {
-            e.stopPropagation();
-            currentMood = opt.getAttribute('data-value');
-            trigger.textContent = opt.textContent;
-            optionsMenu.style.display = "none";
-            generate();
-        };
-    });
-
-    window.addEventListener('click', () => { if(optionsMenu) optionsMenu.style.display = "none"; });
+    if (!container) return;
 
     const generate = () => {
-        container.style.display = "flex";
-        container.style.gap = "4px";
-        container.style.marginTop = "12px";
-        container.style.width = "100%";
-        container.style.minHeight = "22px";
+        const count = countInput ? parseInt(countInput.value) : 5;
+        const currentMood = moodInput ? moodInput.value : "juicy";
+        const config = MOOD_RULES[currentMood] || MOOD_RULES.juicy;
         
-        const count = parseInt(countInput.value) || 3;
-        const config = MOOD_RULES[currentMood];
         container.innerHTML = '';
         
-        let baseHue = config.h ? Math.floor(Math.random() * (config.h[1] - config.h[0])) + config.h[0] : Math.floor(Math.random() * 360);
+        let baseHue = config.h 
+            ? Math.floor(Math.random() * (config.h[1] - config.h[0])) + config.h[0] 
+            : Math.floor(Math.random() * 360);
 
         for (let i = 0; i < count; i++) {
             let h = (baseHue + (i * 25)) % 360;
             let s = Math.floor(Math.random() * (config.s[1] - config.s[0])) + config.s[0];
             let l = Math.floor(Math.random() * (config.l[1] - config.l[0])) + config.l[0];
+            
             const hex = hslToHex(h, s, l);
             const rect = document.createElement('div');
-            rect.style.cssText = `background-color:${hex}; flex:1; height:22px; border-radius:2px; cursor:pointer; transition:transform 0.1s;`;
+            
+            rect.className = 'color-rect';
+            rect.style.backgroundColor = hex;
+            rect.setAttribute('data-hex', hex);
+            
             rect.onclick = (e) => {
                 e.stopPropagation();
                 navigator.clipboard.writeText(hex);
-                rect.style.transform = "scale(0.85)";
-                setTimeout(() => rect.style.transform = "scale(1)", 100);
+                rect.style.transform = "scale(0.9)";
+                setTimeout(() => rect.style.transform = "", 100);
             };
+            
             container.appendChild(rect);
         }
     };
 
-    countInput.onchange = generate;
+    if (countInput) countInput.oninput = generate;
+    
+    // Écoute l'événement 'change' envoyé par ui.js
+    if (moodContainer) {
+        moodContainer.addEventListener('change', generate);
+    }
+
     generate();
 }
+
+// Correction du chargement : on attend que TOUT soit prêt (images, styles, DOM)
+window.addEventListener('load', initPalette);
