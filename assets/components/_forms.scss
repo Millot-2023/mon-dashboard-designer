@@ -3,42 +3,49 @@
 // 1. LES INPUTS (Chiffres, textes, etc.)
 input[type="number"], 
 input[type="text"] {
-    appearance: none !important;
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    color: #fff !important;
-    padding: 8px 12px !important;
-    border-radius: 8px !important;
-    font-size: 0.85rem !important;
-    outline: none !important;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: $white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    outline: none;
+    width: 100%; // Pour qu'il remplisse son container flex
+    box-sizing: border-box;
+    transition: all 0.2s ease;
     
     &:focus {
-        border-color: #3498db !important;
-        background: rgba(255, 255, 255, 0.1) !important;
+        border-color: $primary-color;
+        background: rgba(255, 255, 255, 0.1);
     }
 }
 
-// 2. LE CUSTOM SELECT (La structure div que tu as créée)
+// 2. LE CUSTOM SELECT
 .custom-select {
     position: relative; 
     display: inline-flex;
     flex-direction: column;
-    min-width: 120px;
+    /* CORRECTION : On baisse le min-width et on ajoute min-width: 0 
+       pour que le flexbox puisse le réduire si la grille rétrécit */
+    min-width: 0; 
+    flex: 1; 
     vertical-align: middle;
 
     .select-trigger {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background: rgba(255, 255, 255, 0.07) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        padding: 8px 15px !important;
-        border-radius: 8px !important;
-        color: #fff !important;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 8px 15px;
+        border-radius: 8px;
+        color: $white;
         cursor: pointer;
         min-height: 38px;
+        box-sizing: border-box;
+        font-size: 0.85rem;
 
-        // La petite flèche en SVG
         &::after {
             content: "";
             width: 10px;
@@ -47,27 +54,29 @@ input[type="text"] {
             background-repeat: no-repeat;
             background-size: contain;
             transition: transform 0.3s ease;
+            margin-left: 10px;
+            flex-shrink: 0; // Empêche la flèche de s'écraser
         }
     }
 
-    // Le menu qui se déroule
     .select-options {
         position: absolute;
-        top: 110%; // Juste en dessous du trigger
+        top: calc(100% + 5px); 
         left: 0;
         right: 0;
-        background: rgba(20, 20, 25, 0.98) !important; // Fond très sombre
-        backdrop-filter: blur(15px) !important; // EFFET LECHÉ ICI
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 10px !important;
-        z-index: 9999 !important; // Passe au-dessus de tout
+        background: rgba(20, 20, 25, 0.98); 
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        z-index: 9999; 
         
-        // GESTION DE L'AFFICHAGE (Via ui.js)
         opacity: 0;
         visibility: hidden;
         transform: translateY(-10px);
         transition: all 0.2s ease-in-out;
         box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        max-height: 250px; // Sécurité si trop d'options
+        overflow-y: auto;
     }
 
     &.active {
@@ -80,19 +89,20 @@ input[type="text"] {
     }
 
     .option {
-        padding: 10px 15px !important;
-        color: rgba(255,255,255,0.7) !important;
+        padding: 10px 15px;
+        color: rgba(255,255,255,0.7);
         cursor: pointer;
         font-size: 0.85rem;
+        transition: background 0.2s;
 
         &:hover {
-            background: rgba(255, 255, 255, 0.08) !important;
-            color: #fff !important;
+            background: rgba(255, 255, 255, 0.08);
+            color: $white;
         }
 
         &.selected {
-            color: #3498db !important;
-            background: rgba(52, 152, 219, 0.1) !important;
+            color: $primary-color;
+            background: rgba(52, 152, 219, 0.1);
         }
     }
 }

@@ -1,73 +1,37 @@
-@use 'variables' as *;
+@use '../variables' as *;
 
 #palette-card {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding: 20px;
-    height: 100%;
-    box-sizing: border-box;
-
-    .palette-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 5px;
-
-        h3 {
-            margin: 0;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.9);
-            letter-spacing: 0.5px;
-        }
-    }
+    // La structure (padding, bg, border) est héritée de .card dans _card.scss
 
     .palette-controls {
         display: flex;
         gap: 10px;
-        align-items: stretch; // Force les éléments à avoir la même hauteur
+        align-items: center;
         position: relative;
         z-index: 100;
+        flex-wrap: wrap; 
 
         #palette-count {
-            width: 60px;
-            height: 38px; // Hauteur de référence
+            width: 50px;
+            height: 38px; 
             text-align: center;
-            flex-shrink: 0;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
-            color: white;
+            color: $white;
             font-size: 0.8rem;
-            font-family: inherit;
             outline: none;
-            box-sizing: border-box; // Crucial pour que la bordure soit incluse dans les 38px
             
             &:focus {
-                border-color: rgba(255, 255, 255, 0.3);
+                border-color: $primary-color;
             }
         }
 
         .custom-select {
-            flex-grow: 1;
-            display: flex; // Permet au trigger de s'étirer
-            height: 38px;  // Même hauteur que le compteur
-
-            .select-trigger {
-                width: 100%;
-                height: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                font-size: 0.8rem;
-                padding: 0 12px;
-                background: rgba(255, 255, 255, 0.05);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                border-radius: 8px;
-                box-sizing: border-box;
-                cursor: pointer;
-            }
+            flex: 1;
+            min-width: 120px;
+            height: 38px;
+            // Le style interne du select est géré globalement
         }
     }
 
@@ -79,12 +43,13 @@
         min-height: 50px;
         align-items: stretch;
         margin-top: 5px;
+        flex-wrap: wrap;
 
         .color-rect {
+            height: 40px; // Aligné sur la hauteur du pied de page
             flex: 1;
-            display: block;
-            height: 50px !important;
-            min-height: 50px !important;
+            min-width: 30px; 
+            height: 50px;
             border-radius: 6px;
             cursor: copy;
             transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -111,11 +76,11 @@
                 transform: translateX(-50%) translateY(5px);
                 background: rgba(15, 15, 20, 0.95);
                 backdrop-filter: blur(5px);
-                color: #fff;
+                color: $white;
                 padding: 4px 10px;
                 border-radius: 5px;
                 font-size: 0.7rem;
-                font-family: 'Monaco', monospace;
+                font-family: $font-mono;
                 border: 1px solid rgba(255, 255, 255, 0.1);
                 opacity: 0;
                 pointer-events: none;

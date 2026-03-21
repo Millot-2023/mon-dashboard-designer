@@ -1,6 +1,10 @@
-// assets/main.scss
-@import 'variables';
-@import 'mixins';
-@import 'layout';
-@import 'components/card';
-// Importe tes autres widgets ici au fur et à mesure
+// _mixins.scss
+@use 'variables' as *;
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+// ... tes autres mixins ici ...

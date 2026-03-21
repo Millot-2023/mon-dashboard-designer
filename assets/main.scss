@@ -1,11 +1,38 @@
-// 1. Imports des partials
+// 1. Core (Variables et Mixins en premier)
 @use 'variables' as *;
+@use 'mixins' as *;
+
+// 2. Base & Typography
 @use 'typography';
 @use 'layout';
-@use 'palette'; // <--- CORRECTION DU CHEMIN ICI
-@use 'components/forms';
+
+// 3. Components (Les briques de base)
 @use 'components/card';
-@use 'components/weather';
-@use 'components/notes';
+@use 'components/forms'; // Vérifie bien le "s" à la fin !
+
+// 4. Widgets (Tes outils spécifiques)
 @use 'components/lorem';
+@use 'components/notes';
 @use 'components/px-rem';
+@use 'components/roadmap';
+@use 'components/session';
+@use 'components/weather';
+@use 'components/w-projets';
+@use 'components/w-veille';
+// Style global pour le témoin de connexion (le "O" de WORKSTATION)
+.dot-online {
+    color: #2ecc71 !important; // Vert émeraude
+    text-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        text-shadow: 0 0 15px rgba(46, 204, 113, 0.8);
+    }
+}
+
+// Si le point doit devenir rouge en cas de déconnexion (si ton JS le gère)
+.dot-offline {
+    color: #e74c3c !important; // Rouge
+    text-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+}

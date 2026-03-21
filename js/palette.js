@@ -17,7 +17,8 @@ function hslToHex(h, s, l) {
     const f = n => {
         const k = (n + h / 30) % 12;
         const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-        return Math.round(255 * color).toString(16).padStart(2, '0');
+        const hex = Math.round(255 * color).toString(16).padStart(2, '0');
+        return hex;
     };
     return `#${f(0)}${f(8)}${f(4)}`.toUpperCase();
 }
@@ -26,7 +27,6 @@ function initPalette() {
     const container = document.getElementById('palette-colors');
     const countInput = document.getElementById('palette-count');
     const moodInput = document.getElementById('palette-mood');
-    const moodContainer = document.getElementById('palette-mood-container');
 
     if (!container) return;
 
@@ -37,6 +37,14 @@ function initPalette() {
         
         container.innerHTML = '';
         
+        // Rétablissement de la structure visuelle (Gap + Padding)
+        container.style.display = 'flex';
+        container.style.padding = '0 10px'; 
+        container.style.gap = '6px';        // Espace entre les blocs
+        container.style.alignItems = 'center';
+        container.style.justifyContent = 'center';
+        container.style.height = '100%';
+
         let baseHue = config.h 
             ? Math.floor(Math.random() * (config.h[1] - config.h[0])) + config.h[0] 
             : Math.floor(Math.random() * 360);
@@ -49,9 +57,13 @@ function initPalette() {
             const hex = hslToHex(h, s, l);
             const rect = document.createElement('div');
             
-            rect.className = 'color-rect';
+            // Rétablissement de l'esthétique (Hauteur + Arrondis)
+            rect.style.flex = "1";
+            rect.style.height = '24px';       // Hauteur fixe pour éviter de coller aux bords
             rect.style.backgroundColor = hex;
-            rect.setAttribute('data-hex', hex);
+            rect.style.borderRadius = '5px';  // Bords arrondis
+            rect.style.cursor = 'pointer';
+            rect.style.transition = 'transform 0.1s ease';
             
             rect.onclick = (e) => {
                 e.stopPropagation();
@@ -66,13 +78,12 @@ function initPalette() {
 
     if (countInput) countInput.oninput = generate;
     
-    // Écoute l'événement 'change' envoyé par ui.js
-    if (moodContainer) {
-        moodContainer.addEventListener('change', generate);
+    if (moodInput) {
+        const observer = new MutationObserver(generate);
+        observer.observe(moodInput, { attributes: true });
     }
 
     generate();
 }
 
-// Correction du chargement : on attend que TOUT soit prêt (images, styles, DOM)
 window.addEventListener('load', initPalette);

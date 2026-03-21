@@ -1,66 +1,109 @@
 @use '../variables' as *;
 
 #converter-px-rem {
-    // FORCE LE FORMAT 2x2
-    &.card.large {
-        grid-column: span 2 !important;
-        grid-row: span 2 !important;
-        display: flex;
-        flex-direction: column;
-        
-        // EMPÊCHE L'ÉCRASEMENT
-        width: 100% !important;
-        min-width: 0; 
-        min-height: 350px;
-        padding: 20px;
+    &.card {
+        display: grid;
+        grid-template-rows: auto 1fr auto; 
+        gap: 15px;
+        height: 100%;
         box-sizing: border-box;
+        padding: 25px;
+        min-width: 0; // Sécurité anti-débordement
+        overflow: hidden;
     }
 
     .converter-body {
         display: flex;
+        flex-direction: row;
+        flex-wrap: wrap; // CRUCIAL : permet aux inputs de passer l'un sous l'autre en mode réduit
         align-items: center;
-        justify-content: space-around;
-        flex-grow: 1;
-        gap: 20px;
+        justify-content: center;
+        gap: 12px;
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
 
         .input-group {
             display: flex;
             flex-direction: column;
             gap: 8px;
             flex: 1;
-            text-align: center;
-            label { font-size: 0.7rem; opacity: 0.5; }
+            min-width: 80px; 
+
+            label {
+                font-size: 0.75rem;
+                color: rgba(255, 255, 255, 0.5);
+                text-align: center;
+                white-space: nowrap;
+            }
+
             input {
                 width: 100%;
+                height: 38px;
                 background: rgba(255, 255, 255, 0.05);
                 border: 1px solid rgba(255, 255, 255, 0.1);
-                color: #fff;
-                font-size: 1.8rem;
-                font-weight: 700;
+                border-radius: 8px;
+                color: $white;
                 text-align: center;
-                border-radius: 10px;
-                padding: 15px 5px;
+                font-size: 0.9rem;
+                outline: none;
+                box-sizing: border-box;
+
+                &:focus {
+                    border-color: $primary-color;
+                }
             }
         }
-        .conversion-arrow { font-size: 1.5rem; opacity: 0.2; }
+
+        .conversion-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 38px;
+            margin-top: 24px; 
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
+            padding: 0 5px;
+            user-select: none;
+
+            @media (max-width: 400px) {
+                width: 100%;
+                margin-top: 0;
+                transform: rotate(90deg); // L'icône pointe vers le bas si empilé
+            }
+        }
     }
 
     .converter-settings {
-        margin-top: 15px;
-        padding: 10px;
-        background: rgba(0, 0, 0, 0.2);
-        border-radius: 6px;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 10px;
-        font-size: 0.8rem;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 10px;
+        flex-wrap: wrap;
+
+        label, span {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
         input {
-            width: 50px;
-            background: none;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #3498db;
+            width: 55px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: $white;
             text-align: center;
+            font-size: 0.85rem;
+            outline: none;
+
+            &:focus {
+                border-color: $primary-color;
+            }
         }
     }
 }

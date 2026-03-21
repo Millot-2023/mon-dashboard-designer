@@ -3,22 +3,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const remInput = document.getElementById('input-rem');
     const baseInput = document.getElementById('base-font');
 
-    const convertPxToRem = () => {
-        const base = parseFloat(baseInput.value) || 16;
-        const px = parseFloat(pxInput.value) || 0;
-        remInput.value = (px / base).toFixed(3);
+    // Fonction de conversion PX -> REM
+    const updateRem = () => {
+        const pxValue = parseFloat(pxInput.value);
+        const baseValue = parseFloat(baseInput.value) || 16;
+        if (!isNaN(pxValue)) {
+            remInput.value = (pxValue / baseValue).toFixed(3);
+        } else {
+            remInput.value = '';
+        }
     };
 
-    const convertRemToPx = () => {
-        const base = parseFloat(baseInput.value) || 16;
-        const rem = parseFloat(remInput.value) || 0;
-        pxInput.value = (rem * base).toFixed(0);
+    // Fonction de conversion REM -> PX
+    const updatePx = () => {
+        const remValue = parseFloat(remInput.value);
+        const baseValue = parseFloat(baseInput.value) || 16;
+        if (!isNaN(remValue)) {
+            pxInput.value = Math.round(remValue * baseValue);
+        } else {
+            pxInput.value = '';
+        }
     };
 
-    pxInput.addEventListener('input', convertPxToRem);
-    remInput.addEventListener('input', convertRemToPx);
-    baseInput.addEventListener('input', convertPxToRem);
-
-    // Initialisation
-    convertPxToRem();
+    // Écouteurs d'événements
+    pxInput.addEventListener('input', updateRem);
+    remInput.addEventListener('input', updatePx);
+    baseInput.addEventListener('input', updateRem); // Recalcule si on change la base
 });

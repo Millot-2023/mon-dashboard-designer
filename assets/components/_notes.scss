@@ -1,11 +1,16 @@
 @use '../variables' as *;
 
 .notes-card {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important; // "stretch" oblige le contenu à prendre toute la largeur
-    padding: 20px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; 
+    padding: 25px; // Harmonisation avec les autres cartes
     min-height: 250px;
+    height: 100%;
+    box-sizing: border-box;
+    width: 100%;
+    /* On retire l'alignement centré hérité de .card */
+    text-align: left;
 
     .notes-header {
         display: flex;
@@ -14,31 +19,49 @@
         width: 100%;
         margin-bottom: 15px;
 
+        h3 {
+            margin: 0;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
         .btn-purge {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ff4d4d;
+            color: $accent-red; // Utilisation de ta variable
             padding: 4px 10px;
             border-radius: 4px;
             font-size: 0.7rem;
             cursor: pointer;
-            &:hover { background: rgba(255, 255, 255, 0.1); }
+            transition: all 0.2s;
+            
+            &:hover { 
+                background: rgba(255, 71, 87, 0.1); 
+                border-color: rgba(255, 71, 87, 0.3);
+            }
         }
     }
 
     #notes-area {
-        width: 100% !important;
+        width: 100%;
         flex-grow: 1;
         background: transparent;
         border: none;
-        color: #eee;
+        color: rgba(255, 255, 255, 0.8);
         font-family: inherit;
         font-size: 1rem;
         line-height: 1.6;
-        text-align: left !important; // Plus de centrage !
+        text-align: left; 
         resize: none;
         outline: none;
         padding: 0;
         margin: 0;
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+        }
     }
 }

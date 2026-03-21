@@ -1,18 +1,21 @@
 @use '../variables' as *;
 
 #lorem-generator {
-    &.card.large {
-        grid-column: span 2 !important;
-        grid-row: span 2 !important;
-        display: grid !important;
+    // On retire le span 2 forcé ici, c'est le layout qui doit piloter
+    &.card {
+        display: grid;
         grid-template-rows: auto auto 1fr; 
-        grid-template-columns: 100% !important;
-        width: 100% !important;
-        height: 100% !important; 
+        grid-template-columns: 100%;
+        width: 100%;
+        height: 100%; 
         padding: 25px;
         box-sizing: border-box;
         gap: 15px;
-        align-items: stretch !important;
+        align-items: stretch;
+        
+        // Sécurité pour ne pas pousser la grille
+        min-width: 0; 
+        overflow: hidden;
     }
 
     .card-header {
@@ -40,11 +43,12 @@
         display: flex;
         gap: 10px;
         width: 100%;
-        height: 38px; // Hauteur stricte de référence
-        align-items: stretch; // Force tous les enfants à remplir les 38px
+        min-height: 38px; 
+        height: auto; // Permet de passer à la ligne sur petit écran
+        align-items: center;
         position: relative;
+        flex-wrap: wrap; // CRUCIAL pour le format 2 colonnes
 
-        // Le champ numérique calqué sur celui de la palette
         #lorem-amount {
             width: 60px;
             height: 38px;
@@ -53,22 +57,21 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
-            color: white;
+            color: $white;
             font-size: 0.8rem;
-            font-family: inherit;
             outline: none;
             box-sizing: border-box;
 
             &:focus {
-                border-color: rgba(255, 255, 255, 0.3);
+                border-color: $primary-color;
             }
         }
 
-        // Le sélecteur personnalisé (div) calqué sur celui de la palette
         .custom-select {
-            flex-grow: 1;
-            position: relative;
+            flex: 1;
+            min-width: 100px; // Évite qu'il disparaisse
             height: 38px;
+            position: relative;
 
             .select-trigger {
                 width: 100%;
@@ -83,7 +86,7 @@
                 cursor: pointer;
                 box-sizing: border-box;
                 font-size: 0.8rem;
-                color: white;
+                color: $white;
 
                 .arrow {
                     width: 8px;
@@ -96,14 +99,13 @@
             }
         }
 
-        // Les boutons alignés sur la même hauteur
         .btn-mini {
             height: 38px;
             padding: 0 15px;
             background: rgba(52, 152, 219, 0.2);
             border: 1px solid rgba(52, 152, 219, 0.4);
             border-radius: 8px;
-            color: #3498db;
+            color: $primary-color;
             font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
@@ -114,8 +116,8 @@
             transition: all 0.2s;
 
             &:hover {
-                background: #3498db;
-                color: white;
+                background: $primary-color;
+                color: $white;
             }
         }
 
@@ -130,6 +132,7 @@
         display: block;
         width: 100%;
         height: 100%;
+        min-height: 100px; // Sécurité visuelle
         margin-top: 5px;
         background: rgba(0, 0, 0, 0.25);
         border: 1px dashed rgba(255, 255, 255, 0.15);
@@ -141,5 +144,9 @@
         overflow-y: auto;
         box-sizing: border-box;
         white-space: pre-wrap;
+        
+        // Petit style pour la scrollbar interne
+        &::-webkit-scrollbar { width: 4px; }
+        &::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
     }
 }

@@ -1,120 +1,53 @@
 @use '../variables' as *;
-/* --- STYLE GÉNÉRAL DES CARTES --- */
 
 .card {
-    background: $card-bg; 
-    backdrop-filter: blur(12px); // Effet Glassmorphism
-    border: 1px solid rgba(255, 255, 255, 0.1); 
-    border-radius: $border-radius;
-    padding: 25px; 
-    text-align: center; 
-    transition: 0.3s;
-    display: flex; 
-    flex-direction: column; 
-    align-items: center;
-    justify-content: center; 
-    min-height: 180px; 
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    height: 100%;
+    width: 100%;
     box-sizing: border-box;
-
-    &:hover { 
-       /* transform: translateY(-10px); */
-        border-color: $primary-color; 
-    }
-
-    // Tailles de la grille
-    &.small { grid-column: span 1; }
-    &.large { grid-column: span 4; }
-}
-
-/* --- MONTRE (FULL CARD DESIGN) --- */
-
-.clock-card {
     position: relative;
-    padding: 0 !important; 
     overflow: hidden;
-    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.03) 0%, transparent 70%) !important;
-
-    .clock-index {
-        position: absolute;
-        background: rgba(255, 255, 255, 0.3);
-        border-radius: 2px;
-        z-index: 1;
-
-        &.i-12, &.i-6 { 
-            width: 2px; height: 12px; left: 50%; transform: translateX(-50%); 
-        }
-        &.i-3, &.i-9 { 
-            width: 12px; height: 2px; top: 50%; transform: translateY(-50%); 
-        }
-        &.i-12 { top: 10px; }
-        &.i-6  { bottom: 10px; }
-        &.i-3  { right: 10px; }
-        &.i-9  { left: 10px; }
-    }
-
-    .aiguille {
-        position: absolute;
-        bottom: 50%; 
-        left: 50%;   
-        transform-origin: bottom;
-        border-radius: 4px;
-        z-index: 5;
-        display: block !important;
-        transform: translateX(-50%) rotate(0deg);
-
-        &.heure {
-            width: 4px; height: 45px; 
-            background: $white !important;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-
-        &.minute {
-            width: 3px; height: 65px; 
-            background: rgba(255, 255, 255, 0.6) !important;
-        }
-
-        &.seconde {
-            width: 1.5px; height: 75px; 
-            background: $accent-red !important; 
-            z-index: 6;
-            transition: transform 0.2s cubic-bezier(0.4, 2.08, 0.55, 0.44);
-        }
-    }
-
-    .point-central {
-        position: absolute;
-        top: 50%; left: 50%;
-        width: 8px; height: 8px;
-        background: $accent-red;
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 10;
-        box-shadow: 0 0 8px rgba(255, 71, 87, 0.6);
-    }
-
-    #clock {
-        position: absolute;
-        bottom: 15px; right: 18px;
-        font-size: 0.8rem;
-        opacity: 0.3;
-        font-family: monospace;
-        letter-spacing: 1px;
-        pointer-events: none;
-        
-        @media (max-width: 480px) {
-            display: none; 
-        }
-    } // <--- C'est cette accolade qui manquait !
 }
 
-/* --- AUTRES COMPOSANTS --- */
+.card-tier-system {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
 
-.icon-placeholder {
-    width: 50px; height: 50px; 
-    background: $primary-color;
-    border-radius: 12px; 
-    display: flex; align-items: center;
-    justify-content: center; 
-    font-weight: bold; 
-    margin-bottom: 10px;
+    .tier-header {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding-bottom: 8px;
+        margin-bottom: 15px;
+
+        h3 {
+            margin: 0;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    }
+
+    .tier-body {
+        flex-grow: 1;
+        width: 100%;
+    }
+
+    .tier-footer {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 32px; 
+        padding-top: 15px;
+    }
 }

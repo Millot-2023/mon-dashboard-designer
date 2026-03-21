@@ -14,25 +14,15 @@
         <?php include 'widgets/w-clock.php'; ?>
         <?php include 'widgets/w-weather.php'; ?>
         <?php include 'widgets/w-palette.php'; ?>
-        <div class="card small">
-            <h3 id="timer-display" style="margin: 0;">00:00</h3>
-            <p style="margin:0; font-size:0.8rem; opacity: 0.6;">Session</p>
-        </div>
-
+        <?php include 'widgets/w-projets.php'; ?>
         <?php include 'widgets/w-lorem.php'; ?>
         <?php include 'widgets/w-px-to-rem.php'; ?>
-        
-        <div id="projects-wrapper" style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;"></div>
 
-        <div class="card large notes-card" style="grid-column: 1 / -1;">
-            <div class="notes-header">
-                <h3 style="margin:0; text-align: left;">🗒️ Notes Rapides</h3>
-                <button id="clear-notes" class="btn-purge">Effacer tout</button>
-            </div>
-            <textarea id="notes-area" placeholder="Écrivez vos notes ici..."></textarea>
-        </div>
+<div id="projects-wrapper"></div>
+        
+        <?php include 'widgets/w-notes.php'; ?>
+        <?php include 'widgets/w-roadmap.php'; ?>
 
     </div>
 </div>
-
 <?php include 'partials/footer.php'; ?>

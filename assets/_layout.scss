@@ -1,4 +1,5 @@
 @use 'variables' as *;
+
 /* --- STRUCTURE GLOBALE --- */
 
 body, html { 
@@ -20,108 +21,100 @@ body, html {
     box-sizing: border-box;
 }
 
+/* --- LOGO & STATUS --- */
 
-
-
-/* --- LOGO & STATUS (XAMPP) --- */
-/* --- LOGO & STATUS (XAMPP) --- */
-/* --- LOGO & STATUS (XAMPP) --- */
 .logo {
     font-size: 2.5rem;
     font-weight: 800;
     letter-spacing: -1px;
-    margin: 0;
+    margin: 0 0 30px 0;
     color: $white;
     display: flex;
     align-items: center;
     gap: 5px;
-    margin-bottom: 30px; // Ajoute de l'espace sous le titre ici !
 
     #status-dot {
         transition: all 0.5s ease;
         display: inline-block;
-        
-        &.dot-online {
-            color: #2ecc71 !important; 
-            text-shadow: 0 0 15px rgba(46, 204, 113, 0.6) !important;
-            animation: none !important;
-            transform: scale(1) !important;
-        }
-        
-        &.dot-offline {
-            color: #ff4757 !important;
-            text-shadow: 0 0 20px rgba(255, 71, 87, 0.8) !important;
-            animation: pulse-red 1.5s infinite;
-        }
+        &.dot-online { color: #2ecc71; text-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
+        &.dot-offline { color: $accent-red; text-shadow: 0 0 20px rgba(255, 71, 87, 0.6); animation: pulse-red 1.5s infinite; }
     }
 }
 
 @keyframes pulse-red {
-    0% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(1.1); } // Un peu plus de scale pour le voir
-    100% { opacity: 1; transform: scale(1); }
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
 }
 
-/* --- LOGO & STATUS (XAMPP) --- */
-/* --- LOGO & STATUS (XAMPP) --- */
-
-
-
-
-
-
-
-/* --- GRILLE PRINCIPALE --- */
+/* --- GRILLE PRINCIPALE (4 -> 2 -> 1) --- */
 
 .grid-container {
     display: grid; 
-    grid-template-columns: repeat(4, 1fr); 
+    // Correction : minmax(0, 1fr) est le SEUL moyen d'empêcher un contenu large de casser la grille
+    grid-template-columns: repeat(4, minmax(0, 1fr)); 
     gap: $grid-gap; 
     width: 100%; 
     max-width: $container-max-width; 
     margin: 0 auto;
-    align-items: start; // Évite que les petites cartes s'étirent inutilement
+    align-items: start;
 
     @media (max-width: 1024px) {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    @media (max-width: 480px) {
+
+    @media (max-width: 600px) {
         grid-template-columns: 1fr;
     }
 }
 
+/* --- WRAPPER DES PROJETS --- */
 #projects-wrapper { 
     display: contents; 
 }
 
-/* --- HEADER (DÉROULANT) --- */
+/* --- GESTION DES CARTES LARGES --- */
+// On utilise grid-column: 1 / -1 pour les éléments qui DOIVENT faire toute la largeur
+.notes-card, .roadmap-card {
+    grid-column: 1 / -1;
+}
+
+// Les cartes .large (comme Lorem ou PX-REM) prennent 2 colonnes sur 4, 
+// mais repassent en plein écran sur tablette/mobile si nécessaire.
+.card.large {
+    grid-column: span 2;
+
+    @media (max-width: 1024px) {
+        grid-column: span 2; // Reste sur 2 (donc toute la largeur en mode 2 cols)
+    }
+
+    @media (max-width: 600px) {
+        grid-column: 1; // Pleine largeur en mode mobile
+    }
+}
+
+/* --- HEADER DÉROULANT --- */
 
 .dashboard-header {
     position: fixed;
     top: 0; left: 0; width: 100%;
     z-index: 1000;
     background: rgba(255, 255, 255, 0.03); 
-    backdrop-filter: blur(20px); // Flou plus prononcé pour le header
+    backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     transform: translateY(calc(-100% + #{$header-height-closed}));
     transition: transform $transition;
 
     &.is-open { 
-        transform: translateY(0);
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        transform: translateY(0); 
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); 
     }
 
     .dashboard-content {
         padding: 40px 20px;
         max-height: 80vh;
         overflow-y: auto;
-        
-        /* Scrollbar personnalisée pour le menu */
         &::-webkit-scrollbar { width: 6px; }
-        &::-webkit-scrollbar-thumb { 
-            background: rgba(255, 255, 255, 0.1); 
-            border-radius: 10px; 
-        }
+        &::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
     }
 
     .trigger-bar {
@@ -134,11 +127,11 @@ body, html {
         cursor: pointer;
         position: absolute;
         bottom: 0; width: 100%;
-        transition: $transition;
+        transition: all 0.2s;
 
-        &:hover {
-            background: rgba(0, 0, 0, 0.4);
-            color: $white;
+        &:hover { 
+            background: rgba(0, 0, 0, 0.4); 
+            color: $white; 
         }
     }
 }
