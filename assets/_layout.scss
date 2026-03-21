@@ -56,7 +56,7 @@ body, html {
     width: 100%; 
     max-width: $container-max-width; 
     margin: 0 auto;
-    align-items: start;
+    align-items: stretch;
 
     @media (max-width: 1024px) {
         grid-template-columns: repeat(2, minmax(0, 1fr));

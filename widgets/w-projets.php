@@ -1,5 +1,4 @@
 <div class="card card-tier-system" id="session-card">
-    
     <div class="tier-header">
         <h3>⏱️ PROJETS</h3>
     </div>
@@ -8,7 +7,6 @@
         <div class="custom-select" id="session-project-container">
             <div class="select-trigger">
                 <span>Vibrant</span>
-                <span class="arrow-select">▼</span>
             </div>
             <div class="select-options">
                 <div class="option selected" data-value="juicy">Vibrant</div>
@@ -24,5 +22,4 @@
         <span id="session-timer">00:00</span>
         <button class="btn-session" id="start-session">START</button>
     </div>
-    
 </div>

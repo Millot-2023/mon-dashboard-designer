@@ -1,19 +1,85 @@
 @use 'variables' as *;
 
 #palette-card {
-    #palette-colors {
-        display: flex;
-        gap: 8px;
-        width: 100%;
-        justify-content: space-between;
-        flex-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 
-        .color-rect {
+    .tier-body {
+        padding: 0 25px !important; // Alignement strict sur le header
+        flex: 1;
+        display: flex;
+        align-items: center;
+
+        .palette-controls-row {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important; 
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            width: 100%;
+
+            .qty-group {
+                display: flex !important;
+                align-items: center;
+                gap: 6px;
+                flex-shrink: 0;
+
+                label { 
+                    font-size: 0.75rem; 
+                    opacity: 0.5; 
+                    white-space: nowrap; 
+                }
+
+                input {
+                    width: 42px;
+                    height: 34px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    border-radius: 8px;
+                    color: $white;
+                    text-align: center;
+                    margin: 0;
+                }
+            }
+
+            .custom-select {
+                flex-grow: 1;
+                min-width: 0;
+                
+                .select-trigger {
+                    height: 34px;
+                    display: flex;
+                    align-items: center;
+                    padding: 0 10px;
+                    font-size: 0.8rem;
+                }
+            }
+        }
+    }
+
+    // Ciblage du footer par ID (Centrage vertical dans les 60px du parent)
+    #palette-colors.tier-footer {
+        display: flex !important;
+        align-items: center !important;   // Centrage vertical (Axe Y)
+        justify-content: center !important; // Centrage horizontal (Axe X)
+        gap: 6px !important;
+        padding: 0 25px 15px 25px !important; // Aligné sur _card.scss
+        min-height: 40px;
+        margin-top: auto;
+
+        div {
             flex: 1;
-            min-width: 30px;
-            height: 28px;
-            border-radius: 6px;
+            height: 24px !important;
+            border-radius: 5px;
             cursor: pointer;
+            transition: transform 0.1s;
+            margin: 0 !important; // Sécurité anti-décalage
+
+            &:active { 
+                transform: scale(0.9); 
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 @use '../variables' as *;
 
-// 1. LES INPUTS (Chiffres, textes, etc.)
+// 1. LES INPUTS
 input[type="number"], 
 input[type="text"] {
     appearance: none;
@@ -11,7 +11,7 @@ input[type="text"] {
     border-radius: 8px;
     font-size: 0.85rem;
     outline: none;
-    width: 100%; // Pour qu'il remplisse son container flex
+    width: 100%; 
     box-sizing: border-box;
     transition: all 0.2s ease;
     
@@ -24,13 +24,10 @@ input[type="text"] {
 // 2. LE CUSTOM SELECT
 .custom-select {
     position: relative; 
-    display: inline-flex;
+    display: flex; // Changé de inline-flex à flex
     flex-direction: column;
-    /* CORRECTION : On baisse le min-width et on ajoute min-width: 0 
-       pour que le flexbox puisse le réduire si la grille rétrécit */
     min-width: 0; 
     flex: 1; 
-    vertical-align: middle;
 
     .select-trigger {
         display: flex;
@@ -55,7 +52,7 @@ input[type="text"] {
             background-size: contain;
             transition: transform 0.3s ease;
             margin-left: 10px;
-            flex-shrink: 0; // Empêche la flèche de s'écraser
+            flex-shrink: 0;
         }
     }
 
@@ -69,13 +66,12 @@ input[type="text"] {
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 10px;
         z-index: 9999; 
-        
         opacity: 0;
         visibility: hidden;
         transform: translateY(-10px);
         transition: all 0.2s ease-in-out;
         box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-        max-height: 250px; // Sécurité si trop d'options
+        max-height: 250px;
         overflow-y: auto;
     }
 
