@@ -1,17 +1,14 @@
 @use '../variables' as *;
 
 #session-card {
-    // 1. LE CORPS (Aligné sur la Palette)
     .tier-body {
-        margin-bottom: 0; // On laisse le flex-grow et le footer gérer l'espace
-        
         .custom-select {
             width: 100%;
             .select-trigger {
                 height: 38px; 
                 display: flex;
                 align-items: center;
-                background: rgba(255, 255, 255, 0.05); // Match Palette
+                background: rgba(255, 255, 255, 0.05);
                 border: 1px solid rgba(255, 255, 255, 0.1);
                 border-radius: 8px;
                 padding: 0 12px;
@@ -20,43 +17,21 @@
         }
     }
 
-    // 2. LE PIED DE PAGE (Ligne verte alignée)
     .tier-footer {
-        margin-top: auto; 
-        display: flex;
-        justify-content: space-between; 
-        align-items: center; 
-        padding-top: 15px; // Respiration constante au-dessus des carrés/bouton
-        width: 100%;
-
         #session-timer {
             font-family: $font-mono;
             font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.3); // Discret comme sur tes screens
-            display: flex;
-            align-items: center;
+            color: rgba(255, 255, 255, 0.3);
         }
-
         .btn-session {
-            height: 28px; // Calqué sur la hauteur réelle de tes carrés
+            height: 28px;
             padding: 0 12px;
             background: $white;
             color: #1a1a20;
-            border: none;
             border-radius: 6px;
             font-size: 0.65rem;
             font-weight: 700;
             text-transform: uppercase;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-
-            &:hover {
-                transform: translateY(-1px);
-                filter: brightness(0.9);
-            }
         }
     }
 }
