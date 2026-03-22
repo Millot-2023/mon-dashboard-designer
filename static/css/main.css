@@ -56,9 +56,10 @@ body, html {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: start;
+  /* Correction : stretch au lieu de start pour égaliser les hauteurs des cartes */
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
 }
 @media (max-width: 1024px) {
   .grid-container {
@@ -97,6 +98,19 @@ body, html {
           flex: 0 0 calc(25% - 25px * 3 / 4) !important;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 @media (max-width: 1024px) {
   .card-created {
@@ -168,6 +182,36 @@ body, html {
   grid-column: 1/-1 !important;
 }
 
+/* Fix pour l'horloge et la météo (centrage dans l'espace étiré) */
+.clock-card, .weather-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  min-height: 160px;
+}
+
+#palette-card, #session-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
 @media (max-width: 1024px) {
   #palette-card, #session-card {
     grid-column: 1/-1;

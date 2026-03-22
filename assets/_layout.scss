@@ -30,7 +30,9 @@ body, html {
     width: 100%; 
     max-width: $container-max-width; 
     margin: 0 auto;
-    align-items: start;
+    
+    /* Correction : stretch au lieu de start pour égaliser les hauteurs des cartes */
+    align-items: stretch; 
 
     @media (max-width: 1024px) {
         grid-template-columns: repeat(2, 1fr);
@@ -57,6 +59,10 @@ body, html {
     /* On force la carte à ne prendre qu'un quart de la ligne (moins le gap) */
     flex: 0 0 calc(25% - (#{$grid-gap} * 3 / 4)) !important;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     @media (max-width: 1024px) {
         flex: 0 0 calc(50% - (#{$grid-gap} / 2)) !important;
@@ -104,6 +110,18 @@ body, html {
     grid-column: 1 / -1 !important;
 }
 
+/* Fix pour l'horloge et la météo (centrage dans l'espace étiré) */
+.clock-card, .weather-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 160px;
+}
+
 #palette-card, #session-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     @media (max-width: 1024px) { grid-column: 1 / -1; }
 }
