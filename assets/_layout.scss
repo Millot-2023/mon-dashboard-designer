@@ -50,7 +50,6 @@ body, html {
 
 .grid-container {
     display: grid; 
-    // Correction : minmax(0, 1fr) est le SEUL moyen d'empêcher un contenu large de casser la grille
     grid-template-columns: repeat(4, minmax(0, 1fr)); 
     gap: $grid-gap; 
     width: 100%; 
@@ -63,7 +62,9 @@ body, html {
     }
 
     @media (max-width: 600px) {
-        grid-template-columns: 1fr;
+        // Solution radicale pour le mobile : on abandonne la grid pour le flex
+        display: flex;
+        flex-direction: column;
     }
 }
 
@@ -72,23 +73,37 @@ body, html {
     display: contents; 
 }
 
-/* --- GESTION DES CARTES LARGES --- */
-// On utilise grid-column: 1 / -1 pour les éléments qui DOIVENT faire toute la largeur
-.notes-card, .roadmap-card {
-    grid-column: 1 / -1;
-}
+/* --- GESTION DES CARTES LARGES & EXCEPTIONS --- */
 
-// Les cartes .large (comme Lorem ou PX-REM) prennent 2 colonnes sur 4, 
-// mais repassent en plein écran sur tablette/mobile si nécessaire.
+// 1. Cartes standards à 2 colonnes (Lorem, PX to REM)
 .card.large {
     grid-column: span 2;
 
+    @media (max-width: 600px) {
+        grid-column: auto !important;
+        width: 100%;
+    }
+}
+
+// 2. Cartes "Full-Width" absolues (Notes, Roadmap)
+.card.notes-card, .card.roadmap-card {
+    grid-column: 1 / -1 !important;
+    
+    @media (max-width: 600px) {
+        grid-column: auto !important;
+        width: 100%;
+    }
+}
+
+// 3. Exception Palette & Projets (Audit v1.4.1)
+#palette-card, #session-card {
     @media (max-width: 1024px) {
-        grid-column: span 2; // Reste sur 2 (donc toute la largeur en mode 2 cols)
+        grid-column: 1 / -1; 
     }
 
     @media (max-width: 600px) {
-        grid-column: 1; // Pleine largeur en mode mobile
+        grid-column: auto !important;
+        width: 100%;
     }
 }
 

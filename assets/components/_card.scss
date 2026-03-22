@@ -52,13 +52,13 @@
         }
     }
 
-    .tier-body {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 0 25px; 
-    }
+.tier-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; // On aligne en haut
+    padding: 10px 25px 0 25px;   // On définit un espace fixe depuis le header
+}
 
     .tier-footer {
         margin-top: auto;

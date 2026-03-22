@@ -6,15 +6,14 @@
     <div class="tier-body">
         <div class="custom-select" id="session-project-container">
             <div class="select-trigger">
-                <span>Vibrant</span>
+                <span>Sélectionner un projet</span>
             </div>
             <div class="select-options">
-                <div class="option selected" data-value="juicy">Vibrant</div>
-                <div class="option" data-value="pastel">Pastel</div>
-                <div class="option" data-value="dark">Dark</div>
-                <div class="option" data-value="cyber">Cyberpunk</div>
+                <div class="option selected" data-value="work">Workstation</div>
+                <div class="option" data-value="design">Design System</div>
+                <div class="option" data-value="dev">Développement</div>
             </div>
-            <input type="hidden" id="session-project-id" value="juicy">
+            <input type="hidden" id="session-project-id" value="work">
         </div>
     </div>
 
