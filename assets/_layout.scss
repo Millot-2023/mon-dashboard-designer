@@ -21,132 +21,89 @@ body, html {
     box-sizing: border-box;
 }
 
-/* --- LOGO & STATUS --- */
-
-.logo {
-    font-size: 2.5rem;
-    font-weight: 800;
-    letter-spacing: -1px;
-    margin: 0 0 30px 0;
-    color: $white;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-
-    #status-dot {
-        transition: all 0.5s ease;
-        display: inline-block;
-        &.dot-online { color: #2ecc71; text-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
-        &.dot-offline { color: $accent-red; text-shadow: 0 0 20px rgba(255, 71, 87, 0.6); animation: pulse-red 1.5s infinite; }
-    }
-}
-
-@keyframes pulse-red {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(1.1); }
-}
-
-/* --- GRILLE PRINCIPALE (4 -> 2 -> 1) --- */
+/* --- GRILLE PRINCIPALE --- */
 
 .grid-container {
     display: grid; 
-    grid-template-columns: repeat(4, minmax(0, 1fr)); 
+    grid-template-columns: repeat(4, 1fr); 
     gap: $grid-gap; 
     width: 100%; 
     max-width: $container-max-width; 
     margin: 0 auto;
-    align-items: stretch;
+    align-items: start;
 
     @media (max-width: 1024px) {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, 1fr);
     }
 
     @media (max-width: 600px) {
-        // Solution radicale pour le mobile : on abandonne la grid pour le flex
         display: flex;
         flex-direction: column;
     }
 }
 
-/* --- WRAPPER DES PROJETS --- */
+/* --- WRAPPER & CARTES PROJETS --- */
+
 #projects-wrapper { 
-    display: contents; 
+    /* Le wrapper occupe toute la largeur de la grille */
+    grid-column: 1 / -1 !important; 
+    display: flex !important;
+    flex-wrap: wrap; 
+    gap: $grid-gap; 
+    width: 100%;
 }
 
-/* --- GESTION DES CARTES LARGES & EXCEPTIONS --- */
+.card-created {
+    /* On force la carte à ne prendre qu'un quart de la ligne (moins le gap) */
+    flex: 0 0 calc(25% - (#{$grid-gap} * 3 / 4)) !important;
+    box-sizing: border-box;
 
-// 1. Cartes standards à 2 colonnes (Lorem, PX to REM)
+    @media (max-width: 1024px) {
+        flex: 0 0 calc(50% - (#{$grid-gap} / 2)) !important;
+    }
+
+    @media (max-width: 600px) {
+        flex: 0 0 100% !important;
+    }
+}
+
+.card-new {
+    /* Le bouton prend tout l'espace restant sur la ligne */
+    flex-grow: 1 !important;
+    /* Mais il doit au moins pouvoir faire la taille d'une carte normale */
+    flex-basis: calc(25% - (#{$grid-gap} * 3 / 4)); 
+    
+    min-height: 120px;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed rgba(255, 255, 255, 0.1) !important;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.3) !important;
+    }
+
+    @media (max-width: 600px) {
+        flex: 0 0 100% !important;
+    }
+}
+
+/* --- EXCEPTIONS --- */
+
 .card.large {
     grid-column: span 2;
-
-    @media (max-width: 600px) {
-        grid-column: auto !important;
-        width: 100%;
-    }
+    @media (max-width: 600px) { grid-column: auto !important; width: 100%; }
 }
 
-// 2. Cartes "Full-Width" absolues (Notes, Roadmap)
 .card.notes-card, .card.roadmap-card {
     grid-column: 1 / -1 !important;
-    
-    @media (max-width: 600px) {
-        grid-column: auto !important;
-        width: 100%;
-    }
 }
 
-// 3. Exception Palette & Projets (Audit v1.4.1)
 #palette-card, #session-card {
-    @media (max-width: 1024px) {
-        grid-column: 1 / -1; 
-    }
-
-    @media (max-width: 600px) {
-        grid-column: auto !important;
-        width: 100%;
-    }
-}
-
-/* --- HEADER DÉROULANT --- */
-
-.dashboard-header {
-    position: fixed;
-    top: 0; left: 0; width: 100%;
-    z-index: 1000;
-    background: rgba(255, 255, 255, 0.03); 
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    transform: translateY(calc(-100% + #{$header-height-closed}));
-    transition: transform $transition;
-
-    &.is-open { 
-        transform: translateY(0); 
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); 
-    }
-
-    .dashboard-content {
-        padding: 40px 20px;
-        max-height: 80vh;
-        overflow-y: auto;
-        &::-webkit-scrollbar { width: 6px; }
-        &::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
-    }
-
-    .trigger-bar {
-        height: $header-height-closed;
-        background: rgba(0, 0, 0, 0.2); 
-        color: rgba(255, 255, 255, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        position: absolute;
-        bottom: 0; width: 100%;
-        transition: all 0.2s;
-
-        &:hover { 
-            background: rgba(0, 0, 0, 0.4); 
-            color: $white; 
-        }
-    }
+    @media (max-width: 1024px) { grid-column: 1 / -1; }
 }
