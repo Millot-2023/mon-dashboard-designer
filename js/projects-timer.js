@@ -12,7 +12,7 @@ function initProjects() {
             return response.json();
         })
         .then(projects => {
-            // 1. Injection des Cartes (Bas)
+            // 1. Injection des Cartes (Bas) - On ne reconstruit que si nécessaire
             if (wrapper) {
                 wrapper.innerHTML = ''; 
                 projects.forEach(project => {
@@ -25,7 +25,7 @@ function initProjects() {
                                 <div class="project-initial">${project.initial}</div>
                                 <span class="project-name">${project.name}</span>
                             </a>
-                            <button class="btn-timer ${isProjectActive ? 'active' : ''}" onclick="toggleProject('${project.name}')">
+                            <button class="btn-timer ${isProjectActive ? 'active' : ''}" onclick="event.stopPropagation(); toggleProject('${project.name}')">
                                 <i class="fas ${isProjectActive ? 'fa-stop' : 'fa-play'}"></i>
                             </button>
                         </div>
@@ -36,41 +36,41 @@ function initProjects() {
 
             // 2. Injection du Select (Haut)
             if (selectOptions) {
-                selectOptions.innerHTML = '';
+                selectOptions.innerHTML = ''; 
                 
-                if (selectTrigger && (!hiddenInput || !hiddenInput.value)) {
-                    selectTrigger.innerText = "Choisir un projet...";
-                }
-
                 projects.forEach(project => {
                     const opt = document.createElement('div');
                     opt.className = 'option';
                     
-                    // Vérification au chargement : si c'est le projet sélectionné, on met le bleu
+                    // État initial : on compare avec l'input caché
                     if (hiddenInput && hiddenInput.value === project.name) {
-                        opt.classList.add('active');
+                        opt.classList.add('selected');
                         if (selectTrigger) selectTrigger.innerText = project.name;
                     }
 
                     opt.innerText = project.name;
                     
-                    opt.onclick = () => {
-                        // 1. On retire le bleu de toutes les autres options
-                        const allOptions = selectOptions.querySelectorAll('.option');
-                        allOptions.forEach(o => o.classList.remove('active'));
+                    opt.onclick = (e) => {
+                        e.stopPropagation();
+
+                        // UI : On nettoie toutes les options du container
+                        selectOptions.querySelectorAll('.option').forEach(o => o.classList.remove('selected', 'active'));
                         
-                        // 2. On ajoute le bleu sur celle-ci
-                        opt.classList.add('active');
+                        // Action : On active celle-ci
+                        opt.classList.add('selected');
                         
-                        // 3. Mise à jour du texte et de l'input
                         if (selectTrigger) selectTrigger.innerText = project.name;
-                        if (hiddenInput) hiddenInput.value = project.name;
+                        if (hiddenInput) {
+                            hiddenInput.value = project.name;
+                            // Trigger manuel d'un événement change si d'autres scripts écoutent l'input
+                            hiddenInput.dispatchEvent(new Event('change'));
+                        }
                     };
                     selectOptions.appendChild(opt);
                 });
             }
         })
-        .catch(err => console.error("Erreur d'injection :", err));
+        .catch(err => console.error("Audit injection projects :", err));
 }
 
 window.toggleProject = function(projectName) {
@@ -78,6 +78,7 @@ window.toggleProject = function(projectName) {
     if (!projectsData[projectName]) {
         projectsData[projectName] = { totalTime: 0, startTime: null, active: false };
     }
+    
     let p = projectsData[projectName];
     if (!p.active) {
         p.startTime = now;
@@ -87,8 +88,25 @@ window.toggleProject = function(projectName) {
         p.startTime = null;
         p.active = false;
     }
+    
     localStorage.setItem('projects-logs', JSON.stringify(projectsData));
-    initProjects(); 
+    
+    // Au lieu de tout réinitialiser (ce qui ferme les menus), on met juste à jour les boutons
+    updateTimerButtons();
 };
+
+function updateTimerButtons() {
+    const buttons = document.querySelectorAll('.btn-timer');
+    buttons.forEach(btn => {
+        // Logique simplifiée pour ne pas casser le DOM
+        const nameSpan = btn.parentElement.querySelector('.project-name');
+        if (nameSpan) {
+            const name = nameSpan.innerText;
+            const isActive = projectsData[name]?.active || false;
+            btn.className = `btn-timer ${isActive ? 'active' : ''}`;
+            btn.querySelector('i').className = `fas ${isActive ? 'fa-stop' : 'fa-play'}`;
+        }
+    });
+}
 
 document.addEventListener('DOMContentLoaded', initProjects);

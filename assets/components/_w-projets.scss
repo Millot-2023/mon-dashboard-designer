@@ -1,68 +1,53 @@
-// 1. STRUCTURE GLOBALE DU LANCEUR (BAS)
-#projects-auto-wrapper {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    width: 100%;
-    margin-top: 20px;
-}
-
-// 2. FORCE L'OVERFLOW (PALETTE / SESSION / MOOD)
-#session-card, 
-#mood-card, 
-#palette-card,
-.card-mood, 
-.card-tier-system {
+// 1. PROTECTION DES CARDS HAUTES (SESSIONS & PALETTE)
+#session-card, #palette-card {
     overflow: visible !important;
-    position: relative;
-    z-index: 100;
-
-    .tier-body, .card-body, .mood-body {
+    .tier-body {
+        padding: 15px !important;
         overflow: visible !important;
     }
 }
 
-// 3. ESTHÉTIQUE DU MENU DÉROULANT (STRICTEMENT ALIGNÉ SUR PALETTE)
-#session-project-container {
+// 2. COMPOSANT SELECT
+.custom-select {
     position: relative;
     width: 100%;
     cursor: pointer;
-    display: block;
 
     .select-trigger {
         background: rgba(255, 255, 255, 0.05);
-        height: 45px; 
-        padding: 0 18px;
-        border-radius: 12px;
+        height: 34px;
+        padding: 0 12px;
+        border-radius: 8px;
         border: 1px solid rgba(255, 255, 255, 0.1);
         color: rgba(255, 255, 255, 0.9);
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
         box-sizing: border-box;
-        transition: background 0.2s ease;
 
-        &:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.2);
+        &::after {
+            content: '▾';
+            font-size: 0.7rem;
+            opacity: 0.5;
         }
     }
 
     .select-options {
         display: none;
         position: absolute;
-        top: calc(100% + 2px); 
+        top: calc(100% - 2px); 
         left: 0;
         right: 0;
-        background: #181818; 
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 12px;
         z-index: 10000 !important;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-        max-height: 280px;
+        background: #181818;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        padding: 4px 0; 
+        max-height: 250px;
         overflow-y: auto;
-        scrollbar-width: none; 
+        scrollbar-width: none;
         &::-webkit-scrollbar { display: none; }
 
         &::before {
@@ -71,36 +56,27 @@
             top: -10px;
             left: 0;
             right: 0;
-            height: 10px;
+            height: 15px;
             background: transparent;
         }
 
-        // LE STYLE DE L'OPTION
         .option {
-            height: 40px;
+            height: 38px;
             display: flex;
             align-items: center;
-            padding: 0 18px;
+            padding: 0 15px;
             color: rgba(255, 255, 255, 0.7);
-            font-size: 0.85rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            transition: background 0.2s ease, color 0.2s ease;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-
-            &:last-child { border-bottom: none; }
+            font-size: 0.8rem;
 
             &:hover {
                 background: rgba(255, 255, 255, 0.08);
                 color: #fff;
             }
 
-            // LE BLEU (FORCÉ PAR L'ID PARENT POUR LA PRIORITÉ)
-            &.active {
-                background: rgba(52, 152, 219, 0.18) !important;
+            &.selected, &.active {
+                background: rgba(52, 152, 219, 0.15) !important;
                 color: #3498db !important;
-                font-weight: 700 !important;
+                font-weight: 600;
             }
         }
     }
@@ -110,86 +86,82 @@
     }
 }
 
-// 4. CARTES DE PROJETS (LANCEUR BAS)
+// 3. RESTAURATION DU LANCEUR DE PROJETS (BAS)
+#projects-auto-wrapper {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); // Calé sur ton screenshot
+    gap: 15px;
+    margin-top: 20px;
+}
+
 .project-card {
     background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: 0.3s;
+    transition: 0.2s ease;
+    position: relative;
 
     &:hover {
-        background: rgba(255, 255, 255, 0.07);
-        transform: translateY(-3px);
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .project-link-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
     }
 
     .project-main-link {
         text-decoration: none;
-        color: white;
-        text-align: center;
-        .project-initial {
-            width: 50px; 
-            height: 50px;
-            background: #3498db;
-            border-radius: 12px;
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            font-weight: bold; 
-            margin: 0 auto 10px;
-        }
-        .project-name { font-size: 0.85rem; opacity: 0.8; }
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
     }
 
-    .btn-timer {
-        margin-top: 15px;
-        background: rgba(255, 255, 255, 0.1);
-        border: none; 
-        color: white;
-        padding: 8px 18px; 
-        border-radius: 20px;
-        cursor: pointer;
-        &.active { 
-            background: #e74c3c; 
-            animation: pulse 2s infinite; 
-        }
-    }
-}
-
-// 5. BARRE DE CRÉATION
-#project-creator-bar {
-    width: 100% !important;
-    min-height: 100px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 30px;
-    margin-bottom: 20px;
-
-    .selection-area {
-        width: 60%;
+    .project-initial {
+        width: 45px;
+        height: 45px;
+        background: rgba(52, 152, 219, 0.2); // Bleu transparent par défaut
+        border: 1px solid rgba(52, 152, 219, 0.4);
+        border-radius: 10px;
         display: flex;
         align-items: center;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 30px;
-        padding: 5px 15px;
-        &:focus-within { background: rgba(255, 255, 255, 0.08); }
+        justify-content: center;
+        color: #3498db;
+        font-weight: bold;
+        font-size: 1.1rem;
     }
 
-    .dash-input {
-        background: transparent;
+    .project-name {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.75rem;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
+
+    // Le bouton timer (Play/Stop)
+    .btn-timer {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: none;
         border: none;
-        color: white;
-        width: 100%;
-        outline: none;
-        &::placeholder { color: rgba(255, 255, 255, 0.3); }
-    }
-}
+        color: rgba(255, 255, 255, 0.3);
+        font-size: 0.7rem;
+        cursor: pointer;
+        padding: 5px;
 
-@keyframes pulse { 
-    0%, 100% { opacity: 1; } 
-    50% { opacity: 0.7; } 
+        &:hover { color: #fff; }
+        &.active { color: #e74c3c; }
+    }
 }
