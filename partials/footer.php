@@ -6,6 +6,7 @@
     <script src="js/lorem.js"></script>
     <script src="js/converter.js"></script>
     <script src="js/meteo.js"></script>
+    <script src="js/projects-timer.js"></script>
     <script src="js/session.js"></script>
     <script src="js/main.js"></script>
 </body>

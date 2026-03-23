@@ -1,8 +1,15 @@
-// Ton code est correct ici, assure-toi juste que la structure reste celle-ci :
+/**
+ * DASHBOARD ENGINE - VERSION 1.3 FLAT-FILE
+ */
+
+// --- GESTION DES PROJETS ---
+
 function displayProjects() {
     const container = document.getElementById('projects-wrapper');
     if (!container) return;
     
+    // Pour l'instant on garde le localStorage en miroir, 
+    // mais on prépare l'appel au fichier JSON
     const projects = JSON.parse(localStorage.getItem('dashboard_projects') || '[]');
 
     let html = projects.map((p) => {
@@ -14,64 +21,111 @@ function displayProjects() {
             </div>`;
     }).join('');
 
-    // On garde le bouton à la suite, dans le wrapper
+    // --- LE BOUTON "DESIGNER" (Champ texte intégré) ---
     html += `
-        <div class="card card-new" onclick="addProject()">
-            <div class="icon-placeholder">+</div>
-            <h3>Nouveau</h3>
+        <div class="card card-new">
+            <div class="selection-area" onclick="event.stopPropagation();">
+                <input type="text" id="new-project-name" placeholder="Nom du projet..." class="dash-input">
+                <button onclick="addProject()" class="btn-add-circle">+</button>
+            </div>
+            <span class="label">Ajouter un raccourci</span>
         </div>`;
              
     container.innerHTML = html;
 }
 
-
-
-
 function addProject() {
-    const name = prompt("Nom du projet :");
-    if (!name) return;
+    const input = document.getElementById('new-project-name');
+    if (!input) return;
+
+    const name = input.value.trim();
+    if (!name) {
+        input.focus();
+        return;
+    }
     
     const projects = JSON.parse(localStorage.getItem('dashboard_projects') || '[]');
-    projects.push({ 
+    const newProj = { 
         id: Date.now(), 
         name, 
         url: name.toLowerCase() + ".php", 
         initial: name.charAt(0).toUpperCase() 
-    });
+    };
     
-    localStorage.setItem('dashboard_projects', JSON.stringify(projects));
-    displayProjects();
+    projects.push(newProj);
+    
+    // SAUVEGARDE FLAT-FILE (Vers le disque)
+    const formData = new FormData();
+    formData.append('projects', JSON.stringify(projects));
+
+    fetch('includes/save_project.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(() => {
+        // Mise à jour locale
+        localStorage.setItem('dashboard_projects', JSON.stringify(projects));
+        displayProjects();
+    })
+    .catch(err => console.error("Erreur sauvegarde projet:", err));
 }
 
 function deleteProject(id) {
+    if (!confirm("Supprimer ce projet ?")) return;
+
     let projects = JSON.parse(localStorage.getItem('dashboard_projects') || '[]');
-    localStorage.setItem('dashboard_projects', JSON.stringify(projects.filter(p => p.id !== id)));
-    displayProjects();
+    projects = projects.filter(p => p.id !== id);
+    
+    const formData = new FormData();
+    formData.append('projects', JSON.stringify(projects));
+
+    fetch('includes/save_project.php', {
+        method: 'POST',
+        body: formData
+    }).then(() => {
+        localStorage.setItem('dashboard_projects', JSON.stringify(projects));
+        displayProjects();
+    });
 }
 
-// --- NOTES & HORLOGE ---
+// --- NOTES & HORLOGE (Version Flat-file) ---
+
 function initNotes() {
     const container = document.getElementById('notes-container');
     if (!container) return;
     
+    // On vide pour injecter proprement
     container.innerHTML = `
         <textarea id="quick-note-field" 
+            placeholder="Écrire une note..."
             style="width: 100%; min-height: 80px; background: transparent; border: none; color: white; outline: none; resize: none; padding: 20px;"
-        >${localStorage.getItem('dashboard_quick_note') || ""}</textarea>`;
+        ></textarea>`;
     
     const field = document.getElementById('quick-note-field');
-    
-    // Auto-ajustement de la hauteur au chargement
-    if (field) {
-        field.style.height = 'auto';
-        field.style.height = field.scrollHeight + 'px';
-        
-        field.addEventListener('input', () => {
-            localStorage.setItem('dashboard_quick_note', field.value);
+
+    // Chargement initial depuis le fichier physique
+    fetch('data/notes.txt')
+        .then(res => res.ok ? res.text() : "")
+        .then(texte => {
+            field.value = texte;
             field.style.height = 'auto';
             field.style.height = field.scrollHeight + 'px';
         });
-    }
+    
+    let timer;
+    field.addEventListener('input', () => {
+        // Auto-resize
+        field.style.height = 'auto';
+        field.style.height = field.scrollHeight + 'px';
+
+        // Sauvegarde physique (Debounce 500ms)
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            const fd = new FormData();
+            fd.append('content', field.value);
+            fetch('includes/save_notes.php', { method: 'POST', body: fd });
+        }, 500);
+    });
 }
 
 function updateClock() {
@@ -111,7 +165,6 @@ async function updateWeather() {
 
 // --- INITIALISATION ---
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialise la palette si le script externe est chargé
     if (typeof initPalette === 'function') initPalette(); 
     
     updateClock();
@@ -119,10 +172,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initNotes();
     updateWeather();
     
-    // Rafraîchissements périodiques
     setInterval(updateClock, 1000);
-    setInterval(updateWeather, 3600000); // 1 heure
+    setInterval(updateWeather, 3600000); 
 });
 
-// Mise à jour de la grille lors du redimensionnement
 window.addEventListener('resize', displayProjects);

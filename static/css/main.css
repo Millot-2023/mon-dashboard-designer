@@ -48,40 +48,55 @@ body, html {
           box-sizing: border-box;
 }
 
-/* --- GRILLE PRINCIPALE --- */
+/* --- LE CONTENEUR UNIQUE --- */
 .grid-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+/* --- LIGNES DE GRILLE (WIDGETS ET OUTILS) --- */
+.dashboard-row-4 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 25px;
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  /* Correction : stretch au lieu de start pour égaliser les hauteurs des cartes */
-  -webkit-box-align: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
 }
 @media (max-width: 1024px) {
-  .grid-container {
+  .dashboard-row-4 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 @media (max-width: 600px) {
-  .grid-container {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+  .dashboard-row-4 {
+    grid-template-columns: 1fr;
   }
 }
 
-/* --- WRAPPER & CARTES PROJETS --- */
-#projects-wrapper {
-  /* Le wrapper occupe toute la largeur de la grille */
-  grid-column: 1/-1 !important;
+/* --- TITRES DE SECTION (FULL WIDTH) --- */
+.group-title {
+  width: 100%;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 30px 0 10px 0;
+  padding-left: 10px;
+  border-left: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* --- ZONE PROJETS (FLEX) --- */
+#projects-wrapper,
+#projects-auto-wrapper,
+#shortcuts-manual-wrapper {
   display: -webkit-box !important;
   display: -ms-flexbox !important;
   display: flex !important;
@@ -91,54 +106,35 @@ body, html {
   width: 100%;
 }
 
-.card-created {
-  /* On force la carte à ne prendre qu'un quart de la ligne (moins le gap) */
+.card-created, .card-new {
   -webkit-box-flex: 0 !important;
       -ms-flex: 0 0 calc(25% - 25px * 3 / 4) !important;
           flex: 0 0 calc(25% - 25px * 3 / 4) !important;
+  min-height: 120px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
 }
 @media (max-width: 1024px) {
-  .card-created {
+  .card-created, .card-new {
     -webkit-box-flex: 0 !important;
         -ms-flex: 0 0 calc(50% - 25px / 2) !important;
             flex: 0 0 calc(50% - 25px / 2) !important;
   }
 }
 @media (max-width: 600px) {
-  .card-created {
+  .card-created, .card-new {
     -webkit-box-flex: 0 !important;
         -ms-flex: 0 0 100% !important;
             flex: 0 0 100% !important;
   }
 }
 
-.card-new {
-  /* Le bouton prend tout l'espace restant sur la ligne */
-  -webkit-box-flex: 1 !important;
-      -ms-flex-positive: 1 !important;
-          flex-grow: 1 !important;
-  /* Mais il doit au moins pouvoir faire la taille d'une carte normale */
-  -ms-flex-preferred-size: calc(25% - 25px * 3 / 4);
-      flex-basis: calc(25% - 25px * 3 / 4);
-  min-height: 120px;
-  display: -webkit-box !important;
-  display: -ms-flexbox !important;
-  display: flex !important;
+/* --- WIDGETS SPECIFIQUES --- */
+.clock-card, .weather-card, #palette-card, #session-card {
+  min-height: 160px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -146,76 +142,32 @@ body, html {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  border: 2px dashed rgba(255, 255, 255, 0.1) !important;
-  background: transparent;
-  cursor: pointer;
-  -webkit-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-}
-.card-new:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.3) !important;
-}
-@media (max-width: 600px) {
-  .card-new {
-    -webkit-box-flex: 0 !important;
-        -ms-flex: 0 0 100% !important;
-            flex: 0 0 100% !important;
-  }
 }
 
-/* --- EXCEPTIONS --- */
-.card.large {
-  grid-column: span 2;
-}
-@media (max-width: 600px) {
-  .card.large {
-    grid-column: auto !important;
-    width: 100%;
-  }
+/* ZONE BAS DE PAGE */
+.dashboard-footer-widgets {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 25px;
+  width: 100%;
 }
 
 .card.notes-card, .card.roadmap-card {
-  grid-column: 1/-1 !important;
+  width: 100%;
 }
 
-/* Fix pour l'horloge et la météo (centrage dans l'espace étiré) */
-.clock-card, .weather-card {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  min-height: 160px;
-}
-
-#palette-card, #session-card {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-@media (max-width: 1024px) {
-  #palette-card, #session-card {
-    grid-column: 1/-1;
-  }
+.separator {
+  width: 100%;
+  border: none;
+  height: 1px;
+  background: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0.1)), to(transparent));
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.1), transparent);
+  margin: 10px 0;
 }
 
 .card {
@@ -223,7 +175,6 @@ body, html {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   backdrop-filter: blur(10px);
-  width: 100%;
   min-height: 120px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -290,6 +241,103 @@ body, html {
   font-size: 0.9rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.8);
+}
+
+.card-new {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 12px;
+  padding: 20px;
+  text-align: center;
+}
+.card-new .selection-area {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 4px 4px 4px 15px;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  width: 90%;
+}
+.card-new .selection-area:focus-within {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+}
+.card-new .dash-input {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 0.85rem;
+  outline: none;
+  width: 100%;
+}
+.card-new .dash-input::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+.card-new .dash-input::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+.card-new .dash-input:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+.card-new .dash-input::-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+.card-new .dash-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+.card-new .btn-add-circle {
+  background: #ffffff;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-transition: -webkit-transform 0.2s ease;
+  transition: -webkit-transform 0.2s ease;
+  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, -webkit-transform 0.2s ease;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+.card-new .btn-add-circle:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+.card-new .label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .card-tier-system {
@@ -1377,6 +1425,267 @@ input[type=text]:focus {
   color: rgba(255, 255, 255, 0.3);
 }
 
+#projects-auto-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+#session-card,
+#mood-card,
+#palette-card,
+.card-mood,
+.card-tier-system {
+  overflow: visible !important;
+  position: relative;
+  z-index: 100;
+}
+#session-card .tier-body, #session-card .card-body, #session-card .mood-body,
+#mood-card .tier-body,
+#mood-card .card-body,
+#mood-card .mood-body,
+#palette-card .tier-body,
+#palette-card .card-body,
+#palette-card .mood-body,
+.card-mood .tier-body,
+.card-mood .card-body,
+.card-mood .mood-body,
+.card-tier-system .tier-body,
+.card-tier-system .card-body,
+.card-tier-system .mood-body {
+  overflow: visible !important;
+}
+
+#session-project-container {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  display: block;
+}
+#session-project-container .select-trigger {
+  background: rgba(255, 255, 255, 0.05);
+  height: 45px;
+  padding: 0 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-transition: background 0.2s ease;
+  transition: background 0.2s ease;
+}
+#session-project-container .select-trigger:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+#session-project-container .select-options {
+  display: none;
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  right: 0;
+  background: #181818;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  z-index: 10000 !important;
+  -webkit-box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  max-height: 280px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+#session-project-container .select-options::-webkit-scrollbar {
+  display: none;
+}
+#session-project-container .select-options::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: transparent;
+}
+#session-project-container .select-options .option {
+  height: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0 18px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  -webkit-transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#session-project-container .select-options .option:last-child {
+  border-bottom: none;
+}
+#session-project-container .select-options .option:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+#session-project-container .select-options .option.active {
+  background: rgba(52, 152, 219, 0.18) !important;
+  color: #3498db !important;
+  font-weight: 700 !important;
+}
+#session-project-container:hover .select-options {
+  display: block;
+}
+
+.project-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+.project-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  -webkit-transform: translateY(-3px);
+          transform: translateY(-3px);
+}
+.project-card .project-main-link {
+  text-decoration: none;
+  color: white;
+  text-align: center;
+}
+.project-card .project-main-link .project-initial {
+  width: 50px;
+  height: 50px;
+  background: #3498db;
+  border-radius: 12px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-weight: bold;
+  margin: 0 auto 10px;
+}
+.project-card .project-main-link .project-name {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+.project-card .btn-timer {
+  margin-top: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.project-card .btn-timer.active {
+  background: #e74c3c;
+  -webkit-animation: pulse 2s infinite;
+          animation: pulse 2s infinite;
+}
+
+#project-creator-bar {
+  width: 100% !important;
+  min-height: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0 30px;
+  margin-bottom: 20px;
+}
+#project-creator-bar .selection-area {
+  width: 60%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 30px;
+  padding: 5px 15px;
+}
+#project-creator-bar .selection-area:focus-within {
+  background: rgba(255, 255, 255, 0.08);
+}
+#project-creator-bar .dash-input {
+  background: transparent;
+  border: none;
+  color: white;
+  width: 100%;
+  outline: none;
+}
+#project-creator-bar .dash-input::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+#project-creator-bar .dash-input::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+#project-creator-bar .dash-input:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+#project-creator-bar .dash-input::-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+#project-creator-bar .dash-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+@-webkit-keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
 .dot-online {
   color: #2ecc71 !important;
   text-shadow: 0 0 10px rgba(46, 204, 113, 0.5);

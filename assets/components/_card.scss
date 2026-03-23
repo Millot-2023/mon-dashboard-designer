@@ -6,7 +6,7 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
     backdrop-filter: blur(10px);
-    width: 100%;
+    // width: 100%; <--- Laisse la grille dashboard-row-4 gérer la largeur
     min-height: 120px; 
     display: flex;
     flex-direction: column;
@@ -64,7 +64,75 @@
     }
 }
 
-// 3. STRUCTURE 3 TIERS
+// 3. CARTE NOUVEAU (DESIGNER)
+.card-new {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 20px;
+    text-align: center;
+
+    .selection-area {
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 30px;
+        padding: 4px 4px 4px 15px;
+        transition: all 0.3s ease;
+        width: 90%;
+
+        &:focus-within {
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+        }
+    }
+
+    .dash-input {
+        background: transparent;
+        border: none;
+        color: $white;
+        font-size: 0.85rem;
+        outline: none;
+        width: 100%;
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+    }
+
+    .btn-add-circle {
+        background: $white;
+        color: #1a1a1a;
+        border: none;
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease;
+        flex-shrink: 0;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    .label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: rgba(255, 255, 255, 0.4);
+    }
+}
+
+// 4. STRUCTURE 3 TIERS
 .card-tier-system {
     flex: 1;
     display: flex;
@@ -105,7 +173,7 @@
     }
 }
 
-// 4. WIDGETS
+// 5. WIDGETS
 .weather-card {
     .weather-overlay {
         flex: 1;

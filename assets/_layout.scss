@@ -15,113 +15,104 @@ body, html {
 .launchpad {
     display: flex; 
     flex-direction: column; 
-    align-items: center;
+    align-items: center; 
     min-height: 100vh; 
     padding: 40px 20px; 
     box-sizing: border-box;
 }
 
-/* --- GRILLE PRINCIPALE --- */
+/* --- LE CONTENEUR UNIQUE --- */
 
 .grid-container {
-    display: grid; 
-    grid-template-columns: repeat(4, 1fr); 
-    gap: $grid-gap; 
+    display: flex;
+    flex-direction: column;
     width: 100%; 
     max-width: $container-max-width; 
     margin: 0 auto;
-    
-    /* Correction : stretch au lieu de start pour égaliser les hauteurs des cartes */
-    align-items: stretch; 
+    gap: 20px;
+}
 
-    @media (max-width: 1024px) {
-        grid-template-columns: repeat(2, 1fr);
+/* --- LIGNES DE GRILLE (WIDGETS ET OUTILS) --- */
+
+.dashboard-row-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $grid-gap;
+    width: 100%;
+
+    @media (max-width: 1024px) { 
+        grid-template-columns: repeat(2, 1fr); 
     }
-
-    @media (max-width: 600px) {
-        display: flex;
-        flex-direction: column;
+    
+    @media (max-width: 600px) { 
+        grid-template-columns: 1fr; 
     }
 }
 
-/* --- WRAPPER & CARTES PROJETS --- */
+/* --- TITRES DE SECTION (FULL WIDTH) --- */
 
-#projects-wrapper { 
-    /* Le wrapper occupe toute la largeur de la grille */
-    grid-column: 1 / -1 !important; 
+.group-title {
+    width: 100%;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15rem;
+    color: rgba(255, 255, 255, 0.3);
+    margin: 30px 0 10px 0;
+    padding-left: 10px;
+    border-left: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* --- ZONE PROJETS (FLEX) --- */
+
+#projects-wrapper,
+#projects-auto-wrapper,
+#shortcuts-manual-wrapper { 
     display: flex !important;
     flex-wrap: wrap; 
-    gap: $grid-gap; 
+    gap: $grid-gap;
     width: 100%;
 }
 
-.card-created {
-    /* On force la carte à ne prendre qu'un quart de la ligne (moins le gap) */
+.card-created, .card-new {
     flex: 0 0 calc(25% - (#{$grid-gap} * 3 / 4)) !important;
+    min-height: 120px;
     box-sizing: border-box;
+
+    @media (max-width: 1024px) { 
+        flex: 0 0 calc(50% - (#{$grid-gap} / 2)) !important; 
+    }
+    
+    @media (max-width: 600px) { 
+        flex: 0 0 100% !important; 
+    }
+}
+
+/* --- WIDGETS SPECIFIQUES --- */
+
+.clock-card, .weather-card, #palette-card, #session-card {
+    min-height: 160px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-
-    @media (max-width: 1024px) {
-        flex: 0 0 calc(50% - (#{$grid-gap} / 2)) !important;
-    }
-
-    @media (max-width: 600px) {
-        flex: 0 0 100% !important;
-    }
 }
 
-.card-new {
-    /* Le bouton prend tout l'espace restant sur la ligne */
-    flex-grow: 1 !important;
-    /* Mais il doit au moins pouvoir faire la taille d'une carte normale */
-    flex-basis: calc(25% - (#{$grid-gap} * 3 / 4)); 
-    
-    min-height: 120px;
-    display: flex !important;
+/* ZONE BAS DE PAGE */
+
+.dashboard-footer-widgets {
+    display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 2px dashed rgba(255, 255, 255, 0.1) !important;
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.3s ease;
-
-    &:hover {
-        background: rgba(255, 255, 255, 0.05);
-        border-color: rgba(255, 255, 255, 0.3) !important;
-    }
-
-    @media (max-width: 600px) {
-        flex: 0 0 100% !important;
-    }
-}
-
-/* --- EXCEPTIONS --- */
-
-.card.large {
-    grid-column: span 2;
-    @media (max-width: 600px) { grid-column: auto !important; width: 100%; }
+    gap: $grid-gap;
+    width: 100%;
 }
 
 .card.notes-card, .card.roadmap-card {
-    grid-column: 1 / -1 !important;
+    width: 100%;
 }
 
-/* Fix pour l'horloge et la météo (centrage dans l'espace étiré) */
-.clock-card, .weather-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 160px;
-}
-
-#palette-card, #session-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    @media (max-width: 1024px) { grid-column: 1 / -1; }
+.separator {
+    width: 100%;
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.1), transparent);
+    margin: 10px 0;
 }
