@@ -1619,7 +1619,8 @@ input[type=text]::placeholder {
   -webkit-box-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
           box-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
   border: none;
-  z-index: 10;
+  z-index: 20;
+  cursor: pointer;
 }
 .project-card .btn-timer i {
   display: none !important;
@@ -1645,9 +1646,15 @@ input[type=text]::placeholder {
           justify-content: center !important;
   width: 100% !important;
   height: 100% !important;
+  position: absolute;
+  top: 0;
+  left: 0;
   text-decoration: none !important;
   margin: 0 !important;
-  padding: 0 !important;
+  padding: 20px !important;
+  -webkit-box-sizing: border-box !important;
+          box-sizing: border-box !important;
+  z-index: 10;
 }
 .project-card .project-main-link > *:not(.project-initial):not(.project-name) {
   display: none !important;

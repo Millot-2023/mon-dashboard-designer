@@ -50,6 +50,7 @@
         border-color: rgba(255, 255, 255, 0.2);
     }
 
+    // VOYANT (Placé au-dessus du lien pour rester cliquable séparément)
     .btn-timer {
         position: absolute;
         top: 12px;
@@ -60,7 +61,8 @@
         background: #e74c3c; 
         box-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
         border: none;
-        z-index: 10;
+        z-index: 20; // Plus haut que le lien
+        cursor: pointer;
         i { display: none !important; }
     }
 
@@ -69,16 +71,25 @@
         box-shadow: 0 0 10px rgba(46, 204, 113, 0.8);
     }
 
+    // LE LIEN : DEVIENT TOUTE LA CARTE
     .project-main-link {
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;    
         justify-content: center !important; 
+        
+        // OCCUPE TOUT L'ESPACE
         width: 100% !important;
         height: 100% !important;
+        position: absolute; // Se superpose à la carte
+        top: 0;
+        left: 0;
+        
         text-decoration: none !important;
         margin: 0 !important;
-        padding: 0 !important;
+        padding: 20px !important;
+        box-sizing: border-box !important;
+        z-index: 10; // Sous le bouton timer
 
         > *:not(.project-initial):not(.project-name) {
             display: none !important;
@@ -93,7 +104,6 @@
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        // Ajout du margin auto pour garantir le centrage horizontal
         margin: 0 auto 12px auto !important; 
         font-weight: bold;
         color: $white;
@@ -104,7 +114,6 @@
         font-size: 0.82rem;
         color: rgba(255, 255, 255, 0.8);
         width: 90% !important;
-        // Ajout du margin auto pour garantir le centrage horizontal
         margin: 0 auto !important; 
         padding: 0 !important;
         white-space: nowrap;
@@ -121,7 +130,6 @@
 // MAINTIEN DU RESPONSIVE SUR GRANDS ÉCRANS
 @media (min-width: 1600px) {
     .project-card {
-        // Empêche les cartes de devenir trop larges si peu de projets
         max-width: calc(20% - 20px) !important;
     }
 }
