@@ -1,4 +1,5 @@
-let projectsData = JSON.parse(localStorage.getItem('projects-logs')) || {};
+// On rend projectsData global pour la synchronisation entre scripts
+window.projectsData = JSON.parse(localStorage.getItem('projects-logs')) || {};
 
 function initProjects() {
     const wrapper = document.getElementById('projects-auto-wrapper');
@@ -15,9 +16,11 @@ function initProjects() {
             if (wrapper) {
                 wrapper.innerHTML = ''; 
                 projects.forEach(project => {
-                    const isProjectActive = projectsData[project.name]?.active || false;
+                    const isProjectActive = window.projectsData[project.name]?.active || false;
                     const card = document.createElement('div');
-                    card.className = 'card project-card';
+                    
+                    // Applique la classe active sur la card pour le voyant SCSS
+                    card.className = `card project-card ${isProjectActive ? 'active' : ''}`;
                     
                     card.innerHTML = `
                         <div class="project-link-container">
@@ -25,7 +28,7 @@ function initProjects() {
                                 <div class="project-initial">${project.initial}</div>
                                 <span class="project-name">${project.name}</span>
                             </a>
-                            <button class="btn-timer ${isProjectActive ? 'active' : ''}" onclick="event.stopPropagation(); toggleProject('${project.name}')">
+                            <button class="btn-timer ${isProjectActive ? 'active' : ''}" onclick="event.stopPropagation(); window.toggleProject('${project.name}')">
                                 <i class="fas ${isProjectActive ? 'fa-stop' : 'fa-play'}"></i>
                             </button>
                         </div>
@@ -34,20 +37,14 @@ function initProjects() {
                 });
             }
 
-            if (selectOptions) {
+            if (selectOptions && projects) {
                 selectOptions.innerHTML = ''; 
                 projects.forEach(project => {
                     const opt = document.createElement('div');
                     opt.className = 'option';
-                    if (hiddenInput && hiddenInput.value === project.name) {
-                        opt.classList.add('selected');
-                        if (selectTrigger) selectTrigger.innerText = project.name;
-                    }
                     opt.innerText = project.name;
                     opt.onclick = (e) => {
                         e.stopPropagation();
-                        selectOptions.querySelectorAll('.option').forEach(o => o.classList.remove('selected', 'active'));
-                        opt.classList.add('selected');
                         if (selectTrigger) selectTrigger.innerText = project.name;
                         if (hiddenInput) {
                             hiddenInput.value = project.name;
@@ -58,37 +55,65 @@ function initProjects() {
                 });
             }
         })
-        .catch(err => console.error("Audit injection projects :", err));
+        .catch(err => console.error("Erreur chargement projets :", err));
 }
 
-window.toggleProject = function(projectName) {
+/**
+ * window.toggleProject
+ * @param {string} projectName - Nom du projet
+ * @param {boolean|null} forceState - Force l'état ON (true) ou OFF (false)
+ */
+window.toggleProject = function(projectName, forceState = null) {
     const now = Date.now();
-    if (!projectsData[projectName]) {
-        projectsData[projectName] = { totalTime: 0, startTime: null, active: false };
+    
+    // On recharge systématiquement pour être synchro avec session.js
+    window.projectsData = JSON.parse(localStorage.getItem('projects-logs')) || {};
+
+    if (!window.projectsData[projectName]) {
+        window.projectsData[projectName] = { totalTime: 0, startTime: null, active: false };
     }
-    let p = projectsData[projectName];
-    if (!p.active) {
+    
+    let p = window.projectsData[projectName];
+    
+    // Détermine le prochain état (soit forcé, soit inversion)
+    const nextState = (forceState !== null) ? forceState : !p.active;
+
+    if (nextState && !p.active) {
         p.startTime = now;
         p.active = true;
-    } else {
+    } else if (!nextState && p.active) {
         p.totalTime += (now - p.startTime);
         p.startTime = null;
         p.active = false;
     }
-    localStorage.setItem('projects-logs', JSON.stringify(projectsData));
+    
+    localStorage.setItem('projects-logs', JSON.stringify(window.projectsData));
     updateTimerButtons();
 };
 
 function updateTimerButtons() {
-    const buttons = document.querySelectorAll('.btn-timer');
-    buttons.forEach(btn => {
-        const container = btn.closest('.project-link-container');
-        const nameSpan = container ? container.querySelector('.project-name') : null;
-        if (nameSpan) {
+    const cards = document.querySelectorAll('.project-card');
+    cards.forEach(card => {
+        const nameSpan = card.querySelector('.project-name');
+        const btn = card.querySelector('.btn-timer');
+        
+        if (nameSpan && btn) {
             const name = nameSpan.innerText;
-            const isActive = projectsData[name]?.active || false;
+            const isActive = window.projectsData[name]?.active || false;
+            
+            // Mise à jour de la CARD (pour le voyant lumineux en CSS)
+            if (isActive) {
+                card.classList.add('active');
+            } else {
+                card.classList.remove('active');
+            }
+
+            // Mise à jour du BOUTON (classe et icône)
             btn.className = `btn-timer ${isActive ? 'active' : ''}`;
-            btn.querySelector('i').className = `fas ${isActive ? 'fa-stop' : 'fa-play'}`;
+            const icon = btn.querySelector('i');
+            if (icon) {
+                icon.className = `fas ${isActive ? 'fa-stop' : 'fa-play'}`;
+            }
         }
     });
 }

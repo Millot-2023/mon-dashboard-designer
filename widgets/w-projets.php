@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="tier-footer">
-        <span id="session-timer">00:00</span>
+        <span id="session-timer">00:00:00</span>
         <button class="btn-session" id="start-session">START</button>
     </div>
 </div>
