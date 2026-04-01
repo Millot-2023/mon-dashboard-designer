@@ -1,11 +1,11 @@
 @use '../variables' as *;
 
-// 1. LES INPUTS
+// 1. LES INPUTS (Standardisés)
 input[type="number"], 
 input[type="text"] {
     appearance: none;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid $card-border;
     color: $white;
     padding: 8px 12px;
     border-radius: 8px;
@@ -13,18 +13,23 @@ input[type="text"] {
     outline: none;
     width: 100%; 
     box-sizing: border-box;
-    transition: all 0.2s ease;
+    transition: $transition;
     
     &:focus {
         border-color: $primary-color;
         background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+    }
+
+    &::placeholder {
+        color: rgba(255, 255, 255, 0.2);
     }
 }
 
-// 2. LE CUSTOM SELECT
+// 2. LE CUSTOM SELECT (Utilisé dans Palette et Sessions)
 .custom-select {
     position: relative; 
-    display: flex; // Changé de inline-flex à flex
+    display: flex;
     flex-direction: column;
     min-width: 0; 
     flex: 1; 
@@ -34,7 +39,7 @@ input[type="text"] {
         align-items: center;
         justify-content: space-between;
         background: rgba(255, 255, 255, 0.07);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid $card-border;
         padding: 8px 15px;
         border-radius: 8px;
         color: $white;
@@ -42,6 +47,12 @@ input[type="text"] {
         min-height: 38px;
         box-sizing: border-box;
         font-size: 0.85rem;
+        transition: $transition;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
 
         &::after {
             content: "";
@@ -53,6 +64,7 @@ input[type="text"] {
             transition: transform 0.3s ease;
             margin-left: 10px;
             flex-shrink: 0;
+            opacity: 0.5;
         }
     }
 
@@ -61,22 +73,36 @@ input[type="text"] {
         top: calc(100% + 5px); 
         left: 0;
         right: 0;
-        background: rgba(20, 20, 25, 0.98); 
+        background: rgba(20, 20, 25, 0.95); 
         backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid $card-border;
         border-radius: 10px;
-        z-index: 9999; 
+        z-index: 1000; // Augmenté pour passer au-dessus de tout
         opacity: 0;
         visibility: hidden;
         transform: translateY(-10px);
-        transition: all 0.2s ease-in-out;
+        transition: $transition;
         box-shadow: 0 10px 40px rgba(0,0,0,0.6);
         max-height: 250px;
         overflow-y: auto;
+
+        // Personnalisation de la barre de défilement pour le menu
+        &::-webkit-scrollbar { width: 4px; }
+        &::-webkit-scrollbar-track { background: transparent; }
+        &::-webkit-scrollbar-thumb { 
+            background: rgba(255, 255, 255, 0.1); 
+            border-radius: 10px; 
+        }
     }
 
     &.active {
-        .select-trigger::after { transform: rotate(180deg); }
+        .select-trigger {
+            border-color: $primary-color;
+            &::after { 
+                transform: rotate(180deg); 
+                opacity: 1;
+            }
+        }
         .select-options {
             opacity: 1;
             visibility: visible;
@@ -86,10 +112,10 @@ input[type="text"] {
 
     .option {
         padding: 10px 15px;
-        color: rgba(255,255,255,0.7);
+        color: rgba(255,255,255,0.6);
         cursor: pointer;
         font-size: 0.85rem;
-        transition: background 0.2s;
+        transition: $transition;
 
         &:hover {
             background: rgba(255, 255, 255, 0.08);
@@ -99,6 +125,7 @@ input[type="text"] {
         &.selected {
             color: $primary-color;
             background: rgba(52, 152, 219, 0.1);
+            font-weight: 500;
         }
     }
 }

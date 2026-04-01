@@ -1,228 +1,154 @@
 @use '../variables' as *;
 
-// 1. BASE COMMUNE DES CARTES
+/* 1. Base commune */
 .card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: $card-bg;
+    border: 1px solid $card-border;
     border-radius: 16px;
-    backdrop-filter: blur(10px);
-    // width: 100%; <--- Laisse la grille dashboard-row-4 gérer la largeur
+    backdrop-filter: $card-blur;
     min-height: 120px; 
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     position: relative;
-    transition: all 0.3s ease;
+    transition: $transition;
     overflow: hidden;
-
-    &:hover {
-        border-color: rgba(255, 255, 255, 0.15);
-        background: rgba(255, 255, 255, 0.05);
-    }
 }
 
-// 2. LOGIQUE PROJETS & SUPPRESSION
-.card-created {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-
-    .delete-btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: none;
-        border: none;
-        color: #ff4757;
-        cursor: pointer;
-        font-size: 1.5rem;
-        opacity: 0.5;
-        line-height: 1;
-        transition: opacity 0.2s;
-        z-index: 10;
-
-        &:hover {
-            opacity: 1;
-        }
-    }
-
-    .icon-placeholder {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 8px;
-        color: $white;
-    }
-
-    h3 {
-        margin: 0;
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 0.8);
-    }
+.card:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
 }
 
-// 3. CARTE NOUVEAU (DESIGNER)
-.card-new {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    padding: 20px;
-    text-align: center;
-
-    .selection-area {
-        display: flex;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 30px;
-        padding: 4px 4px 4px 15px;
-        transition: all 0.3s ease;
-        width: 90%;
-
-        &:focus-within {
-            border-color: rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.08);
-        }
-    }
-
-    .dash-input {
-        background: transparent;
-        border: none;
-        color: $white;
-        font-size: 0.85rem;
-        outline: none;
-        width: 100%;
-
-        &::placeholder {
-            color: rgba(255, 255, 255, 0.3);
-        }
-    }
-
-    .btn-add-circle {
-        background: $white;
-        color: #1a1a1a;
-        border: none;
-        border-radius: 50%;
-        width: 28px;
-        height: 28px;
-        font-size: 1.2rem;
-        font-weight: bold;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.2s ease;
-        flex-shrink: 0;
-
-        &:hover {
-            transform: scale(1.1);
-        }
-    }
-
-    .label {
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        color: rgba(255, 255, 255, 0.4);
-    }
-}
-
-// 4. STRUCTURE 3 TIERS
+/* 2. Structure Palette / Session (Tier System) */
 .card-tier-system {
     flex: 1;
     display: flex;
     flex-direction: column;
-
-    .tier-header {
-        display: flex;
-        align-items: center;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        padding: 20px 25px 8px 25px; 
-
-        h3 {
-            margin: 0;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.5);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-    }
-
-    .tier-body {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        padding: 10px 25px 0 25px;
-    }
-
-    .tier-footer {
-        margin-top: auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center; 
-        height: 60px; 
-        padding: 0 25px 15px 25px; 
-    }
+    height: 100%;
 }
 
-// 5. WIDGETS
-.weather-card {
-    .weather-overlay {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-        text-align: center;
-        #temp-display { color: $white; font-weight: 700; font-size: 2.2rem; }
-        #city-input {
-            margin-top: auto;
-            text-transform: uppercase;
-            background: none;
-            border: none;
-            color: $white;
-            text-align: center;
-            outline: none;
-            font-size: 0.8rem;
-            &::placeholder { color: rgba(255, 255, 255, 0.3); }
-        }
-    }
+.tier-header {
+    height: 50px; 
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 0 25px; 
+    box-sizing: border-box;
 }
 
+.tier-header h3 {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tier-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    padding: 0 25px !important;
+}
+
+.tier-footer {
+    height: 60px; 
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    padding: 0 25px 10px 25px; 
+    box-sizing: border-box;
+}
+
+/* 3. Horloge (Clock) */
 .clock-card {
+    position: relative;
     justify-content: center;
     align-items: center;
-    .clock-index {
-        position: absolute;
-        background: rgba(255, 255, 255, 0.2);
-        &.i-12, &.i-6 { width: 2px; height: 12px; left: 50%; transform: translateX(-50%); }
-        &.i-3, &.i-9 { width: 12px; height: 2px; top: 50%; transform: translateY(-50%); }
-        &.i-12 { top: 15px; } &.i-6 { bottom: 15px; }
-        &.i-3 { right: 15px; } &.i-9 { left: 15px; }
-    }
-    .aiguille {
-        position: absolute;
-        bottom: 50%; left: 50%;   
-        transform-origin: bottom;
-        transform: translateX(-50%);
-        &.heure { width: 4px; height: 35px; background: $white; border-radius: 4px; }
-        &.minute { width: 3px; height: 50px; background: rgba(255, 255, 255, 0.5); border-radius: 3px; }
-        &.seconde { width: 1.5px; height: 60px; background: $accent-red; }
-    }
-    #clock {
-        position: absolute;
-        bottom: 15px; right: 20px;
-        font-size: 0.75rem;
-        opacity: 0.3;
-        font-family: $font-mono;
-    }
+}
+
+.clock-index {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.clock-index.i-12 { top: 15px; left: 50%; width: 2px; height: 12px; transform: translateX(-50%); }
+.clock-index.i-6 { bottom: 15px; left: 50%; width: 2px; height: 12px; transform: translateX(-50%); }
+.clock-index.i-3 { right: 15px; top: 50%; width: 12px; height: 2px; transform: translateY(-50%); }
+.clock-index.i-9 { left: 15px; top: 50%; width: 12px; height: 2px; transform: translateY(-50%); }
+
+.aiguille {
+    position: absolute;
+    bottom: 50%; 
+    left: 50%;   
+    transform-origin: bottom;
+    transform: translateX(-50%);
+}
+
+.aiguille.heure { width: 4px; height: 35px; background: $white; border-radius: 4px; }
+.aiguille.minute { width: 3px; height: 50px; background: rgba(255, 255, 255, 0.5); border-radius: 3px; }
+.aiguille.seconde { width: 1.5px; height: 60px; background: $accent-red; }
+
+#clock {
+    position: absolute;
+    bottom: 15px; 
+    right: 20px;
+    font-size: 0.75rem;
+    opacity: 0.3;
+}
+
+/* 4. Lanceur Projets */
+.project-card {
+    padding: 0;
+}
+
+.project-main-link {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+}
+
+.project-initial {
+    width: 45px;
+    height: 45px;
+    background: rgba(52, 152, 219, 0.15);
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $primary-color;
+    font-weight: 700;
+}
+
+.project-name {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.status-indicator {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.status-indicator.active {
+    background: $accent-red;
+    box-shadow: 0 0 8px rgba(255, 71, 87, 0.5);
 }

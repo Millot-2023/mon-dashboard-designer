@@ -4,21 +4,26 @@
     &.card {
         display: grid;
         grid-template-rows: auto 1fr auto; 
-        gap: 15px;
+        gap: 20px; // Espacement harmonisé entre le titre (si présent), le corps et le pied
         height: 100%;
         box-sizing: border-box;
-        padding: 25px;
-        min-width: 0; // Sécurité anti-débordement
+        padding: 25px; // Harmonisation avec les autres cartes du module
+        min-width: 0; 
         overflow: hidden;
+        background: $card-bg;
+        backdrop-filter: $card-blur;
+        border: 1px solid $card-border;
+        border-radius: 16px;
+        transition: $transition;
     }
 
     .converter-body {
         display: flex;
         flex-direction: row;
-        flex-wrap: wrap; // CRUCIAL : permet aux inputs de passer l'un sous l'autre en mode réduit
+        flex-wrap: wrap; 
         align-items: center;
         justify-content: center;
-        gap: 12px;
+        gap: 15px; // Espacement interne des champs
         width: 100%;
         max-width: 500px;
         margin: 0 auto;
@@ -35,22 +40,26 @@
                 color: rgba(255, 255, 255, 0.5);
                 text-align: center;
                 white-space: nowrap;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
             }
 
             input {
                 width: 100%;
                 height: 38px;
                 background: rgba(255, 255, 255, 0.05);
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                border: 1px solid $card-border;
                 border-radius: 8px;
                 color: $white;
                 text-align: center;
                 font-size: 0.9rem;
                 outline: none;
                 box-sizing: border-box;
+                transition: $transition;
 
                 &:focus {
                     border-color: $primary-color;
+                    background: rgba(255, 255, 255, 0.1);
                 }
             }
         }
@@ -60,7 +69,7 @@
             align-items: center;
             justify-content: center;
             height: 38px;
-            margin-top: 24px; 
+            margin-top: 24px; // Alignement visuel avec les inputs (compense le label)
             font-size: 1.2rem;
             color: rgba(255, 255, 255, 0.2);
             flex-shrink: 0;
@@ -70,7 +79,7 @@
             @media (max-width: 400px) {
                 width: 100%;
                 margin-top: 0;
-                transform: rotate(90deg); // L'icône pointe vers le bas si empilé
+                transform: rotate(90deg);
             }
         }
     }
@@ -79,11 +88,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: 12px;
         padding: 12px;
         background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
         border-radius: 10px;
         flex-wrap: wrap;
+        margin-top: 5px;
 
         label, span {
             font-size: 0.8rem;
@@ -94,12 +105,13 @@
             width: 55px;
             height: 32px;
             background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid $card-border;
             border-radius: 6px;
             color: $white;
             text-align: center;
             font-size: 0.85rem;
             outline: none;
+            transition: $transition;
 
             &:focus {
                 border-color: $primary-color;

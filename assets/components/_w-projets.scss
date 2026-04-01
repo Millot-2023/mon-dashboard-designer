@@ -1,167 +1,127 @@
-// 1. PROTECTION DES CARDS HAUTES (SESSIONS & PALETTE)
+@use '../variables' as *;
+
+// 1. MISE À ZÉRO ET PROTECTION DES CARDS
 #session-card, #palette-card {
     overflow: visible !important;
     .tier-body {
-        padding: 15px !important;
-        overflow: visible !important;
+        padding: 15px 25px !important; 
+        transition: $transition;
     }
 }
 
-// 2. COMPOSANT SELECT
-.custom-select {
-    position: relative;
-    width: 100%;
-    cursor: pointer;
-
-    .select-trigger {
-        background: rgba(255, 255, 255, 0.05);
-        height: 34px;
-        padding: 0 12px;
-        border-radius: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 0.8rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-sizing: border-box;
-
-        &::after {
-            content: '▾';
-            font-size: 0.7rem;
-            opacity: 0.5;
-        }
-    }
-
-    .select-options {
-        display: none;
-        position: absolute;
-        top: calc(100% - 2px); 
-        left: 0;
-        right: 0;
-        z-index: 10000 !important;
-        background: #181818;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 10px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        padding: 4px 0; 
-        max-height: 250px;
-        overflow-y: auto;
-        scrollbar-width: none;
-        &::-webkit-scrollbar { display: none; }
-
-        &::before {
-            content: "";
-            position: absolute;
-            top: -10px;
-            left: 0;
-            right: 0;
-            height: 15px;
-            background: transparent;
-        }
-
-        .option {
-            height: 38px;
-            display: flex;
-            align-items: center;
-            padding: 0 15px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.8rem;
-
-            &:hover {
-                background: rgba(255, 255, 255, 0.08);
-                color: #fff;
-            }
-
-            &.selected, &.active {
-                background: rgba(52, 152, 219, 0.15) !important;
-                color: #3498db !important;
-                font-weight: 600;
-            }
-        }
-    }
-
-    &:hover .select-options {
-        display: block;
-    }
-}
-
-// 3. RESTAURATION DU LANCEUR DE PROJETS (BAS)
+// 2. STRUCTURE LANCEUR (FLUIDE ET ALIGNÉE)
 #projects-auto-wrapper {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr); // Calé sur ton screenshot
-    gap: 15px;
-    margin-top: 20px;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important; 
+    gap: 20px !important; 
+    margin: $space-title-gap 0 0 0 !important; 
+    width: 100% !important;
 }
 
 .project-card {
     background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: 0.2s ease;
-    position: relative;
+    border: 1px solid $card-border;
+    border-radius: $border-radius;
+    padding: 0 !important; 
+    
+    // CENTRAGE INTERNE
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important; 
+    align-items: center !important;     
+    text-align: center !important;
+
+    transition: $transition;
+    position: relative; 
+    height: 180px !important;
+    
+    // RESPONSIVE FLUIDE (1 à 5 cards)
+    flex: 1 1 calc(20% - 20px) !important; 
+    min-width: 220px !important; 
+    max-width: 100% !important;
+
+    box-sizing: border-box !important;
+    overflow: hidden;
 
     &:hover {
         background: rgba(255, 255, 255, 0.06);
+        transform: translateY(-2px);
         border-color: rgba(255, 255, 255, 0.2);
     }
 
-    .project-link-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
+    .btn-timer {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #e74c3c; 
+        box-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
+        border: none;
+        z-index: 10;
+        i { display: none !important; }
+    }
+
+    &.active .btn-timer {
+        background: #2ecc71;
+        box-shadow: 0 0 10px rgba(46, 204, 113, 0.8);
     }
 
     .project-main-link {
-        text-decoration: none;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;    
+        justify-content: center !important; 
+        width: 100% !important;
+        height: 100% !important;
+        text-decoration: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+
+        > *:not(.project-initial):not(.project-name) {
+            display: none !important;
+        }
     }
 
     .project-initial {
         width: 45px;
         height: 45px;
-        background: rgba(52, 152, 219, 0.2); // Bleu transparent par défaut
-        border: 1px solid rgba(52, 152, 219, 0.4);
+        background: $primary-color;
         border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #3498db;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        // Ajout du margin auto pour garantir le centrage horizontal
+        margin: 0 auto 12px auto !important; 
         font-weight: bold;
-        font-size: 1.1rem;
+        color: $white;
+        flex-shrink: 0;
     }
 
     .project-name {
-        color: rgba(255, 255, 255, 0.6);
-        font-size: 0.75rem;
-        text-align: center;
+        font-size: 0.82rem;
+        color: rgba(255, 255, 255, 0.8);
+        width: 90% !important;
+        // Ajout du margin auto pour garantir le centrage horizontal
+        margin: 0 auto !important; 
+        padding: 0 !important;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 100%;
+        display: block !important;
     }
 
-    // Le bouton timer (Play/Stop)
-    .btn-timer {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        background: none;
-        border: none;
-        color: rgba(255, 255, 255, 0.3);
-        font-size: 0.7rem;
-        cursor: pointer;
-        padding: 5px;
+    .project-status-indicator, span:empty, div:empty {
+        display: none !important;
+    }
+}
 
-        &:hover { color: #fff; }
-        &.active { color: #e74c3c; }
+// MAINTIEN DU RESPONSIVE SUR GRANDS ÉCRANS
+@media (min-width: 1600px) {
+    .project-card {
+        // Empêche les cartes de devenir trop larges si peu de projets
+        max-width: calc(20% - 20px) !important;
     }
 }

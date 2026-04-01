@@ -1,7 +1,6 @@
 <?php include 'partials/head.php'; ?>
 
 <div class="launchpad">
-
     <div class="welcome-msg">
         <div class="welcome-text">
             <h1 class="logo">W<span id="trigger-edit" class="dot-online">O</span>RKSTATION</h1>
@@ -10,7 +9,6 @@
     </div>
 
     <div class="grid-container" id="dashboard-grid">
-        
         <div class="dashboard-row-4">
             <?php include 'widgets/w-clock.php'; ?>
             <?php include 'widgets/w-weather.php'; ?>
@@ -18,17 +16,16 @@
             <?php include 'widgets/w-projets.php'; ?> 
         </div>
 
-        <hr class="separator">
-
         <div class="project-group">
-            <h4 class="group-title">Lanceur Projets</h4>
-            
             <?php include 'widgets/w-add-project.php'; ?>
 
+            <div id="resources-session-wrapper" class="resources-container">
+                <?php include 'widgets/w-resources.php'; ?>
+            </div>
+
+            <h4 class="group-title">Lanceur Projets</h4>
             <div id="projects-auto-wrapper" class="dashboard-row-4"></div>
         </div>
-
-        <hr class="separator">
 
         <div class="project-group">
             <h4 class="group-title">Modules & Outils</h4>
@@ -46,7 +43,6 @@
 
         <?php include 'widgets/w-notes.php'; ?>
         <?php include 'widgets/w-roadmap.php'; ?>
-
     </div>
 </div>
 

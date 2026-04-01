@@ -6,10 +6,11 @@
     height: 100%;
 
     .tier-body {
-        padding: 0 25px !important; // Alignement strict sur le header
+        padding: 0 25px !important; // Alignement latéral strict sur le header
         flex: 1;
         display: flex;
         align-items: center;
+        transition: $transition;
 
         .palette-controls-row {
             display: flex !important;
@@ -17,30 +18,38 @@
             flex-wrap: nowrap !important; 
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
+            gap: 12px; // Espacement harmonisé
             width: 100%;
 
             .qty-group {
                 display: flex !important;
                 align-items: center;
-                gap: 6px;
+                gap: 8px;
                 flex-shrink: 0;
 
                 label { 
                     font-size: 0.75rem; 
                     opacity: 0.5; 
                     white-space: nowrap; 
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
                 }
 
                 input {
                     width: 42px;
                     height: 34px;
                     background: rgba(255, 255, 255, 0.05);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    border: 1px solid $card-border;
                     border-radius: 8px;
                     color: $white;
                     text-align: center;
                     margin: 0;
+                    outline: none;
+                    transition: $transition;
+
+                    &:focus {
+                        border-color: $primary-color;
+                    }
                 }
             }
 
@@ -52,33 +61,47 @@
                     height: 34px;
                     display: flex;
                     align-items: center;
-                    padding: 0 10px;
+                    padding: 0 12px;
                     font-size: 0.8rem;
+                    border: 1px solid $card-border;
+                    border-radius: 8px;
+                    transition: $transition;
+
+                    &:hover {
+                        border-color: rgba(255, 255, 255, 0.2);
+                    }
                 }
             }
         }
     }
 
-    // Ciblage du footer par ID (Centrage vertical dans les 60px du parent)
+    // Pied de carte : Verrouillage de la ligne d'horizon
     #palette-colors.tier-footer {
         display: flex !important;
-        align-items: center !important;   // Centrage vertical (Axe Y)
-        justify-content: center !important; // Centrage horizontal (Axe X)
+        align-items: center !important;   
+        justify-content: center !important; 
         gap: 6px !important;
-        padding: 0 25px 15px 25px !important; // Aligné sur _card.scss
-        min-height: 40px;
+        padding: 0 25px 15px 25px !important; 
+        height: 60px; // Aligné strictement sur #session-card
         margin-top: auto;
+        box-sizing: border-box;
 
         div {
             flex: 1;
-            height: 24px !important;
+            height: 24px !important; // Même hauteur que le bouton de session
             border-radius: 5px;
             cursor: pointer;
-            transition: transform 0.1s;
-            margin: 0 !important; // Sécurité anti-décalage
+            transition: $transition;
+            margin: 0 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+
+            &:hover {
+                transform: translateY(-2px);
+                border-color: rgba(255, 255, 255, 0.3);
+            }
 
             &:active { 
-                transform: scale(0.9); 
+                transform: scale(0.95); 
             }
         }
     }

@@ -6,35 +6,43 @@
     height: 100%;
 
     .tier-body {
-        padding: 0 25px !important;
+        padding: 0 25px !important; // Alignement latéral strict
         flex: 1;
         display: flex;
-        align-items: center; // Centrage vertical du Select
+        align-items: center; // Centrage vertical du sélecteur de projet
+        transition: $transition;
 
         .custom-select {
-            width: 100%; // Prend toute la largeur comme dans la palette
+            width: 100%; 
             
             .select-trigger {
-                height: 34px; // Même hauteur que le sélecteur de la palette
+                height: 34px; // Alignement sur la hauteur de la palette
                 display: flex;
                 align-items: center;
                 padding: 0 12px;
                 background: rgba(255, 255, 255, 0.05);
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                border: 1px solid $card-border;
                 border-radius: 8px;
                 font-size: 0.8rem;
                 cursor: pointer;
+                transition: $transition;
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.08);
+                    border-color: rgba(255, 255, 255, 0.2);
+                }
             }
         }
     }
 
     .tier-footer {
         display: flex !important;
-        align-items: center !important; // Alignement vertical strict sur l'axe des 60px
+        align-items: center !important; 
         justify-content: space-between !important;
-        padding: 0 25px 15px 25px !important; // Même padding que la palette
-        height: 60px; // Verrouille la ligne d'horizon avec les autres cartes
+        padding: 0 25px 15px 25px !important; // Padding bas harmonisé
+        height: 60px; // Verrouillage de la ligne d'horizon
         margin-top: auto;
+        box-sizing: border-box;
 
         #session-timer {
             font-family: $font-mono;
@@ -45,7 +53,7 @@
         }
 
         .btn-session {
-            height: 24px !important; // Même hauteur que les carrés de couleur
+            height: 24px !important; // Alignement sur la taille des pastilles couleur
             padding: 0 15px;
             background: $white;
             color: #1a1a20;
@@ -58,7 +66,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: $transition;
 
             &:hover {
                 background: rgba(255, 255, 255, 0.9);
@@ -67,6 +75,12 @@
             
             &:active {
                 transform: translateY(0);
+            }
+
+            // État spécifique pour le bouton STOP (basé sur tes variables)
+            &.active {
+                background: $accent-red;
+                color: $white;
             }
         }
     }
