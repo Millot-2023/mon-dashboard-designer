@@ -6,9 +6,9 @@
         <div class="custom-select" id="session-project-container">
             <div class="select-trigger">
                 <span>Chargement des projets...</span>
-                <span class="arrow-select">▼</span>
             </div>
-            <div class="select-options"></div>
+            <div class="select-options">
+                </div>
             <input type="hidden" id="session-project-id" value="">
         </div>
     </div>

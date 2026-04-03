@@ -1,6 +1,5 @@
 @use 'variables' as *;
 
-/* 1. RESET GLOBAL */
 ul, li {
     list-style: none !important;
     margin: 0 !important;
@@ -17,7 +16,6 @@ body, html {
     color: $white;
 }
 
-/* 2. STRUCTURE ET GRILLE */
 .launchpad {
     display: flex; 
     flex-direction: column; 
@@ -44,59 +42,12 @@ body, html {
     align-items: stretch;
 }
 
-/* 3. LIGNE 1 : HAUTEURS ET SESSION */
+/* HAUTEURS HARMONISÉES */
 .clock-card, .weather-card, #palette-card, #session-card {
     height: 180px !important;
 }
 
-#session-card {
-    display: flex;
-    flex-direction: column;
-}
-
-#session-card .tier-body {
-    padding: 0 25px !important;
-    flex: 1;
-    display: flex;
-    align-items: center;
-}
-
-#session-card .tier-footer {
-    display: flex !important;
-    align-items: center !important; 
-    justify-content: space-between !important;
-    padding: 0 25px 15px 25px !important;
-    height: 60px;
-    margin-top: auto;
-    box-sizing: border-box;
-}
-
-#session-timer {
-    font-family: $font-mono;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.4);
-    letter-spacing: 1px;
-}
-
-.btn-session {
-    height: 24px !important;
-    padding: 0 15px;
-    background: $white;
-    color: #1a1a20;
-    border: none;
-    border-radius: 6px;
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    cursor: pointer;
-}
-
-.btn-session.active {
-    background: $accent-red !important;
-    color: $white !important;
-}
-
-/* 4. BARRE AJOUT RACCOURCI */
+/* BARRE AJOUT RACCOURCI */
 #project-creator-bar {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -147,13 +98,12 @@ body, html {
     justify-content: center;
 }
 
-/* 5. TITRES ET GROUPES */
 .group-title {
     width: 100%; 
     font-size: 0.75rem; 
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.3); 
-    margin: 0 0 15px 0 !important; /* Marge basse pour décoller du contenu */
+    margin: 0 0 15px 0 !important;
     padding: 0 0 0 15px; 
     border-left: 2px solid $primary-color;
     box-sizing: border-box;
@@ -166,13 +116,12 @@ body, html {
     margin: 0 !important;
 }
 
-/* 6. WRAPPERS DYNAMIQUES (FIX CENTRAGE) */
 #resources-list, 
 #resources-session-wrapper,
 #shortcuts-manual-wrapper,
 #projects-auto-wrapper {
-    display: grid; /* Passage en grid pour un meilleur contrôle */
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Distribution auto */
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
     justify-content: center;
     width: 100%;
     gap: $grid-gap;
@@ -180,20 +129,14 @@ body, html {
     margin: 0;
 }
 
-/* 7. RESPONSIVE */
 @media (max-width: 1024px) {
-    .dashboard-row-4 {
-        grid-template-columns: repeat(2, 1fr);
-    }
+    .dashboard-row-4 { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 600px) {
-    .dashboard-row-4 {
-        grid-template-columns: 1fr;
-    }
+    .dashboard-row-4 { grid-template-columns: 1fr; }
 }
 
-/* 8. NETTOYAGE HR */
 hr, .separator {
     display: none !important;
 }

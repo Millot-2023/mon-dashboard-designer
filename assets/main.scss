@@ -9,9 +9,10 @@
 // 3. Components
 @use 'components/card';
 @use 'components/forms';
+@use 'components/dropdown'; // <--- IMPORT CRITIQUE : Pilote l'affichage fermé/ouvert
 
 // 4. Widgets
-@use 'palette'; // Corrigé : le fichier est maintenant chargé
+@use 'palette'; 
 @use 'components/lorem';
 @use 'components/notes';
 @use 'components/px-rem';
@@ -20,6 +21,7 @@
 @use 'components/weather';
 @use 'components/w-projets';
 @use 'components/w-veille';
+@use 'components/lab'; // Playground CSS "The Lab"
 
 // Style global témoin
 .dot-online {
@@ -29,6 +31,7 @@
     cursor: pointer;
     &:hover { text-shadow: 0 0 15px rgba(46, 204, 113, 0.8); }
 }
+
 .dot-offline {
     color: #e74c3c !important;
     text-shadow: 0 0 10px rgba(231, 76, 60, 0.5);

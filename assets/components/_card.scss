@@ -1,6 +1,5 @@
 @use '../variables' as *;
 
-/* 1. Base commune */
 .card {
     background: $card-bg;
     border: 1px solid $card-border;
@@ -12,7 +11,8 @@
     box-sizing: border-box;
     position: relative;
     transition: $transition;
-    overflow: hidden;
+    /* CORRECTION : Autorise le débordement des menus déroulants */
+    overflow: visible !important; 
 }
 
 .card:hover {
@@ -20,7 +20,6 @@
     background: rgba(255, 255, 255, 0.05);
 }
 
-/* 2. Structure Palette / Session (Tier System) */
 .card-tier-system {
     flex: 1;
     display: flex;
@@ -66,7 +65,6 @@
     box-sizing: border-box;
 }
 
-/* 3. Horloge (Clock) */
 .clock-card {
     position: relative;
     justify-content: center;
@@ -103,7 +101,6 @@
     opacity: 0.3;
 }
 
-/* 4. Lanceur Projets */
 .project-card {
     padding: 0;
 }

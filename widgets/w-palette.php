@@ -5,10 +5,11 @@
     
     <div class="tier-body">
         <div class="palette-controls-row">
-            <div class="qty-group">
-                <label>Qté:</label>
-                <input type="number" id="palette-count" value="5" min="2" max="10">
-            </div>
+<div class="custom-qty">
+    <button type="button" class="qty-btn down">-</button>
+    <input type="number" id="lorem-amount" value="3" min="1" max="50">
+    <button type="button" class="qty-btn up">+</button>
+</div>
 
             <div class="custom-select" id="palette-mood-container">
                 <div class="select-trigger">

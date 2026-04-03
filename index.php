@@ -41,6 +41,10 @@
             </div>
         </div>
 
+        <div class="dashboard-row-full">
+             <?php include 'widgets/w-lab.php'; ?>
+        </div>
+
         <?php include 'widgets/w-notes.php'; ?>
         <?php include 'widgets/w-roadmap.php'; ?>
     </div>

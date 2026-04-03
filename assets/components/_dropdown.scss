@@ -1,0 +1,87 @@
+@use '../palette' as *;
+@use '../variables' as *;
+
+/* --- IDENTITÉ VISUELLE UNIFIÉE (MODÈLE PLAYGROUND) --- */
+.custom-select {
+    position: relative !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    z-index: 10;
+
+    .select-trigger {
+        background: #1a1a20 !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 8px !important;
+        color: #ffffff !important;
+        height: 38px !important;
+        padding: 0 15px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        cursor: pointer !important;
+        box-sizing: border-box !important;
+        font-size: 0.85rem !important;
+        transition: border-color 0.2s ease !important;
+
+        &:hover { border-color: rgba($primary-color, 0.5) !important; }
+        &::after { content: "▼"; font-size: 0.6rem; opacity: 0.5; transition: transform 0.2s ease !important; }
+    }
+
+    // LE MENU (CACHÉ PAR DÉFAUT)
+    .select-options, .options {
+        display: none !important; 
+        position: absolute !important;
+        top: calc(100% + 5px) !important;
+        left: 0 !important;
+        right: 0 !important;
+        background: #161616 !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 8px !important;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8) !important;
+        flex-direction: column !important;
+        z-index: 1001 !important;
+        max-height: 250px !important;
+        overflow-y: auto !important;
+        padding: 5px 0 !important;
+        margin: 0 !important;
+        list-style: none !important;
+
+        // --- CORRECTION : ON ISOLE LES STYLES D'OPTIONS ICI ---
+        // On ne cible que les descendants directs pour éviter de polluer le reste du DOM
+        .option, .select-option, li {
+            padding: 12px 15px !important;
+            color: rgba(255, 255, 255, 0.7) !important;
+            cursor: pointer !important;
+            background: transparent !important;
+            font-size: 0.85rem !important;
+            transition: all 0.2s ease !important;
+            display: block !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            text-align: left !important;
+            border: none !important; // Évite les bordures héritées
+
+            &:hover {
+                background: $primary-color !important; 
+                color: #000000 !important;
+            }
+
+            &.selected {
+                background: $primary-color !important;
+                color: #000000 !important;
+                font-weight: bold !important;
+            }
+        }
+    }
+
+    &.active {
+        z-index: 1000 !important;
+        .select-trigger {
+            border-color: $primary-color !important;
+            box-shadow: 0 0 0 1px $primary-color !important;
+            &::after { transform: rotate(180deg) !important; }
+        }
+        .select-options, .options { display: flex !important; }
+    }
+}

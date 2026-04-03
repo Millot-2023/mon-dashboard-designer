@@ -9,12 +9,15 @@
     </div>
     
     <div class="lorem-controls">
-        <input type="number" id="lorem-amount" value="3" min="1" max="50">
+        <div class="custom-qty">
+            <button type="button" class="qty-btn down">-</button>
+            <input type="number" id="lorem-amount" value="3" min="1" max="50">
+            <button type="button" class="qty-btn up">+</button>
+        </div>
         
         <div class="custom-select" id="lorem-type-container">
             <div class="select-trigger">
                 <span>Phrases</span>
-                <!--<div class="arrow"></div>-->
             </div>
             <div class="select-options">
                 <div class="option" data-value="paragraphs">Paragraphes</div>

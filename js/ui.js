@@ -1,21 +1,36 @@
 /**
- * Gestion des composants d'interface (UI)
+ * Gestion unifiée des composants d'interface (UI)
  */
 document.addEventListener('DOMContentLoaded', () => {
+    // --- 1. GESTION DES CUSTOM SELECTS ---
     const selects = document.querySelectorAll('.custom-select');
 
     selects.forEach(select => {
         const trigger = select.querySelector('.select-trigger');
         const options = select.querySelectorAll('.option');
         const inputHidden = select.querySelector('input[type="hidden"]');
-        const label = trigger ? trigger.querySelector('span') : null;
+        const label = trigger ? (trigger.querySelector('span') || trigger) : null;
+        const parentCard = select.closest('.card, .lab-panel');
 
-        // On ne met des écouteurs QUE si les éléments existent
         if (trigger) {
             trigger.addEventListener('click', (e) => {
                 e.stopPropagation();
-                selects.forEach(s => { if (s !== select) s.classList.remove('active'); });
-                select.classList.toggle('active');
+                
+                // Fermer les autres et réinitialiser leur z-index
+                selects.forEach(s => { 
+                    if (s !== select) {
+                        s.classList.remove('active');
+                        const otherCard = s.closest('.card, .lab-panel');
+                        if (otherCard) otherCard.style.zIndex = "";
+                    }
+                });
+
+                const isActive = select.classList.toggle('active');
+                
+                // Gestion dynamique du z-index pour passer au-dessus des voisins
+                if (parentCard) {
+                    parentCard.style.zIndex = isActive ? "1000" : "";
+                }
             });
         }
 
@@ -24,7 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.stopPropagation();
                 const val = opt.getAttribute('data-value');
                 
-                if (label) label.textContent = opt.textContent;
+                // Mise à jour du texte (si span existe ou directement dans le trigger)
+                if (label) {
+                    if (label.tagName === 'SPAN') label.textContent = opt.textContent;
+                    else label.childNodes[0].textContent = opt.textContent;
+                }
+
                 if (inputHidden) {
                     inputHidden.value = val;
                     inputHidden.dispatchEvent(new Event('input', { bubbles: true }));
@@ -32,16 +52,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 options.forEach(o => o.classList.remove('selected'));
                 opt.classList.add('selected');
-                select.classList.remove('active');
                 
-                // On prévient les autres scripts (comme palette.js)
+                select.classList.remove('active');
+                if (parentCard) parentCard.style.zIndex = "";
+                
                 select.dispatchEvent(new CustomEvent('change', { detail: val }));
             });
         });
     });
 
+    // --- 2. GESTION DES INPUTS QUANTITÉ (+/-) ---
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.qty-btn');
+        if (!btn) return;
+
+        const container = btn.closest('.custom-qty');
+        if (!container) return;
+
+        const input = container.querySelector('input');
+        if (!input) return;
+        
+        if (btn.classList.contains('up')) {
+            input.stepUp();
+        } else {
+            input.stepDown();
+        }
+
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+
     // Fermeture propre au clic extérieur
     window.addEventListener('click', () => {
-        selects.forEach(s => s.classList.remove('active'));
+        selects.forEach(s => {
+            s.classList.remove('active');
+            const pc = s.closest('.card, .lab-panel');
+            if (pc) pc.style.zIndex = "";
+        });
     });
 });
