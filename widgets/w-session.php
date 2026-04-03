@@ -5,7 +5,8 @@
     <div class="tier-body">
         <div class="custom-select" id="session-project-container">
             <div class="select-trigger">
-                <span>Chargement des projets...</span>
+                <span>Chargement des projets</span>
+                <i class="chevron"></i>
             </div>
             <div class="select-options">
                 </div>

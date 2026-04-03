@@ -4,18 +4,17 @@
 
     function updateUI() {
         const timerDisplay = document.getElementById('session-timer');
-        const btnToggle = document.getElementById('start-session');
+        const btnToggle = document.getElementById('btn-session-toggle'); // ID Corrigé
         
         if (!timerDisplay || !btnToggle) return;
 
-        // 1. MISE À JOUR ET INJECTION DYNAMIQUE DANS LES CARTES
+        // 1. MISE À JOUR DES CARTES DE PROJETS
         document.querySelectorAll('.project-card').forEach(card => {
             const nameEl = card.querySelector('.project-name');
             if (!nameEl) return;
 
             const pName = nameEl.innerText.trim();
             
-            // On vérifie si le badge de temps existe, sinon on le crée (Injection Sécurisée)
             let badge = card.querySelector('.project-cumul-time');
             if (!badge) {
                 badge = document.createElement('span');
@@ -27,7 +26,6 @@
             let pData = allSessions[pName] || { totalTime: 0 };
             let pTime = pData.totalTime;
 
-            // Gestion de l'état actif (Diode SCSS)
             if (currentSession.isActive && pName === currentSession.projectName) {
                 pTime += (Date.now() - currentSession.startTime);
                 card.classList.add('active');
@@ -35,15 +33,14 @@
                 card.classList.remove('active');
             }
 
-            // Formatage du texte cumulé
             const mins = Math.floor((pTime / 1000 / 60) % 60);
             const hrs = Math.floor((pTime / 1000 / 3600));
             badge.textContent = `${hrs}h ${mins.toString().padStart(2, '0')}m`;
         });
 
-        // 2. MISE À JOUR DU WIDGET DE SESSION
-        const span = document.querySelector('#session-project-container .select-trigger span');
-        let selected = span ? span.innerText.trim() : "";
+        // 2. MISE À JOUR DU WIDGET SESSION
+        const triggerSpan = document.querySelector('#session-project-container .select-trigger span');
+        let selected = triggerSpan ? triggerSpan.innerText.trim() : "";
 
         if (selected && !selected.includes("Chargement")) {
             let data = allSessions[selected] || { totalTime: 0 };
@@ -52,10 +49,10 @@
             if (currentSession.isActive && selected === currentSession.projectName) {
                 displayTime += (Date.now() - currentSession.startTime);
                 btnToggle.textContent = "STOP";
-                btnToggle.style.backgroundColor = "#e74c3c";
+                btnToggle.classList.add('active'); // Utilise ta classe SCSS $accent-red
             } else {
                 btnToggle.textContent = "START";
-                btnToggle.style.backgroundColor = "#27ae60";
+                btnToggle.classList.remove('active');
             }
 
             const s = Math.floor((displayTime / 1000) % 60);
@@ -65,12 +62,16 @@
         }
     }
 
+    // GESTION DU CLIC SUR LE BOUTON START/STOP
     document.addEventListener('click', function(e) {
-        if (e.target && e.target.id === 'start-session') {
-            const span = document.querySelector('#session-project-container .select-trigger span');
-            let selected = span ? span.innerText.trim() : "";
+        if (e.target && e.target.id === 'btn-session-toggle') { // ID Corrigé
+            const triggerSpan = document.querySelector('#session-project-container .select-trigger span');
+            let selected = triggerSpan ? triggerSpan.innerText.trim() : "";
 
-            if (!selected || selected.includes("Chargement")) return;
+            if (!selected || selected.includes("Chargement")) {
+                alert("Veuillez sélectionner un projet.");
+                return;
+            }
 
             if (!currentSession.isActive) {
                 currentSession.projectName = selected;
@@ -84,13 +85,28 @@
                     currentSession.isActive = false;
                     currentSession.projectName = null;
                 } else {
-                    alert("Session déjà active sur : " + currentSession.projectName);
+                    alert("Une session est déjà en cours sur : " + currentSession.projectName);
                 }
             }
             updateUI();
         }
+
+        // RESET DE LA SESSION
+        if (e.target && e.target.id === 'btn-session-reset') {
+            const triggerSpan = document.querySelector('#session-project-container .select-trigger span');
+            let selected = triggerSpan ? triggerSpan.innerText.trim() : "";
+            
+            if (selected && allSessions[selected] && confirm(`Réinitialiser le temps pour ${selected} ?`)) {
+                allSessions[selected].totalTime = 0;
+                localStorage.setItem('projects-sessions', JSON.stringify(allSessions));
+                if (currentSession.isActive && selected === currentSession.projectName) {
+                    currentSession.isActive = false;
+                    currentSession.projectName = null;
+                }
+                updateUI();
+            }
+        }
     });
 
-    // On lance l'intervalle immédiatement
     setInterval(updateUI, 1000);
 })();

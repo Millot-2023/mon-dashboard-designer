@@ -23,7 +23,8 @@ input[type="text"] {
 /* LE SELECT EST DÉLÉGUÉ À _DROPDOWN.SCSS */
 .custom-select {
     flex: 1;
-    min-width: 0;
+    min-width: 120px !important; // On force une largeur minimale pour protéger la flèche
+    position: relative;
 }
 
 .custom-qty {

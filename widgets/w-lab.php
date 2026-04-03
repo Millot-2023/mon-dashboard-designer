@@ -11,9 +11,11 @@
             <h4>Contrôles</h4>
             
             <div class="control-group">
-               <!-- <label>Forme (Corner Shape)</label>-->
-                <div id="lab-shape-select" class="custom-select">
-                    <div class="select-trigger">Round</div>
+               <div id="lab-shape-select" class="custom-select">
+                    <div class="select-trigger">
+                        <span>Round</span>
+                        <i class="chevron"></i>
+                    </div>
                     <div class="options">
                         <div class="option selected" data-value="round">Round</div>
                         <div class="option" data-value="squircle">Squircle</div>

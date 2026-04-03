@@ -1,13 +1,13 @@
 @use '../palette' as *;
 @use '../variables' as *;
 
-/* --- IDENTITÉ VISUELLE UNIFIÉE (MODÈLE PLAYGROUND) --- */
+/* --- IDENTITÉ VISUELLE UNIFIÉE (MODÈLE PHYSIQUE ABSOLU) --- */
 .custom-select {
     position: relative !important;
     width: 100% !important;
     display: flex !important;
     flex-direction: column !important;
-    z-index: 10;
+    z-index: 100;
 
     .select-trigger {
         background: #1a1a20 !important;
@@ -15,20 +15,50 @@
         border-radius: 8px !important;
         color: #ffffff !important;
         height: 38px !important;
-        padding: 0 15px !important;
+        padding: 0 30px 0 12px !important; // Padding droit augmenté pour RÉSERVER la place du chevron
         display: flex !important;
         align-items: center !important;
-        justify-content: space-between !important;
         cursor: pointer !important;
         box-sizing: border-box !important;
         font-size: 0.85rem !important;
-        transition: border-color 0.2s ease !important;
+        transition: all 0.2s ease !important;
+        position: relative !important;
+        overflow: visible !important; // Pour être sûr que rien ne coupe le dessin
 
-        &:hover { border-color: rgba($primary-color, 0.5) !important; }
-        &::after { content: "▼"; font-size: 0.6rem; opacity: 0.5; transition: transform 0.2s ease !important; }
+        span { 
+            pointer-events: none !important; 
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            flex: 1 !important;
+            display: block !important;
+        }
+
+        /* LA FLÈCHE (POSITIONNEMENT ABSOLU POUR NE PAS ÊTRE ÉCRASÉE) */
+        .chevron {
+            position: absolute !important;
+            right: 12px !important; // Fixé à droite du bouton
+            top: 50% !important;
+            display: block !important;
+            width: 6px !important;
+            height: 6px !important;
+            border-right: 2px solid #ffffff !important;
+            border-bottom: 2px solid #ffffff !important;
+            // Centrage vertical précis + rotation initiale
+            transform: translateY(-60%) rotate(45deg) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            opacity: 0.8 !important;
+            pointer-events: none !important;
+            flex-shrink: 0 !important;
+        }
+
+        &:hover { 
+            border-color: rgba($primary-color, 0.6) !important; 
+            .chevron { opacity: 1; border-color: $primary-color !important; }
+        }
     }
 
-    // LE MENU (CACHÉ PAR DÉFAUT)
+    /* LE MENU (OPTIONS) */
     .select-options, .options {
         display: none !important; 
         position: absolute !important;
@@ -47,10 +77,8 @@
         margin: 0 !important;
         list-style: none !important;
 
-        // --- CORRECTION : ON ISOLE LES STYLES D'OPTIONS ICI ---
-        // On ne cible que les descendants directs pour éviter de polluer le reste du DOM
         .option, .select-option, li {
-            padding: 12px 15px !important;
+            padding: 10px 15px !important;
             color: rgba(255, 255, 255, 0.7) !important;
             cursor: pointer !important;
             background: transparent !important;
@@ -60,7 +88,7 @@
             width: 100% !important;
             box-sizing: border-box !important;
             text-align: left !important;
-            border: none !important; // Évite les bordures héritées
+            border: none !important;
 
             &:hover {
                 background: $primary-color !important; 
@@ -75,12 +103,17 @@
         }
     }
 
+    /* ÉTAT ACTIF (MENU OUVERT) */
     &.active {
         z-index: 1000 !important;
         .select-trigger {
             border-color: $primary-color !important;
-            box-shadow: 0 0 0 1px $primary-color !important;
-            &::after { transform: rotate(180deg) !important; }
+            .chevron {
+                // Inversion vers le haut
+                transform: translateY(-20%) rotate(-135deg) !important;
+                border-color: $primary-color !important;
+                opacity: 1 !important;
+            }
         }
         .select-options, .options { display: flex !important; }
     }

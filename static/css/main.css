@@ -488,7 +488,8 @@ input[type=text]:focus {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
-  min-width: 0;
+  min-width: 120px !important;
+  position: relative;
 }
 
 .custom-qty {
@@ -681,7 +682,7 @@ input[type=text]:focus {
           transform: scale(0.95);
 }
 
-/* --- IDENTITÉ VISUELLE UNIFIÉE (MODÈLE PLAYGROUND) --- */
+/* --- IDENTITÉ VISUELLE UNIFIÉE (MODÈLE PHYSIQUE ABSOLU) --- */
 .custom-select {
   position: relative !important;
   width: 100% !important;
@@ -692,7 +693,7 @@ input[type=text]:focus {
   -webkit-box-direction: normal !important;
       -ms-flex-direction: column !important;
           flex-direction: column !important;
-  z-index: 10;
+  z-index: 100;
 }
 .custom-select .select-trigger {
   background: #1a1a20 !important;
@@ -700,34 +701,62 @@ input[type=text]:focus {
   border-radius: 8px !important;
   color: #ffffff !important;
   height: 38px !important;
-  padding: 0 15px !important;
+  padding: 0 30px 0 12px !important;
   display: -webkit-box !important;
   display: -ms-flexbox !important;
   display: flex !important;
   -webkit-box-align: center !important;
       -ms-flex-align: center !important;
           align-items: center !important;
-  -webkit-box-pack: justify !important;
-      -ms-flex-pack: justify !important;
-          justify-content: space-between !important;
   cursor: pointer !important;
   -webkit-box-sizing: border-box !important;
           box-sizing: border-box !important;
   font-size: 0.85rem !important;
-  -webkit-transition: border-color 0.2s ease !important;
-  transition: border-color 0.2s ease !important;
+  -webkit-transition: all 0.2s ease !important;
+  transition: all 0.2s ease !important;
+  position: relative !important;
+  overflow: visible !important;
+}
+.custom-select .select-trigger span {
+  pointer-events: none !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  -webkit-box-flex: 1 !important;
+      -ms-flex: 1 !important;
+          flex: 1 !important;
+  display: block !important;
+}
+.custom-select .select-trigger {
+  /* LA FLÈCHE (POSITIONNEMENT ABSOLU POUR NE PAS ÊTRE ÉCRASÉE) */
+}
+.custom-select .select-trigger .chevron {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  display: block !important;
+  width: 6px !important;
+  height: 6px !important;
+  border-right: 2px solid #ffffff !important;
+  border-bottom: 2px solid #ffffff !important;
+  -webkit-transform: translateY(-60%) rotate(45deg) !important;
+          transform: translateY(-60%) rotate(45deg) !important;
+  -webkit-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  opacity: 0.8 !important;
+  pointer-events: none !important;
+  -ms-flex-negative: 0 !important;
+      flex-shrink: 0 !important;
 }
 .custom-select .select-trigger:hover {
-  border-color: rgba(52, 152, 219, 0.5) !important;
+  border-color: rgba(52, 152, 219, 0.6) !important;
 }
-.custom-select .select-trigger::after {
-  content: "▼";
-  font-size: 0.6rem;
-  opacity: 0.5;
-  -webkit-transition: -webkit-transform 0.2s ease !important;
-  transition: -webkit-transform 0.2s ease !important;
-  transition: transform 0.2s ease !important;
-  transition: transform 0.2s ease, -webkit-transform 0.2s ease !important;
+.custom-select .select-trigger:hover .chevron {
+  opacity: 1;
+  border-color: #3498db !important;
+}
+.custom-select {
+  /* LE MENU (OPTIONS) */
 }
 .custom-select .select-options, .custom-select .options {
   display: none !important;
@@ -752,7 +781,7 @@ input[type=text]:focus {
   list-style: none !important;
 }
 .custom-select .select-options .option, .custom-select .select-options .select-option, .custom-select .select-options li, .custom-select .options .option, .custom-select .options .select-option, .custom-select .options li {
-  padding: 12px 15px !important;
+  padding: 10px 15px !important;
   color: rgba(255, 255, 255, 0.7) !important;
   cursor: pointer !important;
   background: transparent !important;
@@ -775,17 +804,20 @@ input[type=text]:focus {
   color: #000000 !important;
   font-weight: bold !important;
 }
+.custom-select {
+  /* ÉTAT ACTIF (MENU OUVERT) */
+}
 .custom-select.active {
   z-index: 1000 !important;
 }
 .custom-select.active .select-trigger {
   border-color: #3498db !important;
-  -webkit-box-shadow: 0 0 0 1px #3498db !important;
-          box-shadow: 0 0 0 1px #3498db !important;
 }
-.custom-select.active .select-trigger::after {
-  -webkit-transform: rotate(180deg) !important;
-          transform: rotate(180deg) !important;
+.custom-select.active .select-trigger .chevron {
+  -webkit-transform: translateY(-20%) rotate(-135deg) !important;
+          transform: translateY(-20%) rotate(-135deg) !important;
+  border-color: #3498db !important;
+  opacity: 1 !important;
 }
 .custom-select.active .select-options, .custom-select.active .options {
   display: -webkit-box !important;
@@ -1236,65 +1268,141 @@ input[type=text]:focus {
       -ms-flex-align: center;
           align-items: center;
   position: relative;
+  overflow: visible !important;
 }
 #session-card .tier-body .custom-select {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-  width: 100%;
-  height: 38px;
+  position: relative !important;
+  width: 100% !important;
 }
-#session-card .tier-footer {
+#session-card .tier-body .custom-select .select-trigger {
+  background: #1a1a20 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+  color: #ffffff !important;
+  height: 38px !important;
+  padding: 0 30px 0 12px !important;
   display: -webkit-box !important;
   display: -ms-flexbox !important;
   display: flex !important;
   -webkit-box-align: center !important;
       -ms-flex-align: center !important;
           align-items: center !important;
-  -webkit-box-pack: justify !important;
-      -ms-flex-pack: justify !important;
-          justify-content: space-between !important;
+  cursor: pointer !important;
+  -webkit-box-sizing: border-box !important;
+          box-sizing: border-box !important;
+  font-size: 0.85rem !important;
+  -webkit-transition: all 0.2s ease !important;
+  transition: all 0.2s ease !important;
+  position: relative !important;
+}
+#session-card .tier-body .custom-select .select-trigger span {
+  pointer-events: none !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  -webkit-box-flex: 1 !important;
+      -ms-flex: 1 !important;
+          flex: 1 !important;
+}
+#session-card .tier-body .custom-select .select-trigger {
+  /* REPRODUCTION STRICTE DU CHEVRON DE _DROPDOWN.SCSS */
+}
+#session-card .tier-body .custom-select .select-trigger::after {
+  content: "" !important;
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  display: block !important;
+  width: 6px !important;
+  height: 6px !important;
+  border-right: 2px solid #ffffff !important;
+  border-bottom: 2px solid #ffffff !important;
+  -webkit-transform: translateY(-60%) rotate(45deg) !important;
+          transform: translateY(-60%) rotate(45deg) !important;
+  -webkit-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  opacity: 0.8 !important;
+}
+#session-card .tier-body .custom-select .select-trigger {
+  /* ÉTAT 02 : SURVOL (HOVER) - BLEU 0.6 */
+}
+#session-card .tier-body .custom-select .select-trigger:hover {
+  border-color: rgba(52, 152, 219, 0.6) !important;
+}
+#session-card .tier-body .custom-select .select-trigger:hover::after {
+  opacity: 1 !important;
+  border-color: #3498db !important;
+}
+#session-card .tier-body .custom-select {
+  /* ÉTAT 03 : ACTIF (OUVERT) - BLEU PUR */
+}
+#session-card .tier-body .custom-select.active .select-trigger {
+  border-color: #3498db !important;
+}
+#session-card .tier-body .custom-select.active .select-trigger::after {
+  -webkit-transform: translateY(-20%) rotate(-135deg) !important;
+          transform: translateY(-20%) rotate(-135deg) !important;
+  border-color: #3498db !important;
+  opacity: 1 !important;
+}
+#session-card .tier-body .custom-select.active .select-options {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+}
+#session-card .tier-body .custom-select .select-options {
+  display: none !important;
+  position: absolute !important;
+  top: calc(100% + 5px) !important;
+  left: 0 !important;
+  right: 0 !important;
+  background: #161616 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+  -webkit-box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8) !important;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8) !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-box-direction: normal !important;
+      -ms-flex-direction: column !important;
+          flex-direction: column !important;
+  z-index: 1001 !important;
+  max-height: 250px !important;
+  overflow-y: auto !important;
+  padding: 5px 0 !important;
+}
+#session-card .tier-body .custom-select .select-options .option {
+  padding: 10px 15px !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  cursor: pointer !important;
+  -webkit-transition: all 0.2s ease !important;
+  transition: all 0.2s ease !important;
+}
+#session-card .tier-body .custom-select .select-options .option:hover {
+  background: #3498db !important;
+  color: #000000 !important;
+}
+#session-card .tier-footer {
   padding: 0 25px 15px 25px !important;
   height: 60px;
-}
-#session-card .tier-footer #session-timer {
-  font-family: "Monaco", "Consolas", "Liberation Mono", monospace;
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 1.2rem;
-  letter-spacing: 1px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 #session-card .tier-footer .btn-session {
-  height: 30px !important;
-  padding: 0 15px;
-  background: #ffffff;
-  color: #1a1a20;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  cursor: pointer;
-  -webkit-transition: 0.3s ease;
-  transition: 0.3s ease;
+  height: 24px !important;
+  border-radius: 5px !important;
+  -webkit-transition: all 0.2s ease !important;
+  transition: all 0.2s ease !important;
 }
 #session-card .tier-footer .btn-session:hover {
-  -webkit-transform: translateY(-1px);
-          transform: translateY(-1px);
-}
-#session-card .tier-footer .btn-session.active {
-  background: #ff4757;
-  color: #ffffff;
-}
-#session-card .tier-footer #btn-session-reset {
-  background: none;
-  border: none;
-  color: gray;
-  font-size: 0.7rem;
-  opacity: 0.5;
-  cursor: pointer;
-}
-#session-card .tier-footer #btn-session-reset:hover {
-  opacity: 1;
+  background: #3498db !important;
+  color: #000000 !important;
 }
 
 .weather-card {
@@ -1550,6 +1658,7 @@ input[type=text]:focus {
 
 .lab-card.card.large {
   padding: 25px;
+  min-height: 400px;
 }
 
 .card-header .header-left {
@@ -1586,15 +1695,19 @@ input[type=text]:focus {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: start;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
   position: relative;
   z-index: 1;
+  margin-top: 10px;
 }
 @media (max-width: 1100px) {
   .lab-body {
     grid-template-columns: 1fr;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: start;
   }
 }
 
@@ -1606,24 +1719,29 @@ input[type=text]:focus {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  height: 100%;
   gap: 15px;
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.03);
   border-radius: 12px;
   padding: 20px;
   min-width: 0;
-  position: relative;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.lab-panel h4 {
+  margin: 0 0 10px 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-/* LE SELECT EST DÉLÉGUÉ À _DROPDOWN.SCSS */
-.custom-select {
+/* --- AJUSTEMENT DES CONTENUS INTERNES POUR LE REMPLISSAGE --- */
+.preview-container {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
-  min-width: 0;
-}
-
-.preview-container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1636,8 +1754,50 @@ input[type=text]:focus {
   min-height: 200px;
   background: repeating-conic-gradient(rgba(255, 255, 255, 0.03) 0% 25%, transparent 0% 50%) 50%/20px 20px;
   border-radius: 8px;
-  position: relative;
-  z-index: 1;
+}
+
+.code-block {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 8px;
+  overflow: hidden !important;
+}
+.code-block pre {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin: 0;
+  overflow: hidden !important;
+}
+.code-block pre code {
+  font-family: "Monaco", "Consolas", "Liberation Mono", monospace;
+  color: #a6accd;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* --- RESTE DES STYLES (COPIE, INPUTS, ETC.) --- */
+.custom-select {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+.custom-select .select-trigger::after {
+  display: none !important;
+  content: none !important;
+}
+.custom-select .select-trigger {
+  padding-right: 15px !important;
 }
 
 .shape-target {
@@ -1657,22 +1817,9 @@ input[type=text]:focus {
           box-shadow: 0 0 30px rgba(52, 152, 219, 0.1);
 }
 
-.code-block {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 15px;
-  border-radius: 8px;
-}
-.code-block pre {
-  margin: 0;
-  overflow-x: auto;
-}
-.code-block pre code {
-  font-family: "Monaco", "Consolas", "Liberation Mono", monospace;
-  color: #a6accd;
-  font-size: 0.8rem;
-}
-
 .btn-copy {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
   width: 100%;
   background: rgba(255, 255, 255, 0.05);
   color: #ffffff;
@@ -1684,12 +1831,26 @@ input[type=text]:focus {
   font-weight: 500;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 8px;
 }
 .btn-copy:hover {
   background: #3498db;
   color: #000000;
 }
 
+.control-group {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
 .control-group label {
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.8);

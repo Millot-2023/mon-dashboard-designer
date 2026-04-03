@@ -6,7 +6,11 @@
     overflow: visible !important; 
 }
 
-.lab-card.card.large { padding: 25px; }
+.lab-card.card.large { 
+    padding: 25px; 
+    // On s'assure que la carte elle-même a une hauteur cohérente
+    min-height: 400px; 
+}
 
 .card-header {
     .header-left {
@@ -27,39 +31,80 @@
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr)); 
     gap: 20px;
-    align-items: start;
+    align-items: stretch; // CRITIQUE : Force les enfants à s'étirer verticalement
     position: relative;
     z-index: 1;
-    @media (max-width: 1100px) { grid-template-columns: 1fr; }
+    margin-top: 10px;
+    
+    @media (max-width: 1100px) { 
+        grid-template-columns: 1fr; 
+        align-items: start;
+    }
 }
 
 .lab-panel {
     display: flex;
     flex-direction: column;
+    height: 100%; // Force le panel à remplir la cellule de la grille
     gap: 15px;
     background: rgba($black, 0.1); 
     border: 1px solid rgba($white, 0.03);
     border-radius: 12px;
     padding: 20px;
     min-width: 0;
-    position: relative;
+    box-sizing: border-box;
+
+    h4 {
+        margin: 0 0 10px 0;
+        font-size: 0.9rem;
+        color: rgba($white, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
 }
 
-/* LE SELECT EST DÉLÉGUÉ À _DROPDOWN.SCSS */
-.custom-select {
-    flex: 1;
-    min-width: 0;
-}
-
+/* --- AJUSTEMENT DES CONTENUS INTERNES POUR LE REMPLISSAGE --- */
 .preview-container {
+    flex: 1; // Permet à la preview de manger l'espace vide vertical
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 200px;
     background: repeating-conic-gradient(rgba($white, 0.03) 0% 25%, transparent 0% 50%) 50% / 20px 20px;
     border-radius: 8px;
-    position: relative;
-    z-index: 1;
+}
+
+.code-block {
+    flex: 1; // Permet au bloc de code de manger l'espace vide vertical
+    display: flex;
+    flex-direction: column;
+    background: rgba($black, 0.2);
+    padding: 15px; 
+    border-radius: 8px;
+    overflow: hidden !important;
+
+    pre { 
+        flex: 1; // Le texte prend toute la place interne
+        margin: 0; 
+        overflow: hidden !important; 
+        
+        code { 
+            font-family: $font-mono; 
+            color: #a6accd; 
+            font-size: 0.8rem; 
+            white-space: pre-wrap; 
+            word-break: break-all;
+        } 
+    }
+}
+
+/* --- RESTE DES STYLES (COPIE, INPUTS, ETC.) --- */
+.custom-select {
+    flex-shrink: 0;
+    .select-trigger {
+        &::after { display: none !important; content: none !important; }
+        padding-right: 15px !important;
+    }
 }
 
 .shape-target {
@@ -72,26 +117,28 @@
     box-shadow: 0 0 30px rgba($primary-color, 0.1);
 }
 
-.code-block {
-    background: rgba($black, 0.2);
-    padding: 15px; border-radius: 8px;
-    pre { 
-        margin: 0; 
-        overflow-x: auto; 
-        code { font-family: $font-mono; color: #a6accd; font-size: 0.8rem; } 
-    }
-}
-
 .btn-copy {
-    width: 100%; background: rgba($white, 0.05); color: $white;
-    border: 1px solid rgba($white, 0.1); padding: 10px; cursor: pointer;
-    margin-top: 10px; border-radius: 6px;
+    flex-shrink: 0; // Empêche le bouton de s'écraser
+    width: 100%; 
+    background: rgba($white, 0.05); 
+    color: $white;
+    border: 1px solid rgba($white, 0.1); 
+    padding: 10px; 
+    cursor: pointer;
+    margin-top: 10px; 
+    border-radius: 6px;
     font-weight: 500;
     transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
     &:hover { background: $primary-color; color: $black; }
 }
 
 .control-group {
+    flex-shrink: 0;
     label { font-size: 0.85rem; color: rgba($white, 0.8); margin-bottom: 5px; display: block; }
     .value-display { font-family: $font-mono; font-size: 0.75rem; color: $primary-color; margin-bottom: 5px; }
     input[type="range"] { 

@@ -18,6 +18,7 @@
         <div class="custom-select" id="lorem-type-container">
             <div class="select-trigger">
                 <span>Phrases</span>
+                <i class="chevron"></i>
             </div>
             <div class="select-options">
                 <div class="option" data-value="paragraphs">Paragraphes</div>
