@@ -1,33 +1,36 @@
 (function() {
-    let allSessions = JSON.parse(localStorage.getItem('projects-sessions')) || {};
-    let currentSession = { projectName: null, startTime: null, isActive: false };
+    // Utilisation de la même clé que projects-timer.js pour la synchronisation
+    const STORAGE_KEY = 'projects-logs';
 
     function updateUI() {
         const timerDisplay = document.getElementById('session-timer');
-        const btnToggle = document.getElementById('btn-session-toggle'); // ID Corrigé
+        const btnToggle = document.getElementById('btn-session-toggle');
+        const triggerSpan = document.querySelector('#session-project-container .select-trigger span');
         
         if (!timerDisplay || !btnToggle) return;
 
-        // 1. MISE À JOUR DES CARTES DE PROJETS
+        // On récupère les données partagées
+        const allSessions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+
+        // 1. MISE À JOUR DES CARTES DE PROJETS (Synchronisation des badges et diodes)
         document.querySelectorAll('.project-card').forEach(card => {
             const nameEl = card.querySelector('.project-name');
             if (!nameEl) return;
 
             const pName = nameEl.innerText.trim();
+            let pData = allSessions[pName] || { totalTime: 0, active: false, startTime: null };
             
             let badge = card.querySelector('.project-cumul-time');
             if (!badge) {
                 badge = document.createElement('span');
                 badge.className = 'project-cumul-time';
-                const link = card.querySelector('.project-main-link');
-                if (link) link.appendChild(badge);
+                const container = card.querySelector('.project-link-container') || card;
+                container.appendChild(badge);
             }
 
-            let pData = allSessions[pName] || { totalTime: 0 };
             let pTime = pData.totalTime;
-
-            if (currentSession.isActive && pName === currentSession.projectName) {
-                pTime += (Date.now() - currentSession.startTime);
+            if (pData.active && pData.startTime) {
+                pTime += (Date.now() - pData.startTime);
                 card.classList.add('active');
             } else {
                 card.classList.remove('active');
@@ -39,69 +42,59 @@
         });
 
         // 2. MISE À JOUR DU WIDGET SESSION
-        const triggerSpan = document.querySelector('#session-project-container .select-trigger span');
         let selected = triggerSpan ? triggerSpan.innerText.trim() : "";
 
-        if (selected && !selected.includes("Chargement")) {
-            let data = allSessions[selected] || { totalTime: 0 };
+        if (selected && !selected.includes("Chargement") && selected !== "Sélectionner un projet") {
+            let data = allSessions[selected] || { totalTime: 0, active: false, startTime: null };
             let displayTime = data.totalTime;
 
-            if (currentSession.isActive && selected === currentSession.projectName) {
-                displayTime += (Date.now() - currentSession.startTime);
+            if (data.active) {
+                displayTime += (Date.now() - data.startTime);
                 btnToggle.textContent = "STOP";
-                btnToggle.classList.add('active'); // Utilise ta classe SCSS $accent-red
+                btnToggle.classList.add('active');
             } else {
                 btnToggle.textContent = "START";
                 btnToggle.classList.remove('active');
             }
 
-            const s = Math.floor((displayTime / 1000) % 60);
-            const m = Math.floor((displayTime / 1000 / 60) % 60);
-            const h = Math.floor((displayTime / 1000 / 3600));
-            timerDisplay.textContent = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            const s = Math.floor((displayTime / 1000) % 60).toString().padStart(2, '0');
+            const m = Math.floor((displayTime / 1000 / 60) % 60).toString().padStart(2, '0');
+            const h = Math.floor((displayTime / 1000 / 3600)).toString().padStart(2, '0');
+            timerDisplay.textContent = `${h}:${m}:${s}`;
         }
     }
 
-    // GESTION DU CLIC SUR LE BOUTON START/STOP
+    // GESTION DU CLIC UNIQUE
     document.addEventListener('click', function(e) {
-        if (e.target && e.target.id === 'btn-session-toggle') { // ID Corrigé
+        const btnToggle = e.target.closest('#btn-session-toggle');
+        const btnReset = e.target.closest('#btn-session-reset');
+
+        if (btnToggle) {
             const triggerSpan = document.querySelector('#session-project-container .select-trigger span');
             let selected = triggerSpan ? triggerSpan.innerText.trim() : "";
 
-            if (!selected || selected.includes("Chargement")) {
+            if (!selected || selected.includes("Chargement") || selected === "Sélectionner un projet") {
                 alert("Veuillez sélectionner un projet.");
                 return;
             }
 
-            if (!currentSession.isActive) {
-                currentSession.projectName = selected;
-                currentSession.startTime = Date.now();
-                currentSession.isActive = true;
-            } else {
-                if (selected === currentSession.projectName) {
-                    if (!allSessions[selected]) allSessions[selected] = { totalTime: 0 };
-                    allSessions[selected].totalTime += (Date.now() - currentSession.startTime);
-                    localStorage.setItem('projects-sessions', JSON.stringify(allSessions));
-                    currentSession.isActive = false;
-                    currentSession.projectName = null;
-                } else {
-                    alert("Une session est déjà en cours sur : " + currentSession.projectName);
-                }
+            // On appelle la fonction globale de projects-timer.js pour piloter la logique
+            if (typeof window.toggleProject === 'function') {
+                window.toggleProject(selected);
             }
             updateUI();
         }
 
-        // RESET DE LA SESSION
-        if (e.target && e.target.id === 'btn-session-reset') {
+        if (btnReset) {
             const triggerSpan = document.querySelector('#session-project-container .select-trigger span');
             let selected = triggerSpan ? triggerSpan.innerText.trim() : "";
             
-            if (selected && allSessions[selected] && confirm(`Réinitialiser le temps pour ${selected} ?`)) {
-                allSessions[selected].totalTime = 0;
-                localStorage.setItem('projects-sessions', JSON.stringify(allSessions));
-                if (currentSession.isActive && selected === currentSession.projectName) {
-                    currentSession.isActive = false;
-                    currentSession.projectName = null;
+            if (selected && confirm(`Réinitialiser le temps pour ${selected} ?`)) {
+                let allData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+                if (allData[selected]) {
+                    allData[selected].totalTime = 0;
+                    allData[selected].active = false;
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
                 }
                 updateUI();
             }
