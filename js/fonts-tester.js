@@ -5,13 +5,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const preview = document.getElementById('font-preview-display');
 
     const updateFont = () => {
+        // 1. MISE À JOUR IMMÉDIATE (Texte et Taille)
+        // On le fait avant les vérifications d'URL pour que ce soit toujours réactif
+        preview.textContent = textInput.value || "Saisissez votre texte...";
+        const size = sizeInput.value || 24;
+        preview.style.fontSize = size + 'px';
+
+        // 2. LOGIQUE D'IMPORTATION DE LA POLICE
         let rawValue = urlInput.value.trim();
         if (!rawValue) return;
 
         let cleanUrl = rawValue;
 
-        // --- LOGIQUE D'EXTRACTION DE LA BALISE LINK ---
-        // Si la chaîne contient '<link' et 'href=', on extrait ce qu'il y a entre les guillemets du href
+        // Extraction si c'est une balise <link> complète
         if (rawValue.includes('<link') && rawValue.includes('href="')) {
             const match = rawValue.match(/href="([^"]+)"/);
             if (match && match[1]) {
@@ -19,10 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Sécurité : on ne traite que si l'URL finale contient 'family='
+        // Sécurité : on ne traite l'injection que si l'URL contient 'family='
         if (!cleanUrl.includes('family=')) return;
 
-        // 1. Injection du lien dans le HEAD (pour charger la police)
+        // Injection du lien dans le HEAD
         let link = document.getElementById('dynamic-google-font');
         if (!link) {
             link = document.createElement('link');
@@ -30,26 +36,29 @@ document.addEventListener('DOMContentLoaded', () => {
             link.rel = 'stylesheet';
             document.head.appendChild(link);
         }
-        link.href = cleanUrl;
+        
+        // On ne met à jour le href que s'il a changé pour éviter de recharger inutilement
+        if (link.href !== cleanUrl) {
+            link.href = cleanUrl;
+        }
 
-        // 2. Extraction du nom de la police (ex: "Playwrite+IE")
+        // 3. EXTRACTION DU NOM ET APPLICATION DE LA FAMILLE
         try {
             const familyPart = cleanUrl.split('family=')[1].split('&')[0].split(':')[0];
             const fontName = familyPart.replace(/\+/g, ' ');
             
-            // 3. Application visuelle
             preview.style.setProperty('font-family', `"${fontName}", sans-serif`, 'important');
-            preview.style.fontSize = (sizeInput.value || 24) + 'px';
-            preview.textContent = textInput.value;
-
-            console.log("Extraction réussie :", fontName);
+            console.log("Police appliquée :", fontName);
         } catch (e) {
             console.error("Erreur d'analyse de l'URL Google Fonts");
         }
     };
 
-    // Écouteurs pour une réactivité immédiate
+    // Écouteurs pour une réactivité totale
     urlInput.addEventListener('input', updateFont);
     textInput.addEventListener('input', updateFont);
     sizeInput.addEventListener('input', updateFont);
+    
+    // Initialisation au chargement
+    updateFont();
 });
