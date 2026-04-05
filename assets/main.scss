@@ -21,7 +21,8 @@
 @use 'components/weather';
 @use 'components/w-projets';
 @use 'components/w-veille';
-@use 'components/lab'; // Playground CSS "The Lab"
+@use 'components/fonts-tester'; // <--- RESTAURÉ : Testeur de Google Fonts
+@use 'components/lab';          // Playground CSS "The Lab"
 
 // Style global témoin
 .dot-online {
@@ -29,7 +30,9 @@
     text-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
     transition: all 0.3s ease;
     cursor: pointer;
-    &:hover { text-shadow: 0 0 15px rgba(46, 204, 113, 0.8); }
+    &:hover { 
+        text-shadow: 0 0 15px rgba(46, 204, 113, 0.8); 
+    }
 }
 
 .dot-offline {

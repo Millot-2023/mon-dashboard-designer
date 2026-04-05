@@ -57,6 +57,19 @@
             color: $white;
             font-size: 0.85rem;
             outline: none;
+
+            // --- SUPPRESSION DES SPINNERS ---
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            &[type=number] {
+                -moz-appearance: textfield;
+            }
+            // --------------------------------
+
             &:focus { border-color: rgba($primary-color, 0.5); }
         }
 

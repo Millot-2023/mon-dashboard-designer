@@ -1,0 +1,85 @@
+#fonts-tester-card {
+    // FIX : Force le respect des arrondis de la carte
+    overflow: hidden; 
+    border-radius: 16px; // Assure-toi que c'est la même valeur que tes autres cartes
+
+    .tier-body {
+        #font-url-input {
+            margin-bottom: 15px; 
+        }
+
+        #font-text-input {
+            margin-bottom: 5px;
+        }
+    }
+
+    .font-preview-box {
+        margin-top: 10px;
+        background: #1a1b26; 
+        border-radius: 8px;
+        height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        text-align: center;
+        overflow: hidden;
+
+        #font-preview-display {
+            font-size: 24px;
+            color: #fff;
+            margin: 0;
+        }
+    }
+
+    .size-control {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px;
+        margin: 10px 0;
+        color: #4a9eff; 
+        
+        input { 
+            width: 60px; 
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-radius: 4px;
+
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            &[type=number] {
+                -moz-appearance: textfield;
+            }
+        }
+    }
+
+    .tier-footer-split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 15px;
+        // Ajout d'un padding pour que les boutons ne collent pas aux bords arrondis
+        padding: 0 15px 15px 15px; 
+    }
+
+    .btn-action {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: #4a9eff;
+        padding: 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: 0.3s;
+        
+        &:hover { 
+            background: rgba(74, 158, 255, 0.1); 
+        }
+    }
+}

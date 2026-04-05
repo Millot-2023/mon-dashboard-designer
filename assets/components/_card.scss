@@ -11,7 +11,7 @@
     box-sizing: border-box;
     position: relative;
     transition: $transition;
-    /* CORRECTION : Autorise le débordement des menus déroulants */
+    /* Autorise le débordement des menus déroulants */
     overflow: visible !important; 
 }
 
@@ -32,12 +32,14 @@
     display: flex;
     align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 0 25px; 
+    padding: 0 25px !important; // Normalisation de l'espacement horizontal
     box-sizing: border-box;
+    margin: 0 !important; // Supprime toute marge parasite
 }
 
 .tier-header h3 {
-    margin: 0;
+    margin: 0 !important; // Force la suppression des marges par défaut des navigateurs
+    padding: 0 !important;
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -45,6 +47,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    line-height: 1; // Stabilise l'alignement vertical
 }
 
 .tier-body {
@@ -66,9 +69,21 @@
 }
 
 .clock-card {
-    position: relative;
+    position: relative !important;
     justify-content: center;
     align-items: center;
+    min-height: 150px; 
+
+    #clock {
+        position: absolute !important;
+        bottom: 15px !important; 
+        right: 20px !important;
+        top: auto !important;
+        left: auto !important;
+        font-size: 0.75rem;
+        opacity: 0.3;
+        pointer-events: none;
+    }
 }
 
 .clock-index {
@@ -93,16 +108,23 @@
 .aiguille.minute { width: 3px; height: 50px; background: rgba(255, 255, 255, 0.5); border-radius: 3px; }
 .aiguille.seconde { width: 1.5px; height: 60px; background: $accent-red; }
 
-#clock {
-    position: absolute;
-    bottom: 15px; 
-    right: 20px;
-    font-size: 0.75rem;
-    opacity: 0.3;
-}
-
 .project-card {
     padding: 0;
+    position: relative;
+    
+    #clock { display: none; } 
+
+    .project-cumul-time {
+        position: absolute !important;
+        bottom: 12px !important; 
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        font-size: 0.7rem !important;
+        color: rgba(255, 255, 255, 0.3) !important;
+        font-weight: 500;
+        pointer-events: none;
+        white-space: nowrap;
+    }
 }
 
 .project-main-link {

@@ -29,7 +29,8 @@
 
         <div class="project-group">
             <h4 class="group-title">Modules & Outils</h4>
-            <div id="shortcuts-manual-wrapper" class="dashboard-row-4"></div>
+            <div id="shortcuts-manual-wrapper" class="dashboard-row-4">
+                <?php include 'widgets/w-fonts-tester.php'; ?> </div>
         </div>
 
         <div class="dashboard-row-4">

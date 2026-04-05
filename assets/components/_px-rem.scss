@@ -43,10 +43,21 @@
                 letter-spacing: 0.5px;
             }
 
-            /* Utilisation du style global de _form.scss */
             .custom-qty {
                 width: 100%;
                 height: 38px; 
+
+                // --- SUPPRESSION DES SPINNERS ICI ---
+                input {
+                    &::-webkit-outer-spin-button,
+                    &::-webkit-inner-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
+                    }
+                    &[type=number] {
+                        -moz-appearance: textfield;
+                    }
+                }
             }
         }
 
@@ -83,11 +94,23 @@
             height: 32px;
         }
 
-        /* Redéfinition locale légère pour s'ajuster au footer de carte */
         .custom-qty {
             width: 100px;
             height: 32px;
-            input { font-size: 0.85rem; }
+            
+            input { 
+                font-size: 0.85rem; 
+                
+                // --- ET ICI AUSSI ---
+                &::-webkit-outer-spin-button,
+                &::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+                &[type=number] {
+                    -moz-appearance: textfield;
+                }
+            }
         }
     }
 }
