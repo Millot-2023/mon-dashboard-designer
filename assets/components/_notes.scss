@@ -1,53 +1,62 @@
 @use '../variables' as *;
 
 .notes-card {
-    // La structure (padding 25px, flex, etc.) est gérée par .card-tier-system
     text-align: left;
+    display: flex;
+    flex-direction: column;
 
-    // Utilisation de .tier-header au lieu de .notes-header
     .tier-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        margin-bottom: 15px;
+
         .btn-purge {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: $accent-red; 
-            padding: 4px 10px;
+            background: rgba(255, 71, 87, 0.05);
+            border: 1px solid rgba(255, 71, 87, 0.2);
+            color: #ff4757; // Utilisation directe ou via $accent-red
+            padding: 4px 12px;
             border-radius: 4px;
-            font-size: 0.65rem; // Unifié avec les autres actions
-            font-weight: 600;
+            font-size: 0.65rem;
+            font-weight: 700;
             text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.5px;
             
             &:hover { 
-                background: rgba(255, 71, 87, 0.1); 
-                border-color: rgba(255, 71, 87, 0.3);
+                background: #ff4757; 
+                border-color: #ff4757;
+                color: white;
+                box-shadow: 0 0 10px rgba(255, 71, 87, 0.3);
             }
         }
     }
 
     .tier-body {
-        // Le padding 25px est déjà appliqué par .tier-body dans _card.scss
         display: flex;
         flex-direction: column;
         flex: 1;
 
         #notes-area {
             width: 100%;
-            flex: 1; // Remplit tout l'espace disponible dans tier-body
+            min-height: 120px;
             background: transparent;
             border: none;
-            color: rgba(255, 255, 255, 0.8);
-            font-family: inherit;
+            color: rgba(255, 255, 255, 0.85);
+            font-family: 'Fira Code', 'Courier New', monospace; // Style plus "dev"
             font-size: 0.95rem;
             line-height: 1.6;
-            text-align: left; 
             resize: none;
             outline: none;
-            padding: 0;
-            margin: 0;
+            padding: 5px 0;
+            overflow: hidden; // L'auto-ajustement JS gère la hauteur
 
             &::placeholder {
-                color: rgba(255, 255, 255, 0.15);
+                color: rgba(255, 255, 255, 0.1);
+                font-style: italic;
             }
         }
     }

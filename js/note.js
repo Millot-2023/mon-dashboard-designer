@@ -4,40 +4,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 1. Charger le texte proprement depuis le fichier physique
     fetch('data/notes.txt')
-        .then(res => {
-            if (!res.ok) return ""; 
-            return res.text();
-        })
+        .then(res => res.ok ? res.text() : "")
         .then(texte => { 
             if(texte) {
                 area.value = texte;
-                // Ajuster la hauteur initiale après le chargement du texte
-                area.style.height = 'auto';
-                area.style.height = area.scrollHeight + 'px';
+                adjustHeight();
             }
         })
-        .catch(err => console.log("Fichier notes.txt en attente de création..."));
+        .catch(() => console.log("Prêt pour la première note."));
+
+    // Fonction d'ajustement de hauteur
+    function adjustHeight() {
+        area.style.height = 'auto';
+        area.style.height = area.scrollHeight + 'px';
+    }
 
     // 2. Sauvegarder et Ajuster la hauteur
     let timer;
     area.addEventListener('input', () => {
-        // Auto-ajustement de la hauteur pendant la saisie
-        area.style.height = 'auto';
-        area.style.height = area.scrollHeight + 'px';
+        adjustHeight();
 
         // Debounce de 500ms pour ne pas harceler le serveur PHP
         clearTimeout(timer);
-        timer = setTimeout(() => {
-            const donnees = new FormData();
-            donnees.append('content', area.value);
-
-            fetch('includes/save_notes.php', {
-                method: 'POST',
-                body: donnees
-            })
-            .then(res => res.text())
-            .then(status => console.log("Sauvegarde : " + status))
-            .catch(err => console.error("Erreur de sauvegarde :", err));
-        }, 500);
+        timer = setTimeout(saveToDisk, 500);
     });
+
+    function saveToDisk() {
+        const donnees = new FormData();
+        donnees.append('content', area.value);
+
+        fetch('includes/save_notes.php', {
+            method: 'POST',
+            body: donnees
+        })
+        .then(res => res.text())
+        .then(status => console.log("Sauvegarde : " + status))
+        .catch(err => console.error("Erreur de sauvegarde :", err));
+    }
 });

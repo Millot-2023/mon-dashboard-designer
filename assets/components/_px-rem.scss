@@ -1,95 +1,87 @@
 @use '../variables' as *;
 
 #converter-px-rem {
-    // Suppression de .card, padding, background, border, etc.
-    // Tout est maintenant géré par .card-tier-system dans _card.scss
+    display: flex;
+    flex-direction: column;
+    height: 100%; // Pour matcher la hauteur des cartes voisines
+
+    .tier-body {
+        display: flex;
+        flex-direction: column;
+        flex: 1; // Remplit l'espace
+        padding: 20px 25px 25px 25px !important; // Respecte ton rail de 25px
+    }
 
     .converter-body {
         display: flex;
         flex-direction: row;
-        align-items: flex-end; 
-        justify-content: center;
-        gap: 15px; 
+        align-items: flex-end;
+        justify-content: space-around;
         width: 100%;
-        margin: 0 auto;
-        position: relative;
-        z-index: 2;
+        margin-bottom: 20px;
 
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 10px; // Aligné sur tes autres labels
+            align-items: center; // Centre titres sur inputs
             flex: 1;
-            min-width: 120px; 
+            max-width: 150px;
 
             label {
-                font-size: 0.7rem; // Unifié avec tes labels de sections
+                font-size: 0.7rem;
                 color: rgba(255, 255, 255, 0.3);
-                text-align: left; // Aligné à gauche comme les autres cards
                 text-transform: uppercase;
-                letter-spacing: 1px;
-                font-weight: 600;
+                margin-bottom: 10px;
             }
 
-            .custom-qty {
-                width: 100%;
-                height: 38px; 
-
-                input {
-                    &::-webkit-outer-spin-button,
-                    &::-webkit-inner-spin-button {
-                        -webkit-appearance: none;
-                        margin: 0;
-                    }
-                    &[type=number] {
-                        -moz-appearance: textfield;
-                    }
-                }
+            .custom-qty input[type="number"] {
+                text-align: center;
+                -webkit-appearance: none !important;
+                appearance: none !important;
+                -moz-appearance: textfield !important;
+                &::-webkit-outer-spin-button,
+                &::-webkit-inner-spin-button { -webkit-appearance: none !important; margin: 0; }
             }
         }
 
         .conversion-arrow {
+            height: 38px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            height: 38px; 
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.15);
-            padding: 0 5px;
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 1.4rem;
         }
     }
 
-    // Paramètres situés dans le tier-footer (via le PHP)
     .converter-settings {
+        margin-top: auto; // Pousse ce bloc tout en bas du tier-body
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 12px;
-        padding: 10px 15px;
+        padding: 12px;
         background: rgba(255, 255, 255, 0.02);
         border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 8px;
-        width: fit-content; // Évite de prendre toute la largeur en bas
+        border-radius: 12px;
+        width: 100%;
+        box-sizing: border-box;
 
-        label, span {
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.4);
+        label {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
         }
 
-        .custom-qty {
-            width: 80px;
-            height: 28px;
-            
-            input { 
-                font-size: 0.8rem; 
-                &::-webkit-outer-spin-button,
-                &::-webkit-inner-spin-button {
-                    -webkit-appearance: none;
-                    margin: 0;
-                }
-                &[type=number] {
-                    -moz-appearance: textfield;
-                }
-            }
+        .custom-qty input[type="number"] {
+            -webkit-appearance: none !important;
+            appearance: none !important;
+            -moz-appearance: textfield !important;
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button { -webkit-appearance: none !important; margin: 0; }
         }
+    }
+
+    .tier-footer {
+        display: none !important;
     }
 }

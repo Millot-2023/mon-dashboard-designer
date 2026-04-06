@@ -27,7 +27,7 @@
             </div>
 
             <button id="gen-lorem" class="btn-mini">Générer</button>
-            <button id="copy-lorem" class="btn-action" title="Copier tout">COPY</button>
+            <button id="copy-lorem" class="btn-copy" title="Copier tout">COPY</button>
         </div>
 
         <div id="lorem-output" class="lorem-preview">

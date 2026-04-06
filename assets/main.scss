@@ -9,7 +9,7 @@
 // 3. Components
 @use 'components/card';
 @use 'components/forms';
-@use 'components/dropdown'; // <--- IMPORT CRITIQUE : Pilote l'affichage fermé/ouvert
+@use 'components/dropdown'; 
 
 // 4. Widgets
 @use 'palette'; 
@@ -22,8 +22,8 @@
 @use 'components/w-projets';
 @use 'components/w-veille';
 @use 'components/fonts-tester';
-@use 'components/lab';           // Ton Playground CSS actuel
-@use 'components/codepen';       // <--- AJOUT : Ton nouvel éditeur HTML/CSS/JS
+@use 'components/lab';
+@use 'components/codepen'; // <--- Ce fichier contient maintenant la hauteur forcée et le glassmorphism
 
 // Style global témoin
 .dot-online {

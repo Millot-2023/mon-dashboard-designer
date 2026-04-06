@@ -12,7 +12,7 @@
                 <label>Pixels (px)</label>
                 <div class="custom-qty">
                     <button type="button" class="qty-btn down">-</button>
-                    <input type="number" id="input-px" placeholder="Ex: 16" value="16">
+                    <input type="number" id="input-px" placeholder="16" value="16">
                     <button type="button" class="qty-btn up">+</button>
                 </div>
             </div>
@@ -23,14 +23,12 @@
                 <label>Root EM (rem)</label>
                 <div class="custom-qty">
                     <button type="button" class="qty-btn down">-</button>
-                    <input type="number" id="input-rem" placeholder="Ex: 1" step="0.01">
+                    <input type="number" id="input-rem" placeholder="1" step="0.01">
                     <button type="button" class="qty-btn up">+</button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="tier-footer">
         <div class="converter-settings">
             <label>Base Font Size :</label>
             <div class="custom-qty">
