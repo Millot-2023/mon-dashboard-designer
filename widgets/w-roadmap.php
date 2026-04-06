@@ -1,8 +1,8 @@
 <div class="card large roadmap-card">
-    <details open>
+    <details>
         <summary>
             <h3>🚀 Développements Futurs & Journal de Bord</h3>
-            <span class="fold-hint">Cliquer pour replier</span>
+            <span class="fold-hint">Cliquer pour déplier</span>
         </summary>
 
         <div class="roadmap-body">
