@@ -9,6 +9,7 @@
     </div>
 
     <div class="grid-container" id="dashboard-grid">
+        
         <div class="dashboard-row-4">
             <?php include 'widgets/w-clock.php'; ?>
             <?php include 'widgets/w-weather.php'; ?>
@@ -18,11 +19,9 @@
 
         <div class="project-group">
             <?php include 'widgets/w-add-project.php'; ?>
-
             <div id="resources-session-wrapper" class="resources-container">
                 <?php include 'widgets/w-resources.php'; ?>
             </div>
-
             <h4 class="group-title">Lanceur Projets</h4>
             <div id="projects-auto-wrapper" class="dashboard-row-4"></div>
         </div>
@@ -30,7 +29,8 @@
         <div class="project-group">
             <h4 class="group-title">Modules & Outils</h4>
             <div id="shortcuts-manual-wrapper" class="dashboard-row-4">
-                <?php include 'widgets/w-fonts-tester.php'; ?> </div>
+                <?php include 'widgets/w-fonts-tester.php'; ?> 
+            </div>
         </div>
 
         <div class="dashboard-row-4">
@@ -43,11 +43,16 @@
         </div>
 
         <div class="dashboard-row-full">
-             <?php include 'widgets/w-lab.php'; ?>
+            <?php include 'widgets/w-codepen.php'; ?> 
+        </div>
+
+        <div class="dashboard-row-full">
+            <?php include 'widgets/w-lab.php'; ?>
         </div>
 
         <?php include 'widgets/w-notes.php'; ?>
         <?php include 'widgets/w-roadmap.php'; ?>
+        
     </div>
 </div>
 

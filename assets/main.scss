@@ -21,8 +21,9 @@
 @use 'components/weather';
 @use 'components/w-projets';
 @use 'components/w-veille';
-@use 'components/fonts-tester'; // <--- RESTAURÉ : Testeur de Google Fonts
-@use 'components/lab';          // Playground CSS "The Lab"
+@use 'components/fonts-tester';
+@use 'components/lab';           // Ton Playground CSS actuel
+@use 'components/codepen';       // <--- AJOUT : Ton nouvel éditeur HTML/CSS/JS
 
 // Style global témoin
 .dot-online {

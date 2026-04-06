@@ -12,7 +12,7 @@
     <script src="js/resources-manager.js"></script>
     
     <script src="js/lab.js"></script>
-    <script src="js/fonts-tester.js"></script>
+    <script src="js/codepen.js"></script> <script src="js/fonts-tester.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

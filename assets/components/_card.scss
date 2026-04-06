@@ -1,8 +1,8 @@
 @use '../variables' as *;
 
 .card {
-    background: $card-bg;
-    border: 1px solid $card-border;
+    background: #323246; 
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 16px;
     backdrop-filter: $card-blur;
     min-height: 120px; 
@@ -11,13 +11,12 @@
     box-sizing: border-box;
     position: relative;
     transition: $transition;
-    /* Autorise le débordement des menus déroulants */
-    overflow: visible !important; 
-}
+    overflow: hidden !important; 
 
-.card:hover {
-    border-color: rgba(255, 255, 255, 0.15);
-    background: rgba(255, 255, 255, 0.05);
+    &:hover {
+        border-color: rgba(78, 204, 163, 0.3); 
+        background: #323246; 
+    }
 }
 
 .card-tier-system {
@@ -29,57 +28,90 @@
 
 .tier-header {
     height: 50px; 
+    min-height: 50px;
     display: flex;
+    justify-content: space-between; 
     align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 0 25px !important; // Normalisation de l'espacement horizontal
+    padding: 0 25px !important;
     box-sizing: border-box;
-    margin: 0 !important; // Supprime toute marge parasite
-}
+    margin: 0 !important;
 
-.tier-header h3 {
-    margin: 0 !important; // Force la suppression des marges par défaut des navigateurs
-    padding: 0 !important;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.5);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    line-height: 1; // Stabilise l'alignement vertical
+    h3, .tier-title {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.5);
+        display: flex;
+        align-items: center;
+        gap: 0; 
+        line-height: 1;
+
+        i, svg {
+            display: none !important;
+        }
+    }
+
+    .tier-actions {
+        display: flex;
+        gap: 10px;
+        
+        .btn-action {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: color 0.2s;
+
+            &:hover {
+                color: #4ecca3; 
+            }
+        }
+    }
 }
 
 .tier-body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center; 
-    padding: 0 25px !important;
+    padding: 25px !important; // Unification totale à 25px
+    box-sizing: border-box;
+
+    // Neutralisation des marges parasites des conteneurs enfants
+    > div:first-child { margin-top: 0 !important; }
+    > div:last-child { margin-bottom: 0 !important; }
 }
 
 .tier-footer {
-    height: 60px; 
-    margin-top: auto;
+    height: 60px;
+    min-height: 60px;
     display: flex;
-    justify-content: space-between;
-    align-items: center; 
-    padding: 0 25px 10px 25px; 
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 25px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
     box-sizing: border-box;
 }
 
+// --- Spécificités Horloge ---
 .clock-card {
     position: relative !important;
-    justify-content: center;
-    align-items: center;
-    min-height: 150px; 
+    
+    .tier-body {
+        justify-content: center;
+        align-items: center;
+        padding: 0 !important; // L'horloge gère son propre centrage
+    }
 
     #clock {
         position: absolute !important;
         bottom: 15px !important; 
-        right: 20px !important;
-        top: auto !important;
-        left: auto !important;
+        right: 25px !important; // Aligné sur la marge standard
         font-size: 0.75rem;
         opacity: 0.3;
         pointer-events: none;
@@ -88,7 +120,7 @@
 
 .clock-index {
     position: absolute;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .clock-index.i-12 { top: 15px; left: 50%; width: 2px; height: 12px; transform: translateX(-50%); }
@@ -105,9 +137,10 @@
 }
 
 .aiguille.heure { width: 4px; height: 35px; background: $white; border-radius: 4px; }
-.aiguille.minute { width: 3px; height: 50px; background: rgba(255, 255, 255, 0.5); border-radius: 3px; }
+.aiguille.minute { width: 3px; height: 50px; background: rgba(255, 255, 255, 0.4); border-radius: 3px; }
 .aiguille.seconde { width: 1.5px; height: 60px; background: $accent-red; }
 
+// --- Spécificités Projets ---
 .project-card {
     padding: 0;
     position: relative;
@@ -120,54 +153,8 @@
         left: 50% !important;
         transform: translateX(-50%) !important;
         font-size: 0.7rem !important;
-        color: rgba(255, 255, 255, 0.3) !important;
+        color: rgba(255, 255, 255, 0.2) !important;
         font-weight: 500;
         pointer-events: none;
-        white-space: nowrap;
     }
-}
-
-.project-main-link {
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    width: 100%;
-    height: 100%;
-    padding: 20px;
-}
-
-.project-initial {
-    width: 45px;
-    height: 45px;
-    background: rgba(52, 152, 219, 0.15);
-    border: 1px solid rgba(52, 152, 219, 0.3);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: $primary-color;
-    font-weight: 700;
-}
-
-.project-name {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.status-indicator {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.status-indicator.active {
-    background: $accent-red;
-    box-shadow: 0 0 8px rgba(255, 71, 87, 0.5);
 }

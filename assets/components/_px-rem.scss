@@ -1,29 +1,16 @@
 @use '../variables' as *;
 
 #converter-px-rem {
-    &.card {
-        display: grid;
-        grid-template-rows: auto 1fr auto; 
-        gap: 20px; 
-        height: 100%;
-        padding: 25px; 
-        overflow: visible !important; 
-        background: $card-bg;
-        backdrop-filter: $card-blur;
-        border: 1px solid $card-border;
-        border-radius: 16px;
-        position: relative;
-    }
+    // Suppression de .card, padding, background, border, etc.
+    // Tout est maintenant géré par .card-tier-system dans _card.scss
 
     .converter-body {
         display: flex;
         flex-direction: row;
-        flex-wrap: wrap; 
         align-items: flex-end; 
         justify-content: center;
         gap: 15px; 
         width: 100%;
-        max-width: 500px;
         margin: 0 auto;
         position: relative;
         z-index: 2;
@@ -31,23 +18,23 @@
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px; // Aligné sur tes autres labels
             flex: 1;
             min-width: 120px; 
 
             label {
-                font-size: 0.75rem;
-                color: rgba(255, 255, 255, 0.5);
-                text-align: center;
+                font-size: 0.7rem; // Unifié avec tes labels de sections
+                color: rgba(255, 255, 255, 0.3);
+                text-align: left; // Aligné à gauche comme les autres cards
                 text-transform: uppercase;
-                letter-spacing: 0.5px;
+                letter-spacing: 1px;
+                font-weight: 600;
             }
 
             .custom-qty {
                 width: 100%;
                 height: 38px; 
 
-                // --- SUPPRESSION DES SPINNERS ICI ---
                 input {
                     &::-webkit-outer-spin-button,
                     &::-webkit-inner-spin-button {
@@ -67,41 +54,33 @@
             justify-content: center;
             height: 38px; 
             font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.15);
             padding: 0 5px;
         }
     }
 
+    // Paramètres situés dans le tier-footer (via le PHP)
     .converter-settings {
         display: flex;
         align-items: center;
-        justify-content: center;
         gap: 12px;
-        padding: 12px;
+        padding: 10px 15px;
         background: rgba(255, 255, 255, 0.02);
         border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 10px;
-        margin-top: 5px;
-        position: relative;
+        border-radius: 8px;
+        width: fit-content; // Évite de prendre toute la largeur en bas
 
         label, span {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .custom-select {
-            width: 100px;
-            height: 32px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
         }
 
         .custom-qty {
-            width: 100px;
-            height: 32px;
+            width: 80px;
+            height: 28px;
             
             input { 
-                font-size: 0.85rem; 
-                
-                // --- ET ICI AUSSI ---
+                font-size: 0.8rem; 
                 &::-webkit-outer-spin-button,
                 &::-webkit-inner-spin-button {
                     -webkit-appearance: none;

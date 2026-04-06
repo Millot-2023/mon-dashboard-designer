@@ -1,12 +1,10 @@
 @use '../variables' as *;
 
 .roadmap-card {
-    // Le layout gère déjà le grid-column, mais on le laisse ici par sécurité
+    // On retire les paddings et hauteurs fixes, .card s'en occupe
     grid-column: 1 / -1; 
-    padding: 0;
-    height: auto;
     width: 100%;
-    box-sizing: border-box;
+    text-align: left;
 
     details {
         width: 100%;
@@ -14,7 +12,7 @@
         summary {
             list-style: none;
             cursor: pointer;
-            padding: 20px 25px; // Un peu plus d'air pour le header
+            padding: 25px; // Aligné sur le padding standard des cards
             outline: none;
             user-select: none;
             display: flex;
@@ -28,17 +26,18 @@
 
             h3 { 
                 margin: 0; 
-                font-size: 0.9rem;
-                font-weight: 500;
+                font-size: 0.7rem; // Unifié avec les autres titres
+                font-weight: 600;
                 text-transform: uppercase;
-                letter-spacing: 0.5px;
-                color: rgba(255, 255, 255, 0.9);
+                letter-spacing: 1px;
+                color: rgba(255, 255, 255, 0.4);
             }
 
             .fold-hint { 
-                opacity: 0.3; 
-                font-size: 0.75rem; 
-                font-style: italic;
+                opacity: 0.2; 
+                font-size: 0.65rem; 
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
             }
 
             &::-webkit-details-marker { display: none; }
@@ -50,38 +49,37 @@
     }
 
     .roadmap-body {
-        padding: 0 25px 20px 25px;
+        // Le padding gauche/droite doit correspondre au summary pour l'alignement
+        padding: 0 25px 25px 25px; 
 
         ul {
             list-style: none; 
             padding: 20px 0 0 0;
             margin: 0;
-            text-align: left;
 
             li {
                 margin-bottom: 12px;
                 display: flex;
                 align-items: center;
                 gap: 12px;
-                font-size: 0.9rem;
-                color: rgba(255, 255, 255, 0.8);
+                font-size: 0.85rem;
+                color: rgba(255, 255, 255, 0.7);
 
                 &.done { 
-                    opacity: 0.4; 
+                    opacity: 0.3; 
                     text-decoration: line-through;
                 }
 
-                // Utilisation des variables de couleurs
-                &.priority-high { color: $accent-red; font-weight: 600; }
-                &.priority-mid { color: #f1c40f; font-weight: 600; }
+                &.priority-high { color: $accent-red; }
+                &.priority-mid { color: #f1c40f; }
                 &.feature-php { color: $primary-color; }
                 &.feature-js { color: #2ecc71; }
-                &.clean-task { font-style: italic; opacity: 0.6; }
+                &.clean-task { font-style: italic; opacity: 0.5; }
                 
                 input[type="checkbox"] {
                     margin: 0;
                     cursor: pointer;
-                    accent-color: $primary-color; // Pour colorer la checkbox sur les navigateurs modernes
+                    accent-color: $primary-color;
                 }
             }
         }

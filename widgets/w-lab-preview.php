@@ -1,12 +1,8 @@
-<div class="card lab-preview-card">
+<div class="card card-tier-system lab-preview-card">
     <div class="tier-header">
-        <div class="tier-title">
-            <i class="fa-solid fa-flask"></i> Design Lab
-        </div>
+        <h3 class="tier-title">Design Lab</h3>
         <div class="tier-actions">
-            <button class="btn-action" onclick="resetLab()" title="Réinitialiser">
-                <i class="fa-solid fa-rotate-right"></i>
-            </button>
+            <button class="btn-action" onclick="resetLab()" title="Réinitialiser">RESET</button>
         </div>
     </div>
 

@@ -1,38 +1,37 @@
-<div class="card large" id="lorem-generator" data-id="lorem">
-    <div class="card-header">
-        <div class="header-left">
-            <h3>📝 Lorem Generator</h3>
-        </div>
-        <div class="header-right">
+<div class="card card-tier-system large" id="lorem-generator" data-id="lorem">
+    <div class="tier-header">
+        <h3 class="tier-title">Lorem Generator</h3>
+        <div class="tier-actions">
             <span id="lorem-counter" class="counter">0 chars</span>
         </div>
     </div>
     
-    <div class="lorem-controls">
-        <div class="custom-qty">
-            <button type="button" class="qty-btn down">-</button>
-            <input type="number" id="lorem-amount" value="3" min="1" max="50">
-            <button type="button" class="qty-btn up">+</button>
-        </div>
-        
-        <div class="custom-select" id="lorem-type-container">
-            <div class="select-trigger">
-                <span>Phrases</span>
-                <i class="chevron"></i>
+    <div class="tier-body">
+        <div class="lorem-controls">
+            <div class="custom-qty">
+                <button type="button" class="qty-btn down">-</button>
+                <input type="number" id="lorem-amount" value="3" min="1" max="50">
+                <button type="button" class="qty-btn up">+</button>
             </div>
-            <div class="select-options">
-                <div class="option" data-value="paragraphs">Paragraphes</div>
-                <div class="option selected" data-value="sentences">Phrases</div>
-                <div class="option" data-value="words">Mots</div>
+            
+            <div class="custom-select" id="lorem-type-container">
+                <div class="select-trigger">
+                    <span>Phrases</span>
+                </div>
+                <div class="select-options">
+                    <div class="option" data-value="paragraphs">Paragraphes</div>
+                    <div class="option selected" data-value="sentences">Phrases</div>
+                    <div class="option" data-value="words">Mots</div>
+                </div>
+                <input type="hidden" id="lorem-type" value="sentences">
             </div>
-            <input type="hidden" id="lorem-type" value="sentences">
+
+            <button id="gen-lorem" class="btn-mini">Générer</button>
+            <button id="copy-lorem" class="btn-action" title="Copier tout">COPY</button>
         </div>
 
-        <button id="gen-lorem" class="btn-mini">Générer</button>
-        <button id="copy-lorem" class="btn-mini" title="Copier tout">📋</button>
-    </div>
-
-    <div id="lorem-output" class="lorem-preview">
-        Le texte généré apparaîtra ici...
+        <div id="lorem-output" class="lorem-preview">
+            Le texte généré apparaîtra ici...
+        </div>
     </div>
 </div>
