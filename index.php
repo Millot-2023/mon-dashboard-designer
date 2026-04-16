@@ -21,12 +21,12 @@ include 'partials/head.php';
         </div>
 
         <div class="project-group">
-            <h4 class="group-title">Lanceur Projets</h4>
             <?php renderWidget('add-project', 'card-new', '', 'id="project-creator-bar"'); ?>
             <div id="resources-session-wrapper" class="resources-container">
                 <?php include 'widgets/w-resources.php'; ?>
             </div>
           
+            <h4 class="group-title">Lanceur Projets</h4>
             <div id="projects-auto-wrapper" class="dashboard-row-4"></div>
         </div>
 
