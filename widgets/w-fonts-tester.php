@@ -1,4 +1,3 @@
-<div class="card card-tier-system" id="fonts-tester-card">
     <div class="tier-header">
         <h3 class="tier-title">Google Fonts Tester</h3>
     </div>
@@ -22,4 +21,3 @@
         <button class="btn-action" id="btn-copy-import">@import</button>
         <button class="btn-action" id="btn-copy-family">Family</button>
     </div>
-</div>

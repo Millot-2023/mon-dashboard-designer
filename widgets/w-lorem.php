@@ -1,4 +1,3 @@
-<div class="card card-tier-system large" id="lorem-generator" data-id="lorem">
     <div class="tier-header">
         <h3 class="tier-title">Lorem Generator</h3>
         <div class="tier-actions">
@@ -34,4 +33,3 @@
             Le texte généré apparaîtra ici...
         </div>
     </div>
-</div>

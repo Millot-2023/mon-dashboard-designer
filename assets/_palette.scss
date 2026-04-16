@@ -1,28 +1,28 @@
 @use 'variables' as *;
 
-#palette-card {
+#palette-card.card {
     display: flex;
     flex-direction: column;
     height: 100%;
 
     .tier-body {
-        padding: 0 25px !important; // Alignement latéral strict sur le header
+        padding: 0 25px; // Alignement latéral strict sur le header
         flex: 1;
         display: flex;
         align-items: center;
         transition: $transition;
 
         .palette-controls-row {
-            display: flex !important;
-            flex-direction: row !important;
-            flex-wrap: nowrap !important; 
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap; 
             align-items: center;
             justify-content: space-between;
             gap: 12px; // Espacement harmonisé
             width: 100%;
 
             .qty-group {
-                display: flex !important;
+                display: flex;
                 align-items: center;
                 gap: 8px;
                 flex-shrink: 0;
@@ -77,22 +77,22 @@
 
     // Pied de carte : Verrouillage de la ligne d'horizon
     #palette-colors.tier-footer {
-        display: flex !important;
-        align-items: center !important;   
-        justify-content: center !important; 
-        gap: 6px !important;
-        padding: 0 25px 15px 25px !important; 
+        display: flex;
+        align-items: center;   
+        justify-content: center; 
+        gap: 6px;
+        padding: 0 25px 15px 25px; 
         height: 60px; // Aligné strictement sur #session-card
         margin-top: auto;
         box-sizing: border-box;
 
         div {
             flex: 1;
-            height: 24px !important; // Même hauteur que le bouton de session
+            height: 24px; // Même hauteur que le bouton de session
             border-radius: 5px;
             cursor: pointer;
             transition: $transition;
-            margin: 0 !important;
+            margin: 0;
             border: 1px solid rgba(255, 255, 255, 0.1);
 
             &:hover {

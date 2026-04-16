@@ -59,7 +59,7 @@
 
                 /* ÉTAT 02 : SURVOL (HOVER) - BLEU 0.6 */
                 &:hover { 
-                    border-color: rgba($primary-color, 0.6) !important; 
+                    border-color: color-mix(in srgb, $primary-color 60%, transparent) !important; 
                     &::after { 
                         opacity: 1 !important; 
                         border-color: $primary-color !important; 

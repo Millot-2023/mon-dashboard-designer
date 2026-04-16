@@ -76,11 +76,89 @@
                 &.feature-js { color: #2ecc71; }
                 &.clean-task { font-style: italic; opacity: 0.5; }
                 
+                // Modificateurs de bordure extraits de l'inline
+                &.item-bordered {
+                    padding-left: 10px;
+                    &.border-white { 
+                        border-left: 3px solid rgba(255,255,255,0.2); 
+                        margin-bottom: 20px; 
+                        opacity: 0.5; 
+                    }
+                    &.border-red { border-left: 3px solid $accent-red; } // #ff5f56
+                    &.border-blue { border-left: 3px solid $primary-color; } // $primary-color
+                    &.border-yellow { border-left: 3px solid #f1c40f; }
+                }
+
                 input[type="checkbox"] {
                     margin: 0;
                     cursor: pointer;
                     accent-color: $primary-color;
                 }
+            }
+        }
+
+        .roadmap-debug-notes {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+
+            p {
+                margin: 0; 
+                &.note-title-green {
+                    color: #2ecc71;
+                    margin-bottom: 5px;
+                }
+                &.note-title-blue {
+                    color: $primary-color;
+                    margin-top: 10px;
+                }
+            }
+        }
+
+        hr.roadmap-separator {
+            border: 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin: 20px 0;
+        }
+
+        .software-vision {
+            padding: 10px;
+            border: 1px dashed color-mix(in srgb, $primary-color 30%, transparent);
+            border-radius: 4px;
+
+            h4 {
+                color: $primary-color; // $primary-color
+                margin-bottom: 10px;
+                font-size: 0.9rem;
+            }
+
+            .vision-text {
+                font-size: 0.8rem;
+                line-height: 1.4;
+                color: rgba(255,255,255,0.6);
+            }
+
+            .vision-list {
+                list-style: none;
+                padding: 0;
+                margin-top: 10px;
+
+                li {
+                    margin-bottom: 5px;
+                    font-size: 0.75rem;
+                    color: rgba(255,255,255,0.5);
+                }
+            }
+
+            .vision-note {
+                font-style: italic;
+                font-size: 0.7rem;
+                margin-top: 10px;
+                color: $primary-color;
             }
         }
     }

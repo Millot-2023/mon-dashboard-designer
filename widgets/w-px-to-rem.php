@@ -1,4 +1,3 @@
-<div class="card card-tier-system large" id="converter-px-rem" data-id="px-rem">
     <div class="tier-header">
         <h3 class="tier-title">PX to REM</h3>
         <div class="tier-actions">
@@ -39,4 +38,3 @@
             <span class="unit">px</span>
         </div>
     </div>
-</div>

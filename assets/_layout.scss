@@ -1,10 +1,18 @@
 @use 'variables' as *;
 
+html {
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
 ul, li {
-    list-style: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: none;
 }
 
 body, html { 
@@ -22,7 +30,6 @@ body, html {
     align-items: center; 
     min-height: 100vh; 
     padding: 40px 20px; 
-    box-sizing: border-box;
 }
 
 .grid-container {
@@ -43,8 +50,8 @@ body, html {
 }
 
 /* HAUTEURS HARMONISÉES */
-.clock-card, .weather-card, #palette-card, #session-card {
-    height: 180px !important;
+.clock-card, .weather-card, #palette-card.card, #session-card.card {
+    height: 180px;
 }
 
 /* BARRE AJOUT RACCOURCI */
@@ -54,7 +61,6 @@ body, html {
     border-radius: 12px;
     padding: 20px;
     width: 100%;
-    box-sizing: border-box;
 }
 
 #project-creator-bar .label {
@@ -79,7 +85,6 @@ body, html {
     padding: 10px 15px;
     color: #fff;
     height: 40px;
-    box-sizing: border-box;
     outline: none;
 }
 
@@ -103,17 +108,15 @@ body, html {
     font-size: 0.75rem; 
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.3); 
-    /*margin: 0 0 15px 0 !important;*/
     padding: 0 0 0 15px; 
     border-left: 2px solid $primary-color;
-    box-sizing: border-box;
 }
 
 .project-group {
     width: 100%;
     display: flex;
     flex-direction: column;
-    margin: 0 !important;
+    margin: 0;
 }
 
 #resources-list, 
@@ -138,5 +141,5 @@ body, html {
 }
 
 hr, .separator {
-    display: none !important;
+    display: none;
 }

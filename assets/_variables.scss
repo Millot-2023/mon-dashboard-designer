@@ -1,5 +1,5 @@
 // --- COULEURS THÈME ---
-$primary-color: #3498db; // Ancien --accent
+$primary-color: var(--accent-primary, #3498db); // Ancien --accent
 $accent-red:    #ff4757; // Pour la trotteuse et le point central
 $white:         #ffffff;
 $black:         #000000;

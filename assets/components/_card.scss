@@ -11,10 +11,10 @@
     box-sizing: border-box;
     position: relative;
     transition: $transition;
-    overflow: hidden !important; 
+    overflow: hidden; 
 
     &:hover {
-        border-color: rgba(78, 204, 163, 0.3); 
+        border-color: color-mix(in srgb, $primary-color 30%, transparent); 
         background: #323246; 
     }
 }
@@ -33,13 +33,13 @@
     justify-content: space-between; 
     align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 0 25px !important;
+    padding: 0 25px;
     box-sizing: border-box;
-    margin: 0 !important;
+    margin: 0;
 
     h3, .tier-title {
-        margin: 0 !important;
-        padding: 0 !important;
+        margin: 0;
+        padding: 0;
         font-size: 0.75rem;
         font-weight: 600;
         text-transform: uppercase;
@@ -50,7 +50,7 @@
         line-height: 1;
 
         i, svg {
-            display: none !important;
+            display: none;
         }
     }
 
@@ -79,12 +79,12 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 25px !important; // Unification totale à 25px
+    padding: 25px; // Unification totale à 25px
     box-sizing: border-box;
 
     // Neutralisation des marges parasites des conteneurs enfants
-    > div:first-child { margin-top: 0 !important; }
-    > div:last-child { margin-bottom: 0 !important; }
+    > div:first-child { margin-top: 0; }
+    > div:last-child { margin-bottom: 0; }
 }
 
 .tier-footer {
@@ -93,25 +93,25 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 0 25px !important;
+    padding: 0 25px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     box-sizing: border-box;
 }
 
 // --- Spécificités Horloge ---
 .clock-card {
-    position: relative !important;
+    position: relative;
     
     .tier-body {
         justify-content: center;
         align-items: center;
-        padding: 0 !important; // L'horloge gère son propre centrage
+        padding: 0; 
     }
 
     #clock {
-        position: absolute !important;
-        bottom: 15px !important; 
-        right: 25px !important; // Aligné sur la marge standard
+        position: absolute;
+        bottom: 15px; 
+        right: 25px; 
         font-size: 0.75rem;
         opacity: 0.3;
         pointer-events: none;
@@ -139,22 +139,3 @@
 .aiguille.heure { width: 4px; height: 35px; background: $white; border-radius: 4px; }
 .aiguille.minute { width: 3px; height: 50px; background: rgba(255, 255, 255, 0.4); border-radius: 3px; }
 .aiguille.seconde { width: 1.5px; height: 60px; background: $accent-red; }
-
-// --- Spécificités Projets ---
-.project-card {
-    padding: 0;
-    position: relative;
-    
-    #clock { display: none; } 
-
-    .project-cumul-time {
-        position: absolute !important;
-        bottom: 12px !important; 
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        font-size: 0.7rem !important;
-        color: rgba(255, 255, 255, 0.2) !important;
-        font-weight: 500;
-        pointer-events: none;
-    }
-}

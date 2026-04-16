@@ -53,7 +53,7 @@
         }
 
         &:hover { 
-            border-color: rgba($primary-color, 0.6) !important; 
+            border-color: color-mix(in srgb, $primary-color 60%, transparent) !important; 
             .chevron { opacity: 1; border-color: $primary-color !important; }
         }
     }

@@ -1,93 +1,138 @@
-// On rend projectsData global pour la synchronisation entre scripts
-window.projectsData = JSON.parse(localStorage.getItem('projects-logs')) || {};
+window.projectsData = {}; // Legacy fallback si besoin
+window.dbProjects = [];
 
-function initProjects() {
+async function loadProjectsFromFlatFile() {
+    try {
+        const res = await fetch('includes/get_projects.php?t=' + Date.now());
+        if (res.ok) {
+            window.dbProjects = await res.json();
+            if (!Array.isArray(window.dbProjects)) window.dbProjects = [];
+        } else {
+            window.dbProjects = [];
+        }
+    } catch (e) {
+        window.dbProjects = [];
+    }
+    renderProjects();
+}
+
+function renderProjects() {
     const wrapper = document.getElementById('projects-auto-wrapper');
     const selectOptions = document.querySelector('#session-project-container .select-options');
     const selectTrigger = document.querySelector('#session-project-container .select-trigger span');
     const hiddenInput = document.getElementById('session-project-id');
 
-    fetch('./includes/get_projects.php')
-        .then(response => {
-            if (!response.ok) throw new Error("Erreur réseau");
-            return response.json();
-        })
-        .then(projects => {
-            if (wrapper) {
-                wrapper.innerHTML = ''; 
-                projects.forEach(project => {
-                    const isProjectActive = window.projectsData[project.name]?.active || false;
-                    const card = document.createElement('div');
-                    
-                    // Applique la classe active sur la card pour le voyant SCSS
-                    card.className = `card project-card ${isProjectActive ? 'active' : ''}`;
-                    
-                    card.innerHTML = `
-                        <div class="project-link-container">
-                            <a href="${project.url}" target="_blank" class="project-main-link">
-                                <div class="project-initial">${project.initial}</div>
-                                <span class="project-name">${project.name}</span>
-                            </a>
-                            <button class="btn-timer ${isProjectActive ? 'active' : ''}" onclick="event.stopPropagation(); window.toggleProject('${project.name}')">
-                                <i class="fas ${isProjectActive ? 'fa-stop' : 'fa-play'}"></i>
-                            </button>
-                        </div>
-                    `;
-                    wrapper.appendChild(card);
-                });
-            }
+    if (wrapper) {
+        wrapper.innerHTML = '';
+        window.dbProjects.forEach(project => {
+            const isProjectActive = project.active || false;
+            const card = document.createElement('div');
 
-            if (selectOptions && projects) {
-                selectOptions.innerHTML = ''; 
-                projects.forEach(project => {
-                    const opt = document.createElement('div');
-                    opt.className = 'option';
-                    opt.innerText = project.name;
-                    opt.onclick = (e) => {
-                        e.stopPropagation();
-                        if (selectTrigger) selectTrigger.innerText = project.name;
-                        if (hiddenInput) {
-                            hiddenInput.value = project.name;
-                            hiddenInput.dispatchEvent(new Event('change'));
-                        }
-                    };
-                    selectOptions.appendChild(opt);
-                });
-            }
-        })
-        .catch(err => console.error("Erreur chargement projets :", err));
+            card.className = `card project-card ${isProjectActive ? 'active' : ''}`;
+            
+            // Masque la croix si c'est un projet scanné (local)
+            const deleteBtnHtml = !project.isLocal ? `<button title="Supprimer le projet" class="project-delete-btn" onclick="event.stopPropagation(); window.deleteProject('${project.id}')" style="position: absolute; top:8px; left:8px; background:none; border:none; color:rgba(255,255,255,0.2); cursor:pointer; font-size:14px; z-index:30;">&times;</button>` : '';
+
+            card.innerHTML = `
+                ${deleteBtnHtml}
+                <div class="project-link-container">
+                    <a href="${project.url}" target="_blank" class="project-main-link">
+                        <div class="project-initial">${project.initial || project.name.charAt(0).toUpperCase()}</div>
+                        <span class="project-name">${project.name}</span>
+                    </a>
+                    <button class="btn-timer ${isProjectActive ? 'active' : ''}" onclick="event.stopPropagation(); window.toggleProject('${project.name}')">
+                        <i class="fas ${isProjectActive ? 'fa-stop' : 'fa-play'}"></i>
+                    </button>
+                </div>
+            `;
+            wrapper.appendChild(card);
+        });
+    }
+
+    if (selectOptions) {
+        selectOptions.innerHTML = '';
+        window.dbProjects.forEach(project => {
+            const opt = document.createElement('div');
+            opt.className = 'option';
+            opt.innerText = project.name;
+            opt.onclick = (e) => {
+                e.stopPropagation();
+                if (selectTrigger) selectTrigger.innerText = project.name;
+                if (hiddenInput) {
+                    hiddenInput.value = project.name;
+                    hiddenInput.dispatchEvent(new Event('change'));
+                }
+            };
+            selectOptions.appendChild(opt);
+        });
+    }
 }
 
-/**
- * window.toggleProject
- * @param {string} projectName - Nom du projet
- * @param {boolean|null} forceState - Force l'état ON (true) ou OFF (false)
- */
-window.toggleProject = function(projectName, forceState = null) {
-    const now = Date.now();
-    
-    // On recharge systématiquement pour être synchro avec session.js
-    window.projectsData = JSON.parse(localStorage.getItem('projects-logs')) || {};
+window.addNewProject = async function () {
+    const input = document.getElementById('project-name');
+    if (!input || !input.value.trim()) return;
 
-    if (!window.projectsData[projectName]) {
-        window.projectsData[projectName] = { totalTime: 0, startTime: null, active: false };
+    let name = input.value.trim();
+    let url = name.startsWith('http') ? name : `http://${name}`;
+
+    if (name.startsWith('http')) {
+        try {
+            const domain = new URL(url).hostname;
+            name = domain.replace('www.', '').split('.')[0];
+        } catch (e) { } // Fallback silencieux
     }
-    
-    let p = window.projectsData[projectName];
-    
-    // Détermine le prochain état (soit forcé, soit inversion)
+
+    const newProj = {
+        id: Date.now(),
+        name: name.charAt(0).toUpperCase() + name.slice(1),
+        url: url,
+        initial: name.charAt(0).toUpperCase()
+    };
+
+    window.dbProjects.push(newProj);
+    await saveProjectsToDisk();
+
+    input.value = '';
+    renderProjects();
+};
+
+window.deleteProject = async function (id) {
+    if (!confirm('Effacer definitivement ce raccourci ?')) return;
+    window.dbProjects = window.dbProjects.filter(p => p.id !== id);
+    await saveProjectsToDisk();
+    renderProjects();
+};
+
+window.saveProjectsToDisk = async function() {
+    const fd = new FormData();
+    fd.append('projects', JSON.stringify(window.dbProjects));
+    try {
+        await fetch('includes/save_projects.php', { method: 'POST', body: fd });
+    } catch (e) {
+        console.error("Save error: ", e);
+    }
+}
+
+window.toggleProject = function (projectName, forceState = null) {
+    const now = Date.now();
+    let p = window.dbProjects.find(pf => pf.name === projectName);
+    if (!p) return;
+
     const nextState = (forceState !== null) ? forceState : !p.active;
 
     if (nextState && !p.active) {
+        // Départ du chrono
         p.startTime = now;
         p.active = true;
     } else if (!nextState && p.active) {
+        // Arrêt du chrono
         p.totalTime += (now - p.startTime);
         p.startTime = null;
         p.active = false;
     }
-    
-    localStorage.setItem('projects-logs', JSON.stringify(window.projectsData));
+
+    // La persistance totale de l'état se fait dans projects.json
+    saveProjectsToDisk();
     updateTimerButtons();
 };
 
@@ -96,26 +141,35 @@ function updateTimerButtons() {
     cards.forEach(card => {
         const nameSpan = card.querySelector('.project-name');
         const btn = card.querySelector('.btn-timer');
-        
+
         if (nameSpan && btn) {
             const name = nameSpan.innerText;
-            const isActive = window.projectsData[name]?.active || false;
-            
-            // Mise à jour de la CARD (pour le voyant lumineux en CSS)
-            if (isActive) {
-                card.classList.add('active');
-            } else {
-                card.classList.remove('active');
-            }
+            const p = window.dbProjects.find(pf => pf.name === name);
+            const isActive = p ? (p.active || false) : false;
 
-            // Mise à jour du BOUTON (classe et icône)
+            if (isActive) card.classList.add('active');
+            else card.classList.remove('active');
+
             btn.className = `btn-timer ${isActive ? 'active' : ''}`;
             const icon = btn.querySelector('i');
-            if (icon) {
-                icon.className = `fas ${isActive ? 'fa-stop' : 'fa-play'}`;
-            }
+            if (icon) icon.className = `fas ${isActive ? 'fa-stop' : 'fa-play'}`;
         }
     });
 }
 
-document.addEventListener('DOMContentLoaded', initProjects);
+document.addEventListener('DOMContentLoaded', () => {
+    loadProjectsFromFlatFile();
+
+    // Raccrochement du formulaire rapide
+    const addBtn = document.getElementById('add-project-btn');
+    if (addBtn) {
+        addBtn.addEventListener('click', window.addNewProject);
+    }
+
+    const addInput = document.getElementById('project-name');
+    if (addInput) {
+        addInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') window.addNewProject();
+        });
+    }
+});

@@ -71,8 +71,8 @@
         }
 
         .btn-mini {
-            background: rgba($primary-color, 0.1);
-            border: 1px solid rgba($primary-color, 0.2);
+            background: color-mix(in srgb, $primary-color 10%, transparent);
+            border: 1px solid color-mix(in srgb, $primary-color 20%, transparent);
             color: $primary-color;
             flex: 2; // Prend plus de place que le bouton COPY
 

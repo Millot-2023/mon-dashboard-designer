@@ -1,4 +1,3 @@
-<div class="card card-new" id="project-creator-bar">
     <!--<div class="label">Nouveau Projet</div>-->
         <div class="label">Ajouter un raccourci</div>
     <div class="selection-area">
@@ -7,4 +6,3 @@
     </div>
     
 
-</div>

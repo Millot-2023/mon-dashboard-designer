@@ -1,4 +1,3 @@
-<div id="css-lab" class="card card-tier-system large lab-card">
     <div class="tier-header">
         <h3 class="tier-title">CSS Playground</h3>
     </div>
@@ -52,4 +51,3 @@
             </div>
         </div>
     </div>
-</div>

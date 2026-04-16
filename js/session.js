@@ -1,7 +1,4 @@
 (function() {
-    // Utilisation de la même clé que projects-timer.js pour la synchronisation
-    const STORAGE_KEY = 'projects-logs';
-
     function updateUI() {
         const timerDisplay = document.getElementById('session-timer');
         const btnToggle = document.getElementById('btn-session-toggle');
@@ -9,16 +6,13 @@
         
         if (!timerDisplay || !btnToggle) return;
 
-        // On récupère les données partagées
-        const allSessions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-
         // 1. MISE À JOUR DES CARTES DE PROJETS (Synchronisation des badges et diodes)
         document.querySelectorAll('.project-card').forEach(card => {
             const nameEl = card.querySelector('.project-name');
             if (!nameEl) return;
 
             const pName = nameEl.innerText.trim();
-            let pData = allSessions[pName] || { totalTime: 0, active: false, startTime: null };
+            const pData = window.dbProjects.find(p => p.name === pName) || { totalTime: 0, active: false, startTime: null };
             
             let badge = card.querySelector('.project-cumul-time');
             if (!badge) {
@@ -45,8 +39,8 @@
         let selected = triggerSpan ? triggerSpan.innerText.trim() : "";
 
         if (selected && !selected.includes("Chargement") && selected !== "Sélectionner un projet") {
-            let data = allSessions[selected] || { totalTime: 0, active: false, startTime: null };
-            let displayTime = data.totalTime;
+            const data = window.dbProjects.find(p => p.name === selected) || { totalTime: 0, active: false, startTime: null };
+            let displayTime = data.totalTime || 0;
 
             if (data.active) {
                 displayTime += (Date.now() - data.startTime);
@@ -90,11 +84,14 @@
             let selected = triggerSpan ? triggerSpan.innerText.trim() : "";
             
             if (selected && confirm(`Réinitialiser le temps pour ${selected} ?`)) {
-                let allData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-                if (allData[selected]) {
-                    allData[selected].totalTime = 0;
-                    allData[selected].active = false;
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
+                const targetProject = window.dbProjects.find(p => p.name === selected);
+                if (targetProject) {
+                    targetProject.totalTime = 0;
+                    targetProject.active = false;
+                    targetProject.startTime = null;
+                    if (typeof window.saveProjectsToDisk === 'function') {
+                        window.saveProjectsToDisk();
+                    }
                 }
                 updateUI();
             }

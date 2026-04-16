@@ -1,4 +1,3 @@
-<div class="card card-tier-system" id="session-card">
     <div class="tier-header">
         <h3>⏱️ SESSION TRAVAIL</h3>
     </div>
@@ -15,4 +14,3 @@
         <span id="session-timer" style="font-family: monospace; font-size: 1.2rem;">00:00:00</span>
         <button class="btn-session" id="btn-session-toggle">START</button>
     </div>
-</div>

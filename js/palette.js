@@ -1,14 +1,7 @@
 const MOOD_RULES = {
-    juicy:   { s: [90, 100], l: [45, 55] },             
-    autumn:  { s: [40, 65],  l: [30, 45], h: [10, 50] }, 
-    spring:  { s: [50, 80],  l: [75, 85] },             
-    light:   { s: [5, 15],   l: [90, 95] },             
-    cyber:   { s: [90, 100], l: [50, 60], h: [280, 330]},
-    deepsea: { s: [60, 90],  l: [15, 35], h: [190, 240]},
-    forest:  { s: [30, 60],  l: [25, 45], h: [100, 155]},
-    zen:     { s: [10, 25],  l: [70, 85] },
-    vintage: { s: [25, 45],  l: [45, 65], h: [20, 90] },
-    gold:    { s: [50, 70],  l: [35, 50], h: [35, 55] }
+    vibrant: { s: [90, 100], l: [45, 55] },
+    pastel: { s: [50, 70], l: [80, 90] },
+    darksynth: { s: [80, 100], l: [40, 50], h: [260, 330] }
 };
 
 function hslToHex(h, s, l) {
@@ -22,7 +15,19 @@ function hslToHex(h, s, l) {
     return `#${f(0)}${f(8)}${f(4)}`.toUpperCase();
 }
 
-function initPalette() {
+function applyLivePreview(palette) {
+    if (!palette || palette.length < 2) return;
+
+    const root = document.documentElement;
+    // Injecte les CSS Custom properties dans :root
+    root.style.setProperty('--accent-primary', palette[0]);
+    root.style.setProperty('--accent-secondary', palette[1]);
+
+    // Par sécurité pour ton CSS existant s'il n'utilise pas encore var()
+    root.style.setProperty('--primary-color', palette[0]);
+}
+
+window.initPalette = function () {
     const container = document.getElementById('palette-colors');
     const countInput = document.getElementById('palette-count');
     const moodInput = document.getElementById('palette-mood');
@@ -31,43 +36,52 @@ function initPalette() {
 
     const generate = () => {
         const count = countInput ? parseInt(countInput.value) : 5;
-        const currentMood = moodInput ? moodInput.value : "juicy";
-        const config = MOOD_RULES[currentMood] || MOOD_RULES.juicy;
-        
+        const currentMood = moodInput ? moodInput.value : "vibrant";
+        const config = MOOD_RULES[currentMood] || MOOD_RULES.vibrant;
+
         container.innerHTML = '';
-        
-        // Logique de couleur uniquement, le style est dans le SCSS
-        let baseHue = config.h 
-            ? Math.floor(Math.random() * (config.h[1] - config.h[0])) + config.h[0] 
+        let generatedColors = [];
+
+        // Base Hue conditionnelle selon le mood
+        let baseHue = config.h
+            ? Math.floor(Math.random() * (config.h[1] - config.h[0])) + config.h[0]
             : Math.floor(Math.random() * 360);
 
         for (let i = 0; i < count; i++) {
             let h = (baseHue + (i * 25)) % 360;
             let s = Math.floor(Math.random() * (config.s[1] - config.s[0])) + config.s[0];
             let l = Math.floor(Math.random() * (config.l[1] - config.l[0])) + config.l[0];
-            
+
             const hex = hslToHex(h, s, l);
+            generatedColors.push(hex);
+
             const rect = document.createElement('div');
-            
+            rect.className = 'palette-swatch';
             rect.style.backgroundColor = hex;
-            
+            rect.style.flex = '1';
+            rect.style.cursor = 'pointer';
+
             rect.onclick = (e) => {
                 e.stopPropagation();
+                applyLivePreview([hex, generatedColors[1] || hex]);
                 navigator.clipboard.writeText(hex);
             };
-            
+
             container.appendChild(rect);
         }
+
+        // Déclenche le live preview à la génération de la palette
+        applyLivePreview(generatedColors);
     };
 
-    if (countInput) countInput.oninput = generate;
-    
+    // Écoute les + / - de ton ui.js ou changement direct
+    if (countInput) countInput.addEventListener('input', generate);
+
+    // Écoute Custom Event du select
     if (moodInput) {
-        const observer = new MutationObserver(generate);
-        observer.observe(moodInput, { attributes: true });
+        moodInput.addEventListener('input', generate);
+        moodInput.addEventListener('change', generate);
     }
 
-    generate();
+    generate(); // Génération initiale
 }
-
-window.addEventListener('load', initPalette);

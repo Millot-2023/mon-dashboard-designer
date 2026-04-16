@@ -1,140 +1,148 @@
 @use '../variables' as *;
 
 // 1. MISE À ZÉRO ET PROTECTION DES CARDS
-#session-card, #palette-card {
-    overflow: visible !important;
+#session-card.card, #palette-card.card {
+    overflow: visible;
     .tier-body {
-        padding: 15px 25px !important; 
+        padding: 15px 25px; 
         transition: $transition;
     }
 }
 
 // 2. STRUCTURE LANCEUR (FLUIDE ET ALIGNÉE)
 #projects-auto-wrapper {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: flex-start !important; 
-    gap: 20px !important; 
-    /*margin: $space-title-gap 0 0 0 !important; */
-    width: 100% !important;
-}
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; 
+    gap: 20px; 
+    width: 100%;
 
-.project-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid $card-border;
-    border-radius: $border-radius;
-    padding: 0 !important; 
-    
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important; 
-    align-items: center !important;     
-    text-align: center !important;
-
-    transition: $transition;
-    position: relative; 
-    height: 180px !important;
-    
-    flex: 1 1 calc(20% - 20px) !important; 
-    min-width: 220px !important; 
-    max-width: 100% !important;
-
-    box-sizing: border-box !important;
-    overflow: hidden;
-
-    &:hover {
-        background: rgba(255, 255, 255, 0.06);
-        transform: translateY(-2px);
-        border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    // VOYANT
-    .btn-timer {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: #e74c3c; 
-        box-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
-        border: none;
-        z-index: 20; 
-        cursor: pointer;
-        i { display: none !important; }
-    }
-
-    &.active .btn-timer {
-        background: #2ecc71;
-        box-shadow: 0 0 10px rgba(46, 204, 113, 0.8);
-    }
-
-    .project-main-link {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;    
-        justify-content: center !important; 
+    .project-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid $card-border;
+        border-radius: $border-radius;
+        padding: 0; 
         
-        width: 100% !important;
-        height: 100% !important;
-        position: absolute; 
-        top: 0;
-        left: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; 
+        align-items: center;     
+        text-align: center;
+
+        transition: $transition;
+        position: relative; 
+        height: 180px;
         
-        text-decoration: none !important;
-        margin: 0 !important;
-        padding: 20px !important;
-        box-sizing: border-box !important;
-        z-index: 10;
+        flex: 1 1 calc(20% - 20px); 
+        min-width: 220px; 
+        max-width: 100%;
 
-        // MODIFICATION : On autorise l'affichage du cumul
-        > *:not(.project-initial):not(.project-name):not(.project-cumul-time) {
-            display: none !important;
-        }
-    }
-
-    .project-initial {
-        width: 45px;
-        height: 45px;
-        background: $primary-color;
-        border-radius: 10px;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        margin: 0 auto 12px auto !important; 
-        font-weight: bold;
-        color: $white;
-        flex-shrink: 0;
-    }
-
-    .project-name {
-        font-size: 0.82rem;
-        color: rgba(255, 255, 255, 0.8);
-        width: 90% !important;
-        margin: 0 auto !important; 
-        padding: 0 !important;
-        white-space: nowrap;
+        box-sizing: border-box;
         overflow: hidden;
-        text-overflow: ellipsis;
-        display: block !important;
-    }
 
-    // STYLE DU COMPTEUR CUMULÉ
-    .project-cumul-time {
-        display: block !important;
-        font-size: 0.65rem;
-        color: rgba(255, 255, 255, 0.4);
-        margin-top: 6px;
-        font-family: monospace;
-    }
+        #clock { display: none; }
 
-    .project-status-indicator, span:empty, div:empty {
-        display: none !important;
+        &:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        // VOYANT
+        .btn-timer {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #e74c3c; 
+            box-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
+            border: none;
+            z-index: 20; 
+            cursor: pointer;
+            i { display: none; }
+        }
+
+        &.active .btn-timer {
+            background: #2ecc71;
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.8);
+        }
+
+        .project-main-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;    
+            justify-content: center; 
+            
+            width: 100%;
+            height: 100%;
+            position: absolute; 
+            top: 0;
+            left: 0;
+            
+            text-decoration: none;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 10;
+
+            // Masquer les éléments non-essentiels (sauf ceux dont on a besoin)
+            > *:not(.project-initial):not(.project-name):not(.project-cumul-time) {
+                display: none;
+            }
+        }
+
+        .project-initial {
+            width: 45px;
+            height: 45px;
+            background: $primary-color;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px auto; 
+            font-weight: bold;
+            color: $white;
+            flex-shrink: 0;
+        }
+
+        .project-name {
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.8);
+            width: 90%;
+            margin: 0 auto; 
+            padding: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+        }
+
+        // STYLE DU COMPTEUR CUMULÉ (Fusion des deux sources)
+        .project-cumul-time {
+            display: block;
+            font-family: monospace;
+            
+            position: absolute;
+            bottom: 12px; 
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.2);
+            font-weight: 500;
+            pointer-events: none;
+            margin: 0;
+        }
+
+        .project-status-indicator, span:empty, div:empty {
+            display: none;
+        }
     }
 }
 
 @media (min-width: 1600px) {
-    .project-card {
-        max-width: calc(20% - 20px) !important;
+    #projects-auto-wrapper .project-card {
+        max-width: calc(20% - 20px);
     }
 }

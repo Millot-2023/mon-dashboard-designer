@@ -1,4 +1,3 @@
-<div class="card card-tier-system lab-preview-card codepen-wrapper" id="codepen-master-card">
     <div class="card-flipper">
         
         <div class="card-front">
@@ -67,4 +66,3 @@
         </div>
 
     </div>
-</div>

@@ -25,6 +25,32 @@
 @use 'components/lab';
 @use 'components/codepen'; // <--- Ce fichier contient maintenant la hauteur forcée et le glassmorphism
 
+// --- DESIGN DES CHARIOTS (SCROLLBARS) ---
+* {
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    &::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+        // Couleur BLEUE par défaut (au lieu du blanc transparent)
+        background: $primary-color; 
+        border-radius: 10px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        // Un bleu un peu plus clair ou plus vif au survol
+        background-color: color-mix(in srgb, $primary-color 80%, white); 
+    }
+    // Support Firefox
+    scrollbar-width: thin;
+    scrollbar-color: $primary-color transparent;
+}
+
 // Style global témoin
 .dot-online {
     color: #2ecc71 !important;
