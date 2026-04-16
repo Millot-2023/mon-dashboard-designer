@@ -24,17 +24,28 @@
                 <li class="priority-high item-bordered border-red">
                     <input type="checkbox"> ⚡ <strong>PRIORITÉ 1 : DEEP LINKING</strong> (Pilotage VS Code & Dossiers Système)
                 </li>
-                <li class="priority-high item-bordered border-blue">
-                    <input type="checkbox"> 🧱 <strong>CLEAN CODE :</strong> Élimination du Nesting SCSS & suppression des !important
+                
+                <li class="done item-bordered border-blue">
+                    <input type="checkbox" checked disabled> 🧱 <strong>CLEAN CODE :</strong> Élimination du Nesting SCSS & suppression des !important (Migration color-mix)
                 </li>
+                
                 <li class="priority-mid item-bordered border-yellow">
                     <input type="checkbox"> 🎨 <strong>AFFINAGE UI :</strong> Recalibrage de la taille des compteurs (Lisibilité)
                 </li>
+                
                 <li class="priority-mid"><input type="checkbox"> Uniformisation Typographique (Monospace / Titres)</li>
-                <li class="priority-low"><input type="checkbox"> Transition Flat-file (Archivage JSON)</li>
+                
+                <li class="done">
+                    <input type="checkbox" checked disabled> 📂 <strong>Transition Flat-file :</strong> Migration JSON & Scan htdocs (Archivage validé)
+                </li>
             </ul>
 
             <div class="roadmap-debug-notes">
+                <p class="note-title-green">> [ANALYSE DE SESSION - 16/04/2026]</p>
+                <p>> VALIDATION : Migration Flat-file complète. Les timers et diodes sont synchronisés avec projects.json.</p>
+                <p>> SUCCÈS : Intégration de la palette dynamique native --accent-primary. Purge des codes HEX statiques effectuée.</p>
+                <p>> ARCHITECTURE : Nettoyage des fichiers obsolètes (db.php, save_project.php) et mise à jour du Git.</p>
+
                 <p class="note-title-green">> [ANALYSE DE SESSION - 01/04/2026]</p>
                 <p>> VALIDATION : Stabilité du système de persistance confirmée après tests de redémarrage.</p>
                 <p>> AXE D'AMÉLIORATION : Intégration des protocoles de communication locale (Deep Linking) pour transformer l'interface en poste de commande OS.</p>
